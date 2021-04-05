@@ -3,10 +3,10 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Keep your distances</title>
-		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="style_imageProcessing.css">
 	</head>
 	<body>
-	<
+	
 
 <div class='logo'>
 	<div class='inner_logo'>
@@ -25,7 +25,10 @@
 			</div>
 	</div>
 </div> 
-<!---->
+
+
+
+
 	<h1>Image processing</h1>
 		<div class="container">
 			<div class="wrapper">
@@ -33,18 +36,26 @@
 					<img src="" alt="">
 				</div>
 				<div class="content">
-					<div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
-					<div class="text">No image chosen yet!</div>
+						<div class="icon"><i class="fas fa-cloud-upload-alt"></i>
+						</div>
+						<div class="text">No image chosen yet!
+						</div>
 				</div>
 					<div id="cancel-btn"><i class="fas fa-times"></i></div>
-					<div class="file-name">File name here</div>
-				</div>
+						<div class="file-name">File name here
+						</div>
+					</div>
 			<button onclick="defaultBtnActive()" id="custom-btn">Choose an image</button>
 			<input id="default-btn" type="file" hidden>
-			<form action = "upload.php" method = "POST" enctype="multipart/form-data">
-			<button type = "submit" name ="submit" id="analysis-btn">Analysing</button>
+			<form enctype = "multipart/form-data" action = "upload.php"
+							method = "post" hidden>
+							<input id="default-btn" type="file" name="file" />
+							<input type = "submit" name = "submit" id="submit-btn"/>
 			</form>
+			<button onclick="submitBtnActive()" id="analysis-btn">Analyse Image</button>
+			</div>
 			<!--<button  onclick= "detectBtnActive()" id="analysis-btn">Image detection</button>-->
+		
 			
 		<script>
 			const wrapper = document.querySelector(".wrapper");
@@ -52,10 +63,18 @@
 			const defaultBtn = document.querySelector("#default-btn");
 			const customBtn = document.querySelector("#custom-btn");
 			const cancelBtn = document.querySelector("#cancel-btn");
+			const submitBtn = document.querySelector("#submit-btn");
 			const img = document.querySelector("img");
+			const source = document.querySelector("source");
+			const content = document.querySelector(".content");
 			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-			function defaultBtnActive(){
+			function defaultBtnActive()
+			{
 				defaultBtn.click();
+			}
+			function submitBtnActive()
+			{
+			 				submitBtn.click();
 			}
 			defaultBtn.addEventListener("change", function(){
 				const file = this.files[0];
@@ -64,12 +83,14 @@
 					reader.onload = function(){
 						const result = reader.result;
 						img.src = result;
+						content.hidden = true;
 						wrapper.classList.add("active");
 						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
 						});
 					}
 					cancelBtn.addEventListener("click", function(){
 						img.src = "";
+						content.hidden = false;
 						wrapper.classList.remove("active");
 						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
 						});
@@ -82,9 +103,7 @@
 				}
 			});
 		</script>
-		<!--script for php -->
-				
-						<!--script for navigation bar -->
+		
 		<script>
 		function myFunction() {
 			var x = document.getElementById("myTopnav");
