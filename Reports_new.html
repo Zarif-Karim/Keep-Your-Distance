@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Reports</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <link rel="stylesheet" type="text/css" href="stylereports.css">
+  </head>
+  <body>
+    <div class='logo'>
+    	<div class='inner_logo'>
+    		<div class='logo_container'>
+    		 <h1><span>BLUEOSYS COMPANY</span></h1>
+    		</div>
+    		<div class="topnav" id="myTopnav">
+    				<a href="index.html" class="active">Home</a>
+    				<a href="ImageProcessing.html">Image Processing</a>
+    				<a href="videoAnalyse.php">Video Processing</a>
+    				<a href="LiveCamera.html">Live Video</a>
+    				<a href="Reports_new.html">Report</a>
+    				<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    					<i class="fa fa-bars"></i>
+    				</a>
+    			</div>
+    	</div>
+    </div>
+    <h1>Information on Image processing</h1>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+
+      window.addEventListener('load', setup);
+
+      async function setup() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const dataTemps = await getData();
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dataTemps.years,
+            datasets: [
+              {
+                label: 'Number of objects/second',
+                data: dataTemps.temps,
+                fill: false,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderWidth: 1
+              },
+              {
+                label: 'Distance of objects',
+                data: dataTemps.northern,
+                fill: false,
+                borderColor: 'rgba(99, 132, 255, 1)',
+                backgroundColor: 'rgba(99, 132, 255, 0.5)',
+                borderWidth: 1
+              },
+              {
+                label: 'Number of objects',
+                data: dataTemps.southern,
+                fill: false,
+                borderColor: 'rgba(99, 255, 132, 1)',
+                backgroundColor: 'rgba(99, 255, 132, 0.5)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {}
+        });
+      }
+
+      async function getData() {
+
+        const response = await fetch('test.csv');
+        const data = await response.text();
+        const years = [];
+        const temps = [];
+        const northern = [];
+        const southern = [];
+        const rows = data.split('\n').slice(1);
+        rows.forEach(row => {
+          const cols = row.split(',');
+          years.push(cols[0]);
+          temps.push(14 + parseFloat(cols[1]));
+          northern.push(14 + parseFloat(cols[2]));
+          southern.push(14 + parseFloat(cols[3]));
+        });
+        return { years, temps, northern, southern };
+      }
+    </script>
+  </body>
+</html>
