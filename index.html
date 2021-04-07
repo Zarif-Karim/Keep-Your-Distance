@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Keep your distance</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+		<style>
+			body{
+				background-color: rgba(white, 31, 34, 0.85);
+			}
+			h1 {
+				font-size: 2.1rem;
+				line-height: 1.4;
+				letter-spacing: 0.5;
+		}
+
+			.introduction{
+				font-size: 30px;
+				color: lightblue;
+			}
+			* {box-sizing: border-box;}
+			body {font-family: Verdana, sans-serif;}
+			.mySlides {display: none;}
+			img {vertical-align: middle;}
+
+			/* Slideshow container */
+			.slideshow-container {
+				max-width: 1000px;
+				position: relative;
+				margin: auto;
+			}
+
+			/* Caption text */
+			.text {
+				color: #f2f2f2;
+				font-size: 15px;
+				padding: 8px 12px;
+				position: absolute;
+				bottom: 8px;
+				width: 100%;
+				text-align: center;
+			}
+
+			/* Number text (1/3 etc) */
+			.numbertext {
+				color: #f2f2f2;
+				font-size: 12px;
+				padding: 8px 12px;
+				position: absolute;
+				top: 0;
+			}
+
+			/* The dots/bullets/indicators */
+			.dot {
+				height: 15px;
+				width: 15px;
+				margin: 0 2px;
+				background-color: #bbb;
+				border-radius: 50%;
+				display: inline-block;
+				transition: background-color 0.6s ease;
+			}
+
+			.active {
+				background-color: #717171;
+			}
+
+			/* Fading animation */
+			.fade {
+				-webkit-animation-name: fade;
+				-webkit-animation-duration: 2s;
+				animation-name: fade;
+				animation-duration: 3s;
+			}
+
+			@-webkit-keyframes fade {
+				from {opacity: .4}
+				to {opacity: 1}
+			}
+
+			@keyframes fade {
+				from {opacity: .4}
+				to {opacity: 1}
+			}
+
+			/* On smaller screens, decrease text size */
+			@media only screen and (max-width: 300px) {
+				.text {font-size: 11px}
+			}
+		</style>
+	</head>
+	<body>
+
+
+<div class='logo'>
+	<div class='inner_logo'>
+		<div class='logo_container'>
+		 <h1><span>BLUEOSYS COMPANY</span></h1>
+		</div>
+		<div class="topnav" id="myTopnav">
+				<a href="index.html" class="active">Home</a>
+				<a href="ImageProcessing.html">Image Processing</a>
+				<a href="videoAnalyse.php">Video Processing</a>
+				<a href="LiveCamera.html">Live Video</a>
+				<a href="#about">Report</a>
+				<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+					<i class="fa fa-bars"></i>
+				</a>
+			</div>
+	</div>
+</div>
+
+
+
+
+	<h1>Home</h1>
+		<!--<div class="maindiv">
+		<div class = "introduction">
+		Welcome to Blueosys Company<br>
+		where our services can adapt your needs.<br>
+		We provide the best services for customer and partners<br>
+		We bring in high end capability to provide interprise level<br>
+		consulting in technology solutions<br>
+		architecture and strategey <br>
+		as a valued partner in your digital transformation journal.<br>
+		</div>
+		</div>
+-->
+
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+	<div class="numbertext">1 / 3</div>
+	<img src="camera.png" style="width:100%">
+	<div class="text">Camera Detection Equipment</div>
+</div>
+
+<div class="mySlides fade">
+	<div class="numbertext">2 / 3</div>
+	<img src="detection.png" style="width:100%">
+	<div class="text">Human Detection</div>
+</div>
+
+<div class="mySlides fade">
+	<div class="numbertext">3 / 3</div>
+	<img src="humanDetection.png" style="width:100%">
+	<div class="text">Detection Report</div>
+</div>
+</div>
+<div class = "introduction">
+Welcome to Blueosys Company<br>
+where our services can adapt your needs.<br>
+We provide the best services for customer and partners<br>
+We bring in high end capability to provide interprise level<br>
+consulting in technology solutions<br>
+architecture and strategey <br>
+as a valued partner in your digital transformation journal.<br>
+</div>
+<br>
+
+<div style="text-align:center">
+	<span class="dot"></span>
+	<span class="dot"></span>
+	<span class="dot"></span>
+</div>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+	var i;
+	var slides = document.getElementsByClassName("mySlides");
+	var dots = document.getElementsByClassName("dot");
+	for (i = 0; i < slides.length; i++) {
+		slides[i].style.display = "none";
+	}
+	slideIndex++;
+	if (slideIndex > slides.length) {slideIndex = 1}
+	for (i = 0; i < dots.length; i++) {
+		dots[i].className = dots[i].className.replace(" active", "");
+	}
+	slides[slideIndex-1].style.display = "block";
+	dots[slideIndex-1].className += " active";
+	setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
+<script>
+			const wrapper = document.querySelector(".wrapper");
+			const fileName = document.querySelector(".file-name");
+			const defaultBtn = document.querySelector("#default-btn");
+			const customBtn = document.querySelector("#custom-btn");
+			const detectionBtn = document.querySelector("#analysis-btn");
+			const cancelBtn = document.querySelector("#cancel-btn i");
+			const img = document.querySelector("img");
+			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+			function defaultBtnActive(){
+				defaultBtn.click();
+			}
+			defaultBtn.addEventListener("change", function(){
+				const file = this.files[0];
+				if(file){
+					const reader = new FileReader();
+					reader.onload = function(){
+						const result = reader.result;
+						img.src = result;
+						wrapper.classList.add("active");
+					}
+					cancelBtn.addEventListener("click", function(){
+						img.src = "";
+						wrapper.classList.remove("active");
+					})
+					reader.readAsDataURL(file);
+				}
+				if(this.value){
+					let valueStore = this.value.match(regExp);
+					fileName.textContent = valueStore;
+				}
+			});
+		</script>
+		<script>
+		function myFunction() {
+			var x = document.getElementById("myTopnav");
+			if (x.className === "topnav") {
+				x.className += " responsive";
+			} else {
+				x.className = "topnav";
+			}
+		}
+		</script>
+	</body>
+</html>
