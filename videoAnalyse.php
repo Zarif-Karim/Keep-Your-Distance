@@ -46,11 +46,7 @@
 					<div class="file-name">File name here</div>
 			</div>
 				<button onclick="defaultBtnActive()" id="custom-btn">Upload Video</button>
-        <form enctype = "multipart/form-data" action = "fileuploaded.php"
-           method = "post" hidden>
            <input id="default-btn" type="file" name="file" />
-           <input type = "submit" name = "submit" id="submit-btn"/>
-        </form>
 				<button onclick="submitBtnActive()" id="analysis-btn">Analyse</button>
 		</div>
 <script>
@@ -58,7 +54,6 @@
 			const fileName = document.querySelector(".file-name");
 			const defaultBtn = document.querySelector("#default-btn");
 			const customBtn = document.querySelector("#custom-btn");
-			const submitBtn = document.querySelector("#submit-btn");
 			const cancelBtn = document.querySelector("#cancel-btn i");
 			const video = document.querySelector("video");
 			const source = document.querySelector("source");
@@ -69,7 +64,7 @@
 				defaultBtn.click();
 			}
 			function submitBtnActive(){
-				submitBtn.click();
+
 			}
 			defaultBtn.addEventListener("change", function(){
 				const file = this.files[0];
@@ -82,6 +77,21 @@
 						content.hidden = true;
 						video.load();
 						wrapper.classList.add("active");
+
+						const formData = new FormData();
+						formData.append('file', file);
+
+						fetch('fileuploaded.php', {
+						  method: 'POST',
+						  body: formData
+						})
+						.then(response => response.text())
+						.then(result => {
+						  console.log('Success:', result);
+						})
+						.catch(error => {
+						  console.log('Error:', error);
+						});
 					}
 					cancelBtn.addEventListener("click", function(){
 						source.src = "";
