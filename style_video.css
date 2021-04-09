@@ -22,7 +22,7 @@ html,body{
 	border-radius: 10px;
 	background: #fff;
 	border: 2px dashed #c2cdda;
-	display: flex;
+ /* display: flex; */
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
