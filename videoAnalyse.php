@@ -32,8 +32,9 @@
 
 
 	<h1>Video processing</h1>
-	<div class="w3-light-grey w3-round-xlarge" style="width:75%; height: 30%">
-	<div class="w3-container w3-blue w3-round-xlarge" style="width:33%; height: 100%"></div>
+		<div class="w3-light-grey w3-round-xlarge" style="width:75%; height: 30%">
+		<div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
+		<div id="progressLable"> Step 1: Upload Video </div>
 	</div>
 		<div class="container">
 			<div class="wrapper" id="inVid">
@@ -45,26 +46,13 @@
 					<div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
 					<div class="text">No Video Uploaded</div>
 				</div>
-				<div class="loading" hidden>
+				<div class="loading" style="height:inherit;" hidden>
 					<img src="loading.svg" class="l-content" height="80%">
 					<div class="text">...Analysing...</div>
 				</div>
 					<div id="cancel-btn"><i class="fas fa-times"></i></div>
 					<div class="file-name">File name here</div>
 			</div>
-
-			<div class="wrapper" id="outVid" hidden>
-				<div class="video">
-					<!-- <video id="processed" controls>
-					</video> -->
-					<object data="processed/09.04.2021 03-12-11 AM.avi" id="processed">
-						<param name="src" value="processed/09.04.2021 03-12-11 AM.avi" id="pP"/>
-					</object>
-				</div>
-					<div id="cancel-btn"><i class="fas fa-times"></i></div>
-					<div class="file-name">Processed Video</div>
-			</div>
-
 				<button onclick="defaultBtnActive()" id="custom-btn">Upload Video</button>
            <input id="default-btn" type="file" name="file" hidden>
 				<button onclick="submitBtnActive()" id="analysis-btn">Analyse</button>
@@ -82,6 +70,9 @@
 			//const source = document.querySelector("source");
 			const content = document.querySelector(".content");
 			const loading = document.querySelector(".loading");
+			const pbar = document.querySelector("#progressBar");
+			const pLbl = document.querySelector("#progressLable");
+
 			let newfileUpload = "unset";
 			let newfileDownload = "unset";
 			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
@@ -95,7 +86,9 @@
 					//set screen to loading svg
 					video.hidden = true;
 					loading.hidden = false;
-					//wrapper.classList.remove("active");
+					pbar.style = "width:66%; height: 100%";
+					pLbl.innerHTML = "...Analysing Video...";
+					inVid.classList.remove("active");
 					//send to cgi program
 					const form = new FormData();
 					form.append('file', newfileUpload);
@@ -113,32 +106,31 @@
 						//use response from cgi to display new video
 						//remove loading svg and show video
 						if(newfileDownload != "unset") {
-							//processed.data = newfileDownload;
-							//param.value = newfileDownload;
-							loading.hidden = true;
-							video.hidden = false;
-							outVid.classList.add("active");
-							outVid.hidden = false;
 
-							// fetch(newfileDownload)
-							// .then(res => res.blob())
-							// .then(res => {
-							// 	const reader = new FileReader();
-							//
-							//   reader.addEventListener("load", function () {
-							//     // convert image file to base64 string
-							//     processed.src = reader.result;
-							// 		processed.load();
-							// 		loading.hidden = true;
-							// 		video.hidden = false;
-							// 		outVid.classList.add("active");
-							// 		outVid.hidden = false;
-							//   }, false);
-							//
-							//   if (res) {
-							//     reader.readAsDataURL(res);
-							//   }
-							// });
+							 fetch(newfileDownload)
+							 .then(res => res.blob())
+							 .then(res => {
+							 	const reader = new FileReader();
+
+							   reader.addEventListener("load", function () {
+							     // convert image file to base64 string
+									loading.hidden = true;
+		 							video.hidden = false;
+		 							inVid.classList.add("active");
+		 							//inVid.hidden = false;
+		 							pbar.style = "width:100%; height: 100%";
+		 							pLbl.innerHTML = " Results are here! Play processed Video";
+							    video.src = reader.result;
+							 		video.load();
+							 		loading.hidden = true;
+							 		//outVid.classList.add("active");
+							 		//outVid.hidden = false;
+							   }, false);
+
+							   if (res) {
+							     reader.readAsDataURL(res);
+							   }
+							 });
 						}
 						console.log('Success:', result);
 					})
@@ -172,6 +164,8 @@
 							if(result.includes("newfile")){
 								newfileUpload = result.substr(9);
 							}
+							pbar.style = "width:33%; height: 100%";
+							pLbl.innerHTML = "Step 2: Analyse Video";
 						  console.log('Success:', result);
 						})
 						.catch(error => {
@@ -184,6 +178,8 @@
 						content.hidden = false;
 						video.load();
 						inVid.classList.remove("active");
+						pbar.style = "width:0%; height: 100%";
+						pLbl.innerHTML = " Step 1: Upload Video";
 					})
 					reader.readAsDataURL(file);
 				}
