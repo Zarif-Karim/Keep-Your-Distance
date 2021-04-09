@@ -50,7 +50,7 @@ if (file_exists($target_file)) {
 // Check file size
 if ($_FILES["file"]["size"] > 500000) {
 	echo "Sorry, your file is too large.";
-	$uploadOk = 0;
+	$uploadOk = 10;
 }
 
 // Allow certain file formats
@@ -72,10 +72,7 @@ if ($uploadOk == 0) {
 	}
 }
 ?>
-<form action = "getupload.cgi" method = "post">
-	<input type="text" value="<?php echo $target_file ?>" name="userfilename"/>
-	<input type = "submit" name = "submit"/>
-</form>
+
     <h2>Detection information table</h2>
 
 	<table>
