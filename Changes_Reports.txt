@@ -1,0 +1,7 @@
+1. Added information on the page.
+
+2. Added a progress bar.
+
+3. Added ability to choose between images and videos.
+
+4. Added a graph containing information on the overall system.
