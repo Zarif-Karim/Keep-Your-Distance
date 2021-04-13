@@ -2,16 +2,13 @@
 *{
 	margin: 0;
 	padding: 0;
-	margin-top:0;
 	font-family: 'Poppins', sans-serif;
-
 }
 html,body{
 	display: grid;
 	height: 100%;
 	place-items: center;
 	text-align: center;
-	box-sizing:border-box;
 }
 .container{
 	height: 350px;
@@ -25,11 +22,10 @@ html,body{
 	border-radius: 10px;
 	background: #fff;
 	border: 2px dashed #c2cdda;
-	display: flex;
+ /* display: flex; */
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	place-items: center;
 }
 .wrapper.active{
 	border: none;
@@ -42,11 +38,26 @@ html,body{
 	align-items: center;
 	justify-content: center;
 }
+.wrapper .video{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 .wrapper img{
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
 }
+
+.wrapper video{
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
 .wrapper .icon{
 	font-size: 100px;
 	color: #2ECCFA;
@@ -84,6 +95,22 @@ html,body{
 .wrapper.active:hover .file-name{
 	display: block;
 }
+.pbLable{
+	margin-top: 30px;
+	display: block;
+	width: 100%;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
 .container #custom-btn{
 	margin-top: 30px;
 	display: block;
@@ -116,30 +143,42 @@ html,body{
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
+
+.pbLable{
+	margin-top: 30px;
+	display: block;
+	width: 100%;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
 .logo{
 	background-color:#81DAF5;
 	font-size: 50px;
-	width: 100%;
+	width: 200%;
 	display: block;
 	overflow: hidden;
-	top:0px;
-	position: fix;
-	height: 100%;
-	margin-top: auto;
-	display: flex;
+	align-self: baseline;
 }
 .inner_logo{
-	width: auto;
-	height: 50px;
+	width: 1000px;
+	height: 100%;
 	display: block;
-	margin: 0;
+	margin: 0 auto;
 	background-color: #81DAF5;
 }
 .logo_container{
-	height: auto;
+	height: 100%;
 	display: table;
 	float: left;
-	width: auto;
 }
 .logo_container h1{
 	color: white;
@@ -149,8 +188,6 @@ html,body{
 	float: left;
 	font-size: 32px;
 	font-weight: 200;
-	margin-left:5px;
-	width: 100%;
 }
 .logo_container h1 span{
 	font-weight: 800;
@@ -159,6 +196,7 @@ html,body{
 	overflow: hidden;
 	background-color: #81DAF5;
 	float: right;
+
 }
 
 .topnav a {
@@ -169,21 +207,11 @@ html,body{
 	padding: 14px 16px;
 	text-decoration: none;
 	font-size: 17px;
-
 }
 
 .topnav a:hover {
 	background-color: #ddd;
 	color: black;
-}
-
-.topnav a.active {
-	background-color: #81DAF5;
-	color: white;
-}
-
-.topnav .icon {
-	display: none;
 }
 .btn-group .button {
 	background-color: #81DAF5; /* Green */
@@ -200,6 +228,16 @@ html,body{
 .btn-group .button:hover {
 	background-color: #2ECCFA;
 }
+.topnav a.active {
+	background-color: #81DAF5;
+	font-weight: bolder;
+	color: white;
+}
+
+.topnav .icon {
+	display: none;
+}
+
 @media screen and (max-width: 600px) {
 	.topnav a:not(:first-child) {display: none;}
 	.topnav a.icon {
@@ -221,7 +259,7 @@ html,body{
 	.topnav.responsive {position: relative;}
 	.topnav.responsive .icon {
 		position: absolute;
-		right: 100px;
+		right: 0;
 		top: 0;
 	}
 	.topnav.responsive a {
