@@ -57,9 +57,9 @@
 						<div class="file-name">File name here
 						</div>
 					</div>
-			<button onclick="defaultBtnActive()" id="custom-btn">1. Choose an image</button>
+			<button onclick="defaultBtnActive()" id="custom-btn">Upload Image</button>
 			<input id="default-btn" type="file" hidden>
-			<button onclick="submitBtnActive()" id="analysis-btn">2. Upload Image</button>
+			<button onclick="submitBtnActive()" id="analysis-btn"> Analyse </button>
 
 			<!--<form enctype = "multipart/form-data" action = "fileuploaded.php"
 							method = "post" hidden>
@@ -106,7 +106,7 @@
 				loading.hidden = false;
 				pbar.style = "width:66%; height: 100%";
 				pLbl.innerHTML = "...Analysing Image...";
-				inVid.classList.remove("active");
+				inImg.classList.remove("active");
 				//send to cgi program
 				const form = new FormData();
 				form.append('file', newfileUpload);
@@ -115,7 +115,7 @@
 					method: 'POST',
 					body: form
 				})
-				.then(response => response.text())
+				.then(response => response.blob())
 				.then(result => {
 					if(result.includes("Success")){
 
@@ -125,30 +125,25 @@
 					//remove loading svg and show video
 					if(newfileDownload != "unset") {
 
-						 fetch(newfileDownload)
-						 .then(res => res.blob())
-						 .then(res => {
 						 	const reader = new FileReader();
 
 						   reader.addEventListener("load", function () {
-						     // convert image file to base64 string
+						    // convert image file to base64 string
 								//loading.hidden = true;
 	 							//video.hidden = false;
 	 							inImg.classList.add("active");
 	 							//inImg.hidden = false;
 	 							pbar.style = "width:100%; height: 100%";
 	 							pLbl.innerHTML = " Your image is here";
-						    	img.src = reader.result;
+						    img.src = reader.result;
 						 		img.load();
 						 		//loading.hidden = true;
 						 		//outVid.classList.add("active");
 						 		//outVid.hidden = false;
-						   }, false);
-
-						   if (res) {
-						     reader.readAsDataURL(res);
-						   }
 						 });
+						 if (res) {
+							 reader.readAsDataURL(res);
+						 }
 					}
 					console.log('Success:', result);
 				})
