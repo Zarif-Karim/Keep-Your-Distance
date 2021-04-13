@@ -4,24 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
     <title>Reports</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="style_video.css">
-    <style>
+   <style>
       #myProgress {
         width: 100%;
-        background-color: #ddd;
+        background-color: rgb(241, 241, 241);
+        border-radius:100px;
       }
 
       #myBar {
-        width: 1%;
-        height: 30px;
-        background-color: #0489B1;
+        width: 3%;
+        height: 20px;
+        background-color: #18bcee;
+        border-radius:100px;
       }
       </style>
   </head>
   <body>
-
+    
     <div class='logo'>
         <div class='inner_logo'>
             <div class='logo_container'>
@@ -30,7 +33,7 @@
             <div class="topnav" id="myTopnav">
         				<a href="index.html" >Home</a>
         				<a href="ImageProcessing.html">Image Processing</a>
-        				<a href="videoAnalyse.html" >Video Processing</a>
+        				<a href="videoAnalyse.php" >Video Processing</a>
         				<a href="LiveCamera.html">Live Video</a>
         				<a href="Reports_new.html" class="active">Report</a>
         				<a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -43,6 +46,12 @@
     <p>This page contains useful information on the images and videos processed.</p>
 
     <h1>Information on Media processing</h1>
+<!--    <div class="w3-light-grey w3-round-xlarge" style="width: 1000px; height: 20px">
+      <div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
+      
+    </div>-->
+    <br>
+
     <form action="/action_page.php">
       <label for="images">Select an image/video to view information</label>
         <select name="images" id="images">
@@ -51,14 +60,16 @@
             <option value="Image_002.jpg">Image_002</option>
             <option value="Video_002.mp4">Video_002</option>
             <option value="Image_003.jpg">Image_003</option>
-            <option value="Video_003.jpg">Video_003</option>
+            <option value="Video_003.jpg">Video_003</option> 
+
+            <input type="submit" value="Submit">
 
         </select>
 
 
 
       </form>
-    <div id="myProgress">
+  <div id="myProgress">
       <div id="myBar"></div>
     </div>
     <button onclick="move()">Submit</button>
