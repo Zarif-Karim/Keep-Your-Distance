@@ -151,8 +151,6 @@ html,body{
 	display: block;
 	overflow: hidden;
 	align-self: baseline;
-	align-content: center;
-
 }
 .inner_logo{
 	width: 1000px;

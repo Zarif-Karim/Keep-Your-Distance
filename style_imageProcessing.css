@@ -2,13 +2,16 @@
 *{
 	margin: 0;
 	padding: 0;
+	margin-top:0;
 	font-family: 'Poppins', sans-serif;
+
 }
 html,body{
 	display: grid;
 	height: 100%;
 	place-items: center;
 	text-align: center;
+	box-sizing:border-box;
 }
 .container{
 	height: 350px;
@@ -17,8 +20,8 @@ html,body{
 }
 .container .wrapper{
 	position: relative;
-	height: 500px;
-	width: 150%;
+	height: 300px;
+	width: 100%;
 	border-radius: 10px;
 	background: #fff;
 	border: 2px dashed #c2cdda;
@@ -26,6 +29,7 @@ html,body{
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
+	place-items: center;
 }
 .wrapper.active{
 	border: none;
@@ -115,22 +119,27 @@ html,body{
 .logo{
 	background-color:#81DAF5;
 	font-size: 50px;
-	width: 150%;
+	width: 100%;
 	display: block;
-	 overflow: hidden;
-
+	overflow: hidden;
+	top:0px;
+	position: fix;
+	height: 100%;
+	margin-top: auto;
+	display: flex;
 }
 .inner_logo{
-	width: 1000px;
-	height: 100%;
+	width: auto;
+	height: 50px;
 	display: block;
-	margin: 0 auto;
+	margin: 0;
 	background-color: #81DAF5;
 }
 .logo_container{
-	height: 100%;
+	height: auto;
 	display: table;
 	float: left;
+	width: auto;
 }
 .logo_container h1{
 	color: white;
@@ -140,6 +149,8 @@ html,body{
 	float: left;
 	font-size: 32px;
 	font-weight: 200;
+	margin-left:5px;
+	width: 100%;
 }
 .logo_container h1 span{
 	font-weight: 800;
@@ -148,7 +159,6 @@ html,body{
 	overflow: hidden;
 	background-color: #81DAF5;
 	float: right;
-
 }
 
 .topnav a {
@@ -159,6 +169,7 @@ html,body{
 	padding: 14px 16px;
 	text-decoration: none;
 	font-size: 17px;
+
 }
 
 .topnav a:hover {
@@ -174,7 +185,21 @@ html,body{
 .topnav .icon {
 	display: none;
 }
-
+.btn-group .button {
+	background-color: #81DAF5; /* Green */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	cursor: pointer;
+	float: left;
+}
+.btn-group .button:hover {
+	background-color: #2ECCFA;
+}
 @media screen and (max-width: 600px) {
 	.topnav a:not(:first-child) {display: none;}
 	.topnav a.icon {
@@ -182,12 +207,21 @@ html,body{
 		display: block;
 	}
 }
+#myProgress {
+	width: 100%;
+	background-color: #ddd;
+}
 
+#myBar {
+	width: 1%;
+	height: 30px;
+	background-color:#0489B1 ;
+}
 @media screen and (max-width: 600px) {
 	.topnav.responsive {position: relative;}
 	.topnav.responsive .icon {
 		position: absolute;
-		right: 0;
+		right: 100px;
 		top: 0;
 	}
 	.topnav.responsive a {

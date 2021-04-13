@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>Keep your distances</title>
 		<link rel="stylesheet" href="style_imageProcessing.css">
+		<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 	</head>
 	<body>
@@ -12,12 +13,12 @@
 <div class='logo'>
 	<div class='inner_logo'>
 		<div class='logo_container'>
-		 <h1><span>BLUEOSYS</span>COMPANY</span></h1>
+		 <h1><span>BLUEOSYS COMPANY</span></h1>
 		</div>
 		<div class="topnav" id="myTopnav">
-				<a href="index.html" class="active">Home</a>
-				<a href="ImageProcessing.html">Image Processing</a>
-				<a href="videoAnalyse.php">Video Processing</a>
+				<a href="index.html">Home</a>
+				<a href="ImageProcessing.html" class="active">Image Processing</a>
+				<a href= "videoAnalyse.html">Video Processing</a>
 				<a href="LiveCamera.html">Live Video</a>
 				<a href="Reports_new.html">Report</a>
 				<a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -26,39 +27,53 @@
 			</div>
 	</div>
 </div>
-
-
-
-
 	<h1>Image processing</h1>
+	<div class="w3-light-grey w3-round-xlarge" style="width:75%; height: 30%">
+	<div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
+	<div id="progressLable"> Step 1: Select Image </div>
+</div>
+
+			<br>
+
 		<div class="container">
-			<div class="wrapper">
+			<div class="wrapper" id="inImg">
 				<div class="image">
 					<img src="" alt="">
+					<!--<image id="uploaded" controls hidden>
+					</image>-->
 				</div>
+
 				<div class="content">
 						<div class="icon"><i class="fas fa-cloud-upload-alt"></i>
 						</div>
 						<div class="text">No image chosen yet!
 						</div>
 				</div>
+				<div class="loading" style="height:inherit;" hidden>
+					<img src="loading.svg" class="l-content" height="80%">
+					<div class="text">...Analysing...</div>
+				</div>
 					<div id="cancel-btn"><i class="fas fa-times"></i></div>
 						<div class="file-name">File name here
 						</div>
 					</div>
-			<button onclick="defaultBtnActive()" id="custom-btn">Choose an image</button>
-			<!--<input id="default-btn" type="file" hidden>-->
-			<form enctype = "multipart/form-data" action = "upload.php"
+			<button onclick="defaultBtnActive()" id="custom-btn">1. Choose an image</button>
+			<input id="default-btn" type="file" hidden>
+			<button onclick="submitBtnActive()" id="analysis-btn">2. Upload Image</button>
+
+			<!--<form enctype = "multipart/form-data" action = "fileuploaded.php"
 							method = "post" hidden>
 							<input id="default-btn" type="file" name="file"/>
 							<input type = "submit" name = "submit" value ="Upload Image" id="submit-btn"/>
-			</form>
-			<button onclick="submitBtnActive()" id="analysis-btn">Analyse Image</button>
+			</form>	-->
+
 			</div>
 			<!--<button  onclick= "detectBtnActive()" id="analysis-btn">Image detection</button>-->
 
 
 		<script>
+			const inImg = document.querySelector("#inImg");
+			const outVid = document.querySelector("#outVid");
 			const wrapper = document.querySelector(".wrapper");
 			const fileName = document.querySelector(".file-name");
 			const defaultBtn = document.querySelector("#default-btn");
@@ -68,15 +83,80 @@
 			const img = document.querySelector("img");
 			const source = document.querySelector("source");
 			const content = document.querySelector(".content");
+			const loading = document.querySelector(".loading");
+			const pbar = document.querySelector("#progressBar");
+			const pLbl = document.querySelector("#progressLable");
+
+			let newfileUpload = "unset";
+			let newfileDownload = "unset";
+
 			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+
 			function defaultBtnActive()
 			{
 				defaultBtn.click();
 			}
 			function submitBtnActive()
 			{
-			 	submitBtn.click();
+
+			 	if(newfileUpload != "unset"){
+
+				//set screen to loading svg
+				//video.hidden = true;
+				loading.hidden = false;
+				pbar.style = "width:66%; height: 100%";
+				pLbl.innerHTML = "...Analysing Image...";
+				inVid.classList.remove("active");
+				//send to cgi program
+				const form = new FormData();
+				form.append('file', newfileUpload);
+
+				fetch('printPost.cgi', {
+					method: 'POST',
+					body: form
+				})
+				.then(response => response.text())
+				.then(result => {
+					if(result.includes("Success")){
+
+						newfileDownload = "processed" + newfileUpload.substr(7,33);
+					}
+					//use response from cgi to display new video
+					//remove loading svg and show video
+					if(newfileDownload != "unset") {
+
+						 fetch(newfileDownload)
+						 .then(res => res.blob())
+						 .then(res => {
+						 	const reader = new FileReader();
+
+						   reader.addEventListener("load", function () {
+						     // convert image file to base64 string
+								//loading.hidden = true;
+	 							//video.hidden = false;
+	 							inImg.classList.add("active");
+	 							//inImg.hidden = false;
+	 							pbar.style = "width:100%; height: 100%";
+	 							pLbl.innerHTML = " Your image is here";
+						    	img.src = reader.result;
+						 		img.load();
+						 		//loading.hidden = true;
+						 		//outVid.classList.add("active");
+						 		//outVid.hidden = false;
+						   }, false);
+
+						   if (res) {
+						     reader.readAsDataURL(res);
+						   }
+						 });
+					}
+					console.log('Success:', result);
+				})
+				.catch(error => {
+					console.log('Error:', error);
+				});
 			}
+		}
 			defaultBtn.addEventListener("change", function(){
 				const file = this.files[0];
 				if(file){
@@ -86,13 +166,36 @@
 						img.src = result;
 						content.hidden = true;
 						wrapper.classList.add("active");
-						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
-						});
-					}
+						pbar.style = "width:50%; height: 100%";
+						pLbl.innerHTML = "Step 2: Analyse Image"
+						//img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
+						//});
+					const formData = new FormData();
+					formData.append('file', file);
+
+					fetch('fileuploaded.php', {
+					  method: 'POST',
+					  body: formData
+					})
+					.then(response => response.text())
+					.then(result => {
+						if(result.includes("newfile")){
+							newfileUpload = result.substr(9);
+						}
+						pbar.style = "width:50%; height: 100%";
+						pLbl.innerHTML = "Step 2: Analyse Image";
+					  console.log('Success:', result);
+					})
+					.catch(error => {
+					  console.log('Error:', error);
+					});
+				}
 					cancelBtn.addEventListener("click", function(){
 						img.src = "";
 						content.hidden = false;
 						wrapper.classList.remove("active");
+						pbar.style = "width:0%; height: 100%";
+						pLbl.innerHTML = "Step 1: Select Image";
 						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
 						});
 					})
@@ -112,6 +215,27 @@
 				x.className += " responsive";
 			} else {
 				x.className = "topnav";
+			}
+		}
+		</script>
+
+		<script>
+		var i = 0;
+		function move() {
+			if (i == 0) {
+				i = 1;
+				var elem = document.getElementById("myBar");
+				var width = 1;
+				var id = setInterval(frame, 10);
+				function frame() {
+					if (width >= 100) {
+						clearInterval(id);
+						i = 0;
+					} else {
+						width++;
+						elem.style.width = width + "%";
+					}
+				}
 			}
 		}
 		</script>

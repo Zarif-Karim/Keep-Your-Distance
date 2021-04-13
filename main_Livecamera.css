@@ -3,12 +3,14 @@
 	margin: 0;
 	padding: 0;
 	font-family: 'Poppins', sans-serif;
+
 }
 html,body{
 	display: grid;
 	height: 100%;
 	place-items: center;
 	text-align: center;
+	box-sizing: border-box;
 }
 .container{
 	height: 350px;
@@ -38,7 +40,7 @@ html,body{
 	align-items: center;
 	justify-content: center;
 }
-.wrapper .video{
+/*.wrapper .video{
 	position: absolute;
 	height: 100%;
 	width: 100%;
@@ -126,14 +128,15 @@ html,body{
 	text-transform: uppercase;
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
-}
+}*/
 .logo{
 	background-color:#81DAF5;
 	font-size: 50px;
 	width: 150%;
-	display: block;
-	 overflow: hidden;
-
+	display:block;
+	overflow: hidden;
+	align-self: baseline;
+	/*margin-top: -100px;*/
 }
 .inner_logo{
 	width: 1000px;
@@ -153,7 +156,7 @@ html,body{
 	display: table-cell;
 	vertical-align: middle;
 	float: left;
-	font-size: 32px;
+	font-size: 30px;
 	font-weight: 200;
 }
 .logo_container h1 span{
@@ -184,7 +187,7 @@ html,body{
 .topnav a.active {
 	background-color: #81DAF5;
 	font-weight: bolder;
-	color: yellow;
+	color: white;
 }
 
 .topnav .icon {
@@ -194,10 +197,58 @@ html,body{
 @media screen and (max-width: 600px) {
 	.topnav a:not(:first-child) {display: none;}
 	.topnav a.icon {
-		float: right;
-		display: block;
+	float: right;
+	display: block;
 	}
 }
+
+button
+{
+  margin: 0 3px 10px 0;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 99px;
+}
+
+button:last-of-type
+{
+  margin: 0;
+}
+
+p.borderBelow
+{
+  margin: 0 0 20px 0;
+  padding: 0 0 20px 0;
+}
+
+video
+{
+  vertical-align: top;
+  --width: 25vw;
+  width: var(--width);
+  height: calc(var(--width) * 0.5625);
+}
+
+video:last-of-type
+{
+  margin: 0 0 20px 0;
+}
+
+video#gumVideo
+{
+  margin: 0 20px 20px 0;
+}
+
+#myProgress {
+	width: 100%;
+	background-color: grey;
+  }
+
+  #myBar {
+	width: 1%;
+	height: 30px;
+	background-color:#0489B1 ;
+  }
 
 @media screen and (max-width: 600px) {
 	.topnav.responsive {position: relative;}
@@ -211,41 +262,4 @@ html,body{
 		display: block;
 		text-align: left;
 	}
-}
-
-button 
-{
-  margin: 0 3px 10px 0;
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 99px;
-}
-
-button:last-of-type 
-{
-  margin: 0;
-}
-
-p.borderBelow 
-{
-  margin: 0 0 20px 0;
-  padding: 0 0 20px 0;
-}
-
-video 
-{
-  vertical-align: top;
-  --width: 25vw;
-  width: var(--width);
-  height: calc(var(--width) * 0.5625);
-}
-
-video:last-of-type 
-{
-  margin: 0 0 20px 0;
-}
-
-video#gumVideo 
-{
-  margin: 0 20px 20px 0;
 }
