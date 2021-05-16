@@ -26,11 +26,21 @@ All rights reserved.
     </div>
 	<script type="text/javascript">
 	function onOpenCvReady() {
-	//update status
-	  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-	  
-	  //Video capture...
-	  //add video capture
+		//update status
+		document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+		  
+		//Video capture...
+		let video = document.getElementById("videoInput");
+		navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+			.then(function(stream) {
+				video.srcObject = stream;
+				video.play();
+			})
+			.catch(function(err) {
+				console.log("An error occurred! " + err);
+			});
+			
+
 	}
 	</script>
 	<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
