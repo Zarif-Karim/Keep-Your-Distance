@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <style>
+        #myProgress {
+          width: 100%;
+          background-color: rgb(241, 241, 241);
+          border-radius:100px;
+        }
+        #myBar {
+          width: 3%;
+          height: 20px;
+          background-color: #18bcee;
+          border-radius:100px;
+        }
+        </style>
+  </head>
+  <body>
+    <header>
+      <div class="inner-width">
+        <a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+        <i class="menu-toggle-btn fas fa-bars"></i>
+       <nav class="navigation-menu">
+        <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+        <a href="ImageProcessing.html"><i class="fas fa-align-left image"></i>IMAGE PROCESS</a>
+        <a href="VideoProcessing.html"><i class="fab fa-buffer video"></i>VIDEO PROCESS</a>
+        <a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
+        <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
+      </nav>
+      </div>
+    </header>
+<!--Report page-->
+    <h1>Report page</h1>
+    <p style="color: white; text-align: center;">This page contains useful information on the images and videos processed.</p>
+<!--    <div class="w3-light-grey w3-round-xlarge" style="width: 1000px; height: 20px">
+      <div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
+      
+    </div>-->
+    <div style="text-align: center;">
+    <form action="/action_page.php">
+      <label for="images"><h4 style="color: white; text-align: center;">Select an image/video to view information<h4></label>
+        <select name="images" id="images">
+            <option value="Image_001.jpg">Image_001</option>
+            <option value="Video_00.mp4">Video_001</option>
+            <option value="Image_002.jpg">Image_002</option>
+            <option value="Video_002.mp4">Video_002</option>
+            <option value="Image_003.jpg">Image_003</option>
+            <option value="Video_003.jpg">Video_003</option>
+            <input type="submit" value="Submit" class="submit-report">
+        </select>
+      </form>
+     
+  <div id="myProgress">
+      <div id="myBar"></div>
+    </div>
+    <button onclick="move()">Submit</button>
+     </div>
+<script>
+  var i = 0;
+  function move() {
+    if (i == 0) {
+      i = 1;
+      var elem = document.getElementById("myBar");
+      var width = 1;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+          i = 0;
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+    }
+  }
+  </script>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+
+      window.addEventListener('load', setup);
+
+      async function setup() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const dataTemps = await getData();
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: dataTemps.years,
+            datasets: [
+              {
+                label: 'Number of objects/second',
+                data: dataTemps.temps,
+                fill: false,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderWidth: 1
+              },
+              {
+                label: 'Distance of objects',
+                data: dataTemps.northern,
+                fill: false,
+                borderColor: 'rgba(99, 132, 255, 1)',
+                backgroundColor: 'rgba(99, 132, 255, 0.5)',
+                borderWidth: 1
+              },
+              {
+                label: 'Number of objects',
+                data: dataTemps.southern,
+                fill: false,
+                borderColor: 'rgba(99, 255, 132, 1)',
+                backgroundColor: 'rgba(99, 255, 132, 0.5)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {}
+        });
+      }
+
+      async function getData() {
+
+        const response = await fetch('test.csv');
+        const data = await response.text();
+        const years = [];
+        const temps = [];
+        const northern = [];
+        const southern = [];
+        const rows = data.split('\n').slice(1);
+        rows.forEach(row => {
+          const cols = row.split(',');
+          years.push(cols[0]);
+          temps.push(14 + parseFloat(cols[1]));
+          northern.push(14 + parseFloat(cols[2]));
+          southern.push(14 + parseFloat(cols[3]));
+        });
+        return { years, temps, northern, southern };
+      }
+    </script>
+
+    <h2 style="color: white; text-align: center;">Overall information processed by the system</h2>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['date', 'Images', 'Videos', 'objects detected'],
+          ['02-04-2021',  100,      40, 15],
+          ['03-04-2021',  117,      46, 20],
+          ['04-04-2021',  66,       112, 26],
+          ['05-04-2021',  103,      54, 13]
+        ]);
+
+        var options = {
+          title: 'Processed Media',
+          hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+          vAxis: {title: 'Count', minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+        <div id="chart_div" style="width: 100%; height: 500px;"></div>
+<!--Report page-->
+    <script type="text/javascript">
+      $(".menu-toggle-btn").click(function(){
+        $(this).toggleClass("fa-times");
+        $(".navigation-menu").toggleClass("active");
+      });
+    </script>
+  </body>
+</html>
