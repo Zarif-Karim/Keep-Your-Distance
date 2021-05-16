@@ -1,0 +1,38 @@
+<!-- 
+
+Author : Zarif Jawadul Karim
+Date-Created: 16/05/2021
+Description: Attempt to convert cpp codebase to JS and HTML
+
+References: <ADD-References>
+
+Copyright (c) 2021, Zarif-Karim
+All rights reserved. 
+
+-->
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phase 1</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+	<p id="status">OpenCV.js is loading...</p>
+    <div>
+      <video id="videoInput"></video> <canvas id="canvasOutput"></canvas>
+    </div>
+	<script type="text/javascript">
+	function onOpenCvReady() {
+	//update status
+	  document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+	  
+	  //Video capture...
+	  //add video capture
+	}
+	</script>
+	<script async src="opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+  </body>
+</html>
