@@ -1,9 +1,8 @@
-inputSize = [416, 416];
-mean = [0, 0, 0];
-std = 0.00392;
-swapRB = false;
-confThreshold = 0.5;
-nmsThreshold = 0.4;
+let inputSize = [416, 416];
+let mean = [0, 0, 0];
+let swapRB = false;
+let confThreshold = 0.5;
+let nmsThreshold = 0.4;
 
 let video = document.getElementById("cam_input"); // video is the id of video tag
 
@@ -14,6 +13,12 @@ let outType = "YOLO";
 let labelsUrl = "models/coco.names";
 let configPath = "models/yolov4.cfg"
 let modelPath = "models/yolov4.weights"
+
+utils.createFileFromUrl(configPath, configPath);
+utils.createFileFromUrl(modelPath, modelPath);
+
+function openCvReady() {
+  cv['onRuntimeInitialized']=()=>{
 
 let frame = new cv.Mat(videoInput.height, videoInput.width, cv.CV_8UC4);
 let cap = new cv.VideoCapture(videoInput);
@@ -45,6 +50,10 @@ function processVideo() {
     } catch (err) {
         utils.printError(err);
     }
+}
+
+function updateResult(output, time) {
+    cv.imshow("canvas_output", output);
 }
 
 setTimeout(processVideo, 0);
@@ -254,4 +263,6 @@ let postProcess = function(result, labels, frame) {
         cv.putText(output, text, new cv.Point(left, top + 10), cv.FONT_HERSHEY_SIMPLEX, 0.3,
                                  new cv.Scalar(0, 0, 0));
     }
+}
+};
 }

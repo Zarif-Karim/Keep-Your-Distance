@@ -19,7 +19,7 @@ function openCvReady() {
     let faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
     utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
     classifier.load(faceCascadeFile); // in the callback, load the cascade from file
-});
+    });
     const FPS = 24;
     function processVideo() {
         let begin = Date.now();
@@ -42,8 +42,8 @@ function openCvReady() {
         // schedule next one.
         let delay = 1000/FPS - (Date.now() - begin);
         setTimeout(processVideo, delay);
-}
-// schedule first one.
-setTimeout(processVideo, 0);
+      }
+      // schedule first one.
+      setTimeout(processVideo, 0);
   };
 }
