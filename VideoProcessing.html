@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Keep your distances</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/dropzone.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>        
+		<script src="liveVide.js"></script>
+		<link rel="stylesheet" href="style1.css">
+	</head>
+	<body>
+		<div class="overlay">
+			<div class="loader">
+			</div>
+		</div>
+<header>
+	<div class="inner-width">
+		<a href="homePages.html" class="logo" style="color: lightblue;">Keep Your Distance</a>
+		<i class="menu-toggle-btn fas fa-bars"></i>
+	 <nav class="navigation-menu">
+		<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+		<a href="ImageProcessing.html"><i class="fas fa-align-left image"></i>IMAGE PROCESS</a>
+		<a href="VideoProcessing.html"><i class="fab fa-buffer video"></i>VIDEO PROCESS</a>
+		<a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
+		<a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
+	</nav>
+	</div>
+</header>
+
+	<h1>Video processing</h1>
+	<div class = "introduction">
+		Welcome to our project<br>
+		It provides you a better and simple functionality <br>
+		that is useful for our life.<br>
+		It brings the high end capability to provide interprise level<br>
+		consulting in technology solutions<br>
+		architecture and strategey <br>
+		as a valued partner in your digital transformation journal.<br>
+		</div>
+		<div class="container">
+			<div class="wrapper" id="inVid">
+				<div class="video">
+					<video id="uploaded" controls hidden>
+					</video>
+				</div>
+				<div class="content">
+					<div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+					<div class="text">No Video Uploaded</div>
+				</div>
+				<div class="loading" style="height:inherit;" hidden>
+					<img src="loading.svg" class="l-content" height="80%">
+					<div class="text">...Analysing...</div>
+				</div>
+					<div id="cancel-btn"><i class="fas fa-times"></i></div>
+					<div class="file-name">File name here</div>
+			</div>
+				<button onclick="defaultBtnActive()" id="custom-btn">Upload Video</button>
+					 <input id="default-btn" type="file" name="file" hidden>
+				<button onclick="submitBtnActive()" id="analysis-btn">Analyse</button>
+		</div>
+		<script>
+			const wrapper = document.querySelector(".wrapper");
+			const fileName = document.querySelector(".file-name");
+			const defaultBtn = document.querySelector("#default-btn");
+			const customBtn = document.querySelector("#custom-btn");
+			const cancelBtn = document.querySelector("#cancel-btn");
+			const submitBtn = document.querySelector("#submit-btn");
+			const img = document.querySelector("img");
+			const source = document.querySelector("source");
+			const content = document.querySelector(".content");
+			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+			function defaultBtnActive()
+			{
+				$(".overlay").show();
+				defaultBtn.click();
+				$(".overlay").hide();
+			}
+			function submitBtnActive()
+			{
+                alert("press 'q' to stop analysing")
+				$(".overlay").show();
+			 				submitBtn.click();
+							 
+							 
+			}
+			
+			defaultBtn.addEventListener("change", function(){
+				const file = this.files[0];
+				if(file){
+					const reader = new FileReader();
+					reader.onload = function(){
+						const result = reader.result;
+						img.src = result;
+						content.hidden = true;
+						wrapper.classList.add("active");
+						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
+						});
+					}
+					cancelBtn.addEventListener("click", function(){
+						img.src = "";
+						content.hidden = false;
+						wrapper.classList.remove("active");
+						img.addEventListener("load", () => {localStorage.setItem("recent-image", reader.result);
+						});
+					})
+					reader.readAsDataURL(file);
+				}
+				if(this.value){
+					let valueStore = this.value.match(regExp);
+					fileName.textContent = valueStore;
+				}
+			});
+		</script>
+		
+		<script>
+		function myFunction() {
+			var x = document.getElementById("myTopnav");
+			if (x.className === "topnav") {
+				x.className += " responsive";
+			} else {
+				x.className = "topnav";
+			}
+		}
+		</script>
+	</body>
+</html>
+
