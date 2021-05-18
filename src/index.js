@@ -1,43 +1,49 @@
-// Adapted from https://docs.opencv.org/3.4/dd/d00/tutorial_js_video_display.html
-
-let video = document.getElementById("videoInput"); // video is the id of video tag
-video.width = 640;
-video.height = 480;
-navigator.mediaDevices
-  .getUserMedia({ video: true, audio: false })
-  .then(function(stream) {
-    video.srcObject = stream;
-    video.play();
-
+function openCvReady() {
+  cv['onRuntimeInitialized']=()=>{
+    let video = document.getElementById("cam_input"); // video is the id of video tag
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(function(err) {
+        console.log("An error occurred! " + err);
+    });
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
-    let cap = new cv.VideoCapture(video);
-
-    const FPS = 30;
+    let gray = new cv.Mat();
+    let cap = new cv.VideoCapture(cam_input);
+    let faces = new cv.RectVector();
+    let classifier = new cv.CascadeClassifier();
+    let utils = new Utils('errorMessage');
+    let faceCascadeFile = 'haarcascade_frontalface_default.xml'; // path to xml
+    utils.createFileFromUrl(faceCascadeFile, faceCascadeFile, () => {
+    classifier.load(faceCascadeFile); // in the callback, load the cascade from file
+});
+    const FPS = 24;
     function processVideo() {
-      try {
-        // if (!streaming) {
-        //   // clean and stop.
-        //   src.delete();
-        //   dst.delete();
-        //   return;
-        // }
         let begin = Date.now();
-        // start processing.
         cap.read(src);
-        cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-        cv.imshow("canvasOutput", dst);
-        // schedule the next one.
-        let delay = 1000 / FPS - (Date.now() - begin);
+        src.copyTo(dst);
+        cv.cvtColor(dst, gray, cv.COLOR_RGBA2GRAY, 0);
+        try{
+            classifier.detectMultiScale(gray, faces, 1.1, 3, 0);
+            console.log(faces.size());
+        }catch(err){
+            console.log(err);
+        }
+        for (let i = 0; i < faces.size(); ++i) {
+            let face = faces.get(i);
+            let point1 = new cv.Point(face.x, face.y);
+            let point2 = new cv.Point(face.x + face.width, face.y + face.height);
+            cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);
+        }
+        cv.imshow("canvas_output", dst);
+        // schedule next one.
+        let delay = 1000/FPS - (Date.now() - begin);
         setTimeout(processVideo, delay);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    // schedule the first one.
-    setTimeout(processVideo, 0);
-  })
-  .catch(function(err) {
-    console.log("An error occurred! " + err);
-  });
+}
+// schedule first one.
+setTimeout(processVideo, 0);
+  };
+}
