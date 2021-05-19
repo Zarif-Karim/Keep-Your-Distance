@@ -2,7 +2,7 @@
 const w = 500;
 const h = 500;
 const padding = 60;
-d3.csv('live-camera.csv', function (data) {
+d3.csv('live-camera.csv', function (d) {
 return [
 	+d['Wavelength'],
 	+d['Sample_1_Absorbance'],
