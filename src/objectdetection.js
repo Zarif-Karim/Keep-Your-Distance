@@ -4,8 +4,6 @@ let swapRB = false;
 let confThreshold = 0.5;
 let nmsThreshold = 0.4;
 
-let video = document.getElementById("cam_input"); // video is the id of video tag
-
 // the type of output, can be YOLO or SSD
 let outType = "YOLO";
 
@@ -14,14 +12,33 @@ let labelsUrl = "models/coco.names";
 let configPath = "models/yolov4.cfg"
 let modelPath = "models/yolov4.weights"
 
-utils.createFileFromUrl(configPath, configPath);
-utils.createFileFromUrl(modelPath, modelPath);
-
 function openCvReady() {
   cv['onRuntimeInitialized']=()=>{
 
-let frame = new cv.Mat(videoInput.height, videoInput.width, cv.CV_8UC4);
-let cap = new cv.VideoCapture(videoInput);
+
+    //let utils = new Utils('errorMessage');
+    //utils.createFileFromUrl(labelsUrl, labelsUrl, null);
+    //utils.createFileFromUrl(configPath, configPath, null);
+    //utils.createFileFromUrl(modelPath, modelPath, null);
+
+    let streaming = false;
+    let video = document.getElementById("cam_input"); // video is the id of video tag
+    video.width = 640;
+    video.height = 480;
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+        streaming = true;
+    })
+    .catch(function(err) {
+        console.log("An error occurred! " + err);
+        streaming = false;
+    });
+
+let frame = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+let cap = new cv.VideoCapture(video);
 
 let main = async function(frame) {
     const labels = await loadLables(labelsUrl);
