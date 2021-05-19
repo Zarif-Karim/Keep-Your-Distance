@@ -28,8 +28,6 @@
         <i class="menu-toggle-btn fas fa-bars"></i>
        <nav class="navigation-menu">
         <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-        <a href="ImageProcessing.html"><i class="fas fa-align-left image"></i>IMAGE PROCESS</a>
-        <a href="VideoProcessing.html"><i class="fab fa-buffer video"></i>VIDEO PROCESS</a>
         <a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
         <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
       </nav>
@@ -37,7 +35,7 @@
     </header>
 <!--Report page-->
     <h1>Report page</h1>
-    <p style="color: white; text-align: center;">This page contains useful information on the images and videos processed.</p>
+    <p style="color: black; text-align: center;">This page contains useful information on the images and videos processed.</p>
 <!--    <div class="w3-light-grey w3-round-xlarge" style="width: 1000px; height: 20px">
       <div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
       
@@ -315,7 +313,10 @@
           chart.draw(data, google.charts.Line.convertOptions(options));
         }
       </script>
-
+      <!---2nd graph---->
          <div id="line_top_x" style="width: 100%; height: 500px; margin-left: auto; margin-right: auto;"></div>
+        <!--3rd hraph part-->
+        <div id='plot_area'></div>
+        <script src='plot.js'></script>
   </body>
 </html>

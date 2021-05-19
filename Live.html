@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <script src="objectdetection.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
       h1{
         text-align: absolute;
@@ -21,9 +22,7 @@
       <i class="menu-toggle-btn fas fa-bars"></i>
      <nav class="navigation-menu">
       <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-      <a href="ImageProcessing.html"><i class="fas fa-align-left image"></i>IMAGE PROCESS</a>
-      <a href="VideoProcessing.html"><i class="fab fa-buffer video"></i>VIDEO PROCESS</a>
-      <a href="kyd-mail.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
+      <a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
       <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
     </nav>
     </div>
@@ -46,33 +45,20 @@
                         </div>
                         </div>
                         <!--Check box access-->
-                        <div class="checkbox-input" style="color: black; margin: 20px;">
-                          <label class="insert-input">
-                              <h4 style="color: black;">Camera quality:</h4>
-                              <input type="checkbox" class="option-input checkbox" >
-                                High quality 
-                          </label>
-                          <label >
-                              <input type="checkbox" class="option-input checkbox">
-                                Medium quality 
-                          </label>
-                          <label>
-                              <input type="checkbox" class="option-input checkbox">
-                                Low quality 
-                          </label>
-                        </div>
-                        <div class="checkbox-input" style="color: black; margin: 20px;">
-                          <label class="insert-input">
-                              <h4>Access data:</h4>
-                              <input style="color: black; ;" type="checkbox" class="option-input checkbox">
-                                Save data 
-
-                          </label>
-                          <label>
-                              <input type="checkbox" class="option-input checkbox">
-                                Save Live Camera 
-                          </label>
-                        </div>
+                        <div class="dropdown" style="float:left;">
+                          <button class="dropbtn">Camera Quality</button>
+                          <div class="dropdown-content" style="left:0;">
+                          <a href="#">High Quality </a>
+                          <a href="#">Medium Quality</a>
+                          <a href="#">Low Quality</a>
+                          </div>
+                        </div>                          
+                              <div class="dropdown" style=";">
+                                <button class="dropbtn">Access Data</button>
+                                <div class="dropdown-content" style="left:0;">
+                                <a href="#">Save Live Camera</a>
+                                <a href="Report.html">Save Data</a>
+                                </div>                        </div>
                       </div>
                      <div id="box8">
                     <div id="line_top_x"></div>
