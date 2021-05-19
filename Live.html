@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Live Camera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="objectdetection.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+      h1{
+        text-align: absolute;
+      }
+      .vidElement{
+        border: black;
+      }
+      </style>
+  </head>
+  <body>
+   <header>
+    <div class="inner-width">
+      <a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+      <i class="menu-toggle-btn fas fa-bars"></i>
+     <nav class="navigation-menu">
+      <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+      <a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
+      <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
+    </nav>
+    </div>
+  </header>
+    <!-- live camera page--->
+                  <h1>Live Camera</h1>
+                      <div class = "introduction">
+                          Accessing the camera<br>
+                          is to detect the object and measurement distance<br>
+                      </div>
+                      <!--check box code--->
+                    <div id="box3">
+                      <div id="box4">
+                        <div class="live-camera" style="margin-left: auto;">
+                        <video id="vid" autoplay style=" background-color: white;width: auto; height: auto; margin-left: 50px; border: 2px solid lightblue ;"></video>
+                        <div>
+                          <button onclick="start();" style="margin: 15px;"> Start</button>
+                          <button onclick="stop();" style="margin: 15px;"> Stop</button>
+                          <button style="margin: 15px;">Report display</button>
+                        </div>
+                        </div>
+                        <!--Check box access-->
+                        <div class="dropdown" style="float:left;">
+                          <button class="dropbtn">Camera Quality</button>
+                          <div class="dropdown-content" style="left:0;">
+                          <a href="#">High Quality </a>
+                          <a href="#">Medium Quality</a>
+                          <a href="#">Low Quality</a>
+                          </div>
+                        </div>                          
+                              <div class="dropdown" style=" margin-left: 10px;">
+                                <button class="dropbtn">Access Data</button>
+                                <div class="dropdown-content" style="left:0;">
+                                <a href="#">Save Live Camera</a>
+                                <a href="Report.html">Saved Data</a>
+                                </div>                        </div>
+                      </div>
+                     <div id="box8">
+                    <div id="line_top_x"></div>
+                        
+                      </div>
+
+                  <!-- nav function--->
+    <script type="text/javascript">
+      $(".menu-toggle-btn").click(function(){
+        $(this).toggleClass("fa-times");
+        $(".navigation-menu").toggleClass("active");
+      });
+    </script>
+    <!--Camera live start and stop-->
+    <script>
+      var vidElement=null;
+      function start() {
+        var camAvailable=navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+        if (camAvailable) {
+          vidElement=document.getElementById("vid");
+          navigator.mediaDevices.getUserMedia({video:true}).then(function (stream) {
+            vidElement.srcObject=stream;
+            vidElement.play();
+          });
+        }
+      }
+      function stop() {
+        vidElement.pause();
+      }
+    </script>
+    
+    
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['line']});
+          google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+          var data = new google.visualization.DataTable();
+          data.addColumn('number', 'FrameNo');
+          data.addColumn('number', 'Frame Process');
+          data.addColumn('number', 'CumulativeTime(s)');
+          data.addColumn('number', 'Distance(m)');
+
+          data.addRows([
+            [1,  1.7243, 1.7243, 1.452602],
+            [2,  0.272714, 1.99702, 1.402596],
+            [3,  0.294398,  2.29141, 1.3873],
+            [4,  0.303074, 4.35135, 1.394986],
+            [5,  0.294808, 4.66044, 1.41577],
+            [6,  0.303718, 5.29539,  1.402983],
+            [7,   0.439635, 6.36022,  1.467531],
+            [8,	0.44554,	6.80576,1.514461],
+            [9,	0.445642,	7.25141,	1.468129],
+            [10,	0.443416,	9.02061, 1.65951],
+            [11,	0.425739,	9.87981,	1.541724],
+            [12,	0.429989,	10.734,	1.584213],
+            [13,	0.423003,	11.5723, 1.512876],
+            [14,0.424565,	11.9969, 1.307902]
+          ]);
+
+          var options = {
+            chart: {
+              title: 'Graph Report of Live Camera  ',
+              subtitle: 'in distace(m)'
+            },
+            width: 500,
+            height: 500,
+            axes: {
+              x: {
+                0: {side: 'top'}
+              }
+            }
+          };
+
+          var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+          chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+      </script>
+  </body>
+</html>
