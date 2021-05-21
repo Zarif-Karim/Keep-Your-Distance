@@ -27,8 +27,7 @@ function setup() {
 
 function draw() {
           background(0);
-          //let w = windowWidth * 0.7;
-          //let h = windowHeight * 0.6;
+
           if(cameraBtnStart)  cameraBtnStart.mouseClicked(() => {
                   capture = createCapture(VIDEO, ()=>{
                           capture.size(WIDTH, HEIGHT);
