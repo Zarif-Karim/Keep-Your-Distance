@@ -70,12 +70,8 @@
                       </div>
                      <div id="box8">
                     <div id="line_top_x"></div>
-<<<<<<< HEAD
-
-=======
                     <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
                     <div><canvas id = "chart2" width="auto" height="100px"></canvas></div>
->>>>>>> ab09b39cadf9fb22feaef2324655df81b004e811
                       </div>
 
                   <!-- nav function--->
@@ -102,13 +98,8 @@
         //vidElement.pause();
       }
     </script>
-<<<<<<< HEAD
 
-
-=======
-    
     <!---script for graph 1--->
->>>>>>> ab09b39cadf9fb22feaef2324655df81b004e811
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
           google.charts.load('current', {'packages':['line']});
@@ -159,7 +150,7 @@
         }
       </script>
       <!---script for graph 2-->
-     
+
         <script>
         const xlabels = [];
         const yDist = [];
@@ -197,7 +188,7 @@
                 }
               }
             },
-                  
+
         });
         }
           async function getData(){
@@ -213,12 +204,12 @@
                yDist.push(parseFloat(distance));
               console.log(Cultime, distance);
             });
-            
+
             }
         </script>
-        
-        
-        
+
+
+
             <script>
             const xAxis = [];
             const yFrame = [];
@@ -256,15 +247,15 @@
                     }
                   }
                 },
-                      
+
             });
             }
 
               async function getData(){
                 const response = await fetch('live-camera.csv');
                 const data = await response.text();
-                      
-                
+
+
                 const table = data.split('\n').slice(2);
                 table.forEach(row =>
                 {
@@ -275,7 +266,7 @@
                    yFrame.push(parseFloat(ProcessTime));
                   console.log(FrameNo, ProcessTime);
                 });
-                
+
                 }
             </script>
 
