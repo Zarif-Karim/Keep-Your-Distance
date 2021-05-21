@@ -44,13 +44,12 @@
                     <div id="box3">
                       <div id="box4">
                         <div class="live-camera" style="margin-left: auto;">
-                        <video id="vid" autoplay style=" background-color: white;width: auto; height: auto; margin-left: 50px; border: 2px solid lightblue ;"></video>
+                        <div id="canvas-container" width=640 height=480></div>
+                        <video id="vid" autoplay style=" background-color: white;width: auto; height: auto; margin-left: 50px; border: 2px solid lightblue ;" hidden></video>
                         <div>
-                          <button onclick="start();" style="margin: 15px;"> Start</button>
-                          <button onclick="stop();" style="margin: 15px;"> Stop</button>
+                          <button id="start-btn" onclick="start();" style="margin: 15px;"> Start</button>
+                          <button id="stop-btn" onclick="stop();" style="margin: 15px;"> Stop</button>
                           <button style="margin: 15px;">Report display</button>
-                        </div>
-                        <div id="canvas-container" width=640 height=480>
                         </div>
                         </div>
                         <!--Check box access-->
@@ -85,17 +84,17 @@
     <script>
       var vidElement=null;
       function start() {
-        var camAvailable=navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
-        if (camAvailable) {
-          vidElement=document.getElementById("vid");
-          navigator.mediaDevices.getUserMedia({video:true}).then(function (stream) {
-            vidElement.srcObject=stream;
-            vidElement.play();
-          });
-        }
+        // var camAvailable=navigator.mediaDevices && navigator.mediaDevices.getUserMedia;
+        // if (camAvailable) {
+        //   vidElement=document.getElementById("vid");
+        //   navigator.mediaDevices.getUserMedia({video:true}).then(function (stream) {
+        //     vidElement.srcObject=stream;
+        //     vidElement.play();
+        //   });
+        // }
       }
       function stop() {
-        vidElement.pause();
+        //vidElement.pause();
       }
     </script>
 
