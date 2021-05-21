@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <title>Live Camera</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content = "ie=edge"/>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
-    <script src="objectdetection.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <style>
       h1{
         text-align: absolute;
@@ -65,7 +66,8 @@
                       </div>
                      <div id="box8">
                     <div id="line_top_x"></div>
-                        
+                    <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
+                    <div><canvas id = "chart2" width="auto" height="100px"></canvas></div>
                       </div>
 
                   <!-- nav function--->
@@ -93,7 +95,7 @@
       }
     </script>
     
-    
+    <!---script for graph 1--->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
           google.charts.load('current', {'packages':['line']});
@@ -143,5 +145,127 @@
           chart.draw(data, google.charts.Line.convertOptions(options));
         }
       </script>
-  </body>
+      <!---script for graph 2-->
+     
+        <script>
+        const xlabels = [];
+        const yDist = [];
+        chartIt();
+        async function chartIt() {
+          await getData();
+        const ctx = document.getElementById('chart').getContext('2d');
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: xlabels,
+            datasets: [
+            {
+              label: 'Distance(m) in the cumulative time(s)',
+              data: yDist,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'],
+              borderColor: [
+                'rgba(255, 99, 132, 1)'],
+              fill:false,
+              borderWidth:1,
+              hoverRadius:4,
+              tension: 0.1
+            }]
+          },
+          options: {
+              scales: {
+                y: {
+                  ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function(value, index, values) {
+                      return value +'m';
+                    }
+                  }
+                }
+              }
+            },
+                  
+        });
+        }
+          async function getData(){
+            const response = await fetch('live-camera.csv');
+            const data = await response.text();
+            const table = data.split('\n').slice(1);
+            table.forEach(row =>
+            {
+              const columns = row.split(',');
+              const Cultime = columns[2];
+              xlabels.push(Cultime);
+              const distance = columns[4];
+               yDist.push(parseFloat(distance));
+              console.log(Cultime, distance);
+            });
+            
+            }
+        </script>
+        
+        
+        
+            <script>
+            const xAxis = [];
+            const yFrame = [];
+            chartIt();
+            async function chartIt() {
+              await getData();
+            const ctx = document.getElementById('chart2').getContext('2d');
+            const myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: xAxis,
+                datasets: [
+                {
+                  label: 'Frame number in processing time(s)',
+                  data: yFrame,
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0)'],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)'],
+                  fill:false,
+                  borderWidth:1,
+                  hoverRadius:4,
+                  tension: 0.1
+                }]
+              },
+              options: {
+                  scales: {
+                    y: {
+                      ticks: {
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                          return value +'m';
+                        }
+                      }
+                    }
+                  }
+                },
+                      
+            });
+            }
+
+              async function getData(){
+                const response = await fetch('live-camera.csv');
+                const data = await response.text();
+                      
+                
+                const table = data.split('\n').slice(2);
+                table.forEach(row =>
+                {
+                  const columns = row.split(',');
+                  const FrameNo = columns[0];
+                  xAxis.push(FrameNo);
+                  const ProcessTime = columns[1];
+                   yFrame.push(parseFloat(ProcessTime));
+                  console.log(FrameNo, ProcessTime);
+                });
+                
+                }
+            </script>
+
+
+      </body>
 </html>
