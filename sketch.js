@@ -14,8 +14,10 @@ let frameData = [];
 //let overallData = [];
 let data_frameNo = [];
 let data_numObjDetected = [];
-let data_distances = [];
 let data_incidents = [];
+
+let data_distances = [];
+let f0t1 = [];
 
 let frameNo = 0;
 
@@ -100,6 +102,7 @@ function draw() {
 				        for(let j = i+1; j < frameData.length; j++){
 				                dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
 						if(dist[i] <= 1.5) incidents++;
+						if(i==0 && j==1) f0t1.push(dist[0]);
 				        }
 				}
 				/*if(dist.length > 0)*/ data_distances.push(dist);
