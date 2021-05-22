@@ -8,6 +8,7 @@ let cameraBtnStop;
 let stream = false;
 let frameData = [];
 let overallData = [];
+let frameNo = 0;
 
 let FOCAL_LENGTH_IN_PIXELS = 651.222;
 let averagewidth = 0.45;
@@ -67,7 +68,8 @@ function draw() {
                                         text(nf(distance,0,2), obj.x + 5, obj.y + 100);
                                         //console.log(capture.width)
                             }
-                            overallData.push(frameData);
+                            //push frame number and number of objects detected
+                            overallData.push([++frameNo, frameData.length]);
                             if(frameData.length > 1) calculate_distance(frameData[0], frameData[1], [255,0,255]);
                 }
                   });
