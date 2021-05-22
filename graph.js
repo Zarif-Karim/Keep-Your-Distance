@@ -83,9 +83,9 @@ function makeChart(container,
                           return value +'m';
                         }
                         },
-                        grid: {
-                          display: false
-                        }
+                        // grid: {
+                        //   display: false
+                        // }
                     }
               }
               },
@@ -107,21 +107,8 @@ async function update() {
 function getDataLocal(){
       if(data_frameNo && data_numObjDetected) {
               console.log("getDataLocal: Data found!")
-              //x_fno = data_frameNo;
-              //y_fno = data_numObjDetected;
       }
       else {
               console.log("getDataLocal: overallData NOT found!")
       }
-
-      // reset dataset
-      // table.forEach(row =>
-      // {
-      //   const FrameNo = row[0];
-      //   x_fno.push(FrameNo);
-      //   const obj = row[1];
-      //    y_fno.push(obj);
-      //   console.log(FrameNo, obj);
-      // });
-
 }
