@@ -6,8 +6,12 @@ let HEIGHT = 480;
 let cameraBtnStart;
 let cameraBtnStop;
 let stream = false;
+
 let frameData = [];
-let overallData = [];
+//let overallData = [];
+let data_frameNo = [];
+let data_numObjDetected = [];
+
 let frameNo = 0;
 
 let FOCAL_LENGTH_IN_PIXELS = 651.222;
@@ -34,6 +38,7 @@ function draw() {
                           capture.size(WIDTH, HEIGHT);
                           capture.hide();
                           stream = true;
+                          update();
                   });
           });
           if(cameraBtnStop) cameraBtnStop.mouseClicked(() =>{
@@ -69,7 +74,9 @@ function draw() {
                                         //console.log(capture.width)
                             }
                             //push frame number and number of objects detected
-                            overallData.push([++frameNo, frameData.length]);
+                            //overallData.push([++frameNo, frameData.length]);
+                            data_frameNo.push(++frameNo);
+                            data_numObjDetected.push(frameData.length);
                             if(frameData.length > 1) calculate_distance(frameData[0], frameData[1], [255,0,255]);
                 }
                   });
@@ -146,7 +153,7 @@ function pythagaros(vd, hd)
 	}
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(WIDTH, HEIGHT);
 }
 
 function modeloaded() {
