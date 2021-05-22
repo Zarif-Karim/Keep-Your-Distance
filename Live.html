@@ -307,6 +307,9 @@
                       title: {
                         display: true,
                         text: 'Cumulative time (second)'
+                      },
+                      grid: {
+                        display: false
                       }
                     },
                   //y axis detail
@@ -322,7 +325,10 @@
                         callback: function(value, index, values) {
                           return value +'m';
                         }
-                    }
+                      },
+                      grid: {
+                        display: false
+                      },
                     }
               }
             },            
@@ -398,6 +404,9 @@
                           title: {
                             display: true,
                             text: 'Processing time'
+                          },
+                          grid: {
+                            display: false
                           }
                         },
                       //y axis detail
@@ -413,7 +422,10 @@
                             callback: function(value, index, values) {
                               return value +'m';
                             }
-                        }
+                          },
+                          grid: {
+                            display: false
+                          }
                         }
                   }                
                   },
