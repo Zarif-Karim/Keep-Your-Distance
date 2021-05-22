@@ -1,12 +1,11 @@
 //fno : frame-number of object
-//let x_fno = [];
-//let y_fno = [];
 let myChart_fno;
 
 //make frame against number of object chart
 myChart_fno = makeChart('chart0',
+                        'Objects Detected per Frame',
                         data_frameNo,
-                        'Processing time',
+                        'Frame Number',
                         data_numObjDetected,
                         'Number of object',
                         'Objects detected',
@@ -15,6 +14,7 @@ myChart_fno = makeChart('chart0',
 
 //graph initializer
 function makeChart(container,
+                        chart_title,
                         x_data,
                         x_label,
                         y_data,
@@ -57,7 +57,7 @@ function makeChart(container,
                 plugins: {
                   title: {
                     display: true,
-                    text: 'Chart with frame number in processing time (m)'
+                    text: chart_title
                   }
                 },
               scales: {
