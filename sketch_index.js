@@ -19,7 +19,7 @@ function preload() {
 
 function setup() {
   //createCanvas(windowWidth, windowHeight);
-  cnv = createCanvas(WIDTH, HEIGHT);
+  cnv = createCanvas(windowWidth, windowHeight);
   cnv.parent("#canvas-container");
   cameraBtnStart = select("#start-btn");
   cameraBtnStop = select("#stop-btn");
@@ -42,7 +42,7 @@ function draw() {
 
           if(stream)
           {
-                  image(capture, 0, 0, WIDTH, HEIGHT);
+                  image(capture, 0, 0);
                   detector.detect(capture, (err, results) => {
                     if(err) console.log(err);
                     //console.log(results);

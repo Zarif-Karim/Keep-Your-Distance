@@ -15,7 +15,10 @@
 			header{
 				height: 90px;
 				background:#404040;
-				
+
+			}
+			canvas {
+			  display: block;
 			}
 			.inner-width{
 				max-width: 1000px;
@@ -132,7 +135,7 @@
 				color: black;
 				margin-left: 35%;
 				margin-right: 50%;
-				
+
 			}
 			/*for the image and video process*/
 			.container{
@@ -319,7 +322,7 @@
 				-moz-user-select: none;
 				-ms-user-select: none;
 				user-select: none;
-				
+
 			}
 
 			/* Hide the browser's default checkbox */
@@ -427,7 +430,7 @@
 			.live-report{
 				border: 1px solid green;
 				background: white;
-				width: 200px; 
+				width: 200px;
 				height: 250px;
 				position: right;
 			}
@@ -466,7 +469,7 @@
 							flex-grow: 1;
 							margin: 0 8px;
 							border: solid 1px black;
-							
+
 						}
 				.middle-column div+div {
 							margin-top: 5px
