@@ -70,6 +70,7 @@
                       </div>
                      <div id="box8">
                     <div id="line_top_x"></div>
+                    <div><canvas id = "chart0" width="auto" height="100px"></canvas></div>
                     <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
                     <div><canvas id = "chart2" width="auto" height="100px"></canvas></div>
                       </div>
@@ -99,20 +100,17 @@
       }
     </script>
 
-    <!---script for graph 1--->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!---script for graph 0--->
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
           google.charts.load('current', {'packages':['line']});
           google.charts.setOnLoadCallback(drawChart);
-
         function drawChart() {
-
           var data = new google.visualization.DataTable();
           data.addColumn('number', 'FrameNo');
           data.addColumn('number', 'Frame Process');
           data.addColumn('number', 'CumulativeTime(s)');
           data.addColumn('number', 'Distance(m)');
-
           data.addRows([
             [1,  1.7243, 1.7243, 1.452602],
             [2,  0.272714, 1.99702, 1.402596],
@@ -129,7 +127,6 @@
             [13,	0.423003,	11.5723, 1.512876],
             [14,0.424565,	11.9969, 1.307902]
           ]);
-
           var options = {
             chart: {
               title: 'Graph Report of Live Camera  ',
@@ -143,12 +140,121 @@
               }
             }
           };
-
           var chart = new google.charts.Line(document.getElementById('line_top_x'));
-
           chart.draw(data, google.charts.Line.convertOptions(options));
         }
+      </script> -->
+
+      <script>
+      let xA = [];
+      let yA = [];
+      let myChart;
+      chartItzero();
+      async function chartItzero() {
+        await getDataLocal();
+      const ctx = document.getElementById('chart0').getContext('2d');
+      myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xA,
+          datasets: [
+          {
+            data: yA,
+            label: 'Objects detected',
+            fill:false,
+            backgroundColor: "rgba(255, 99, 132, 0.4)",
+            borderColor: "rgba(255, 99, 132, 1)",
+            borderCapStyle:'butt',
+            borderDash:[],
+            borderDashOffset: 0.0,
+            borderJoinStyle:'miter',
+            pointBorderColor:"rgba(255, 99, 132, 1)",
+            pointBackgroundColor:"rgba(255, 99, 132, 1)",
+            pointBorderWidth:0.5,
+            pointRadius: 0,
+            pointHoverRadius:5,
+            pointHoverBackgroundColor:"rgba(255, 99, 132, 1)",
+            pointHoverBorderColor: "rgbd(220,200,220,1)",
+            pointHoverBorderWidth:2,
+            pointHitRadius:10,
+            lineTension: 0.5,
+            
+          }]
+        },
+        options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Chart with frame number in processing time (m)'
+                }
+              },
+            scales: {
+              //x axis detail
+                  x: {
+                    display: true,
+                    title: {
+                      display: true,
+                      text: 'Processing time'
+                    }
+                  },
+                //y axis detail
+                  y:{
+                    display: true,
+                      title: {
+                        display: true,
+                        text: 'Number of object'
+                    },
+                    ticks: {
+                      min:0,
+                      // Include a dollar sign in the ticks
+                      callback: function(value, index, values) {
+                        return value +'m';
+                      }
+                  }
+                  }
+            }                
+            },
+
+      });
+      update();
+      //myChart.remove();
+      //chartItzero();
+      }
+      async function update() {
+              console.log("update Called");
+              getDataLocal();
+              if(myChart){
+                      console.log("myChart found");
+                      myChart.update();
+                      setTimeout(update,3000);
+                        }
+              else console.log("myChart Not found");
+      }
+       async function getDataLocal(){
+            let table;
+            if(overallData) {
+                    table = overallData;
+                    console.log("getDataLocal: overallData found!")
+            }
+            else {
+                    table = [1,3];
+                    console.log("getDataLocal: overallData NOT found!")
+            }
+
+            // reset dataset
+            table.forEach(row =>
+            {
+              const FrameNo = row[0];
+              xA.push(FrameNo);
+              const obj = row[1];
+               yA.push(obj);
+              console.log(FrameNo, obj);
+            });
+
+            }
       </script>
+
       <!---script for graph 2-->
 
         <script>
@@ -166,38 +272,61 @@
             {
               label: 'Distance(m) in the cumulative time(s)',
               data: yDist,
-               fill:false,
-            backgroundColor: "rgba(255, 99, 132, 0.4)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderCapStyle:'butt',
-            borderDash:[],
-            borderDashOffset: 0.0,
-            borderJoinStyle:'miter',
-            pointBorderColor:"rgba(255, 99, 132, 1)",
-            pointBackgroundColor:"rgba(255, 99, 132, 1)",
-            pointBorderWidth:0.5,
-            pointRadius: 0,
-            pointHoverRadius:5,
-            pointHoverBackgroundColor:"rgba(255, 99, 132, 1)",
-            pointHoverBorderColor: "rgbd(220,200,220,1)",
-            pointHoverBorderWidth:2,
-            pointHitRadius:10,
-            lineTension: 0.5,
+              fill:false,
+              backgroundColor: "rgba(255, 99, 132, 0.4)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              borderCapStyle:'butt',
+              borderDash:[],
+              borderDashOffset: 0.0,
+              borderJoinStyle:'miter',
+              pointBorderColor:"rgba(255, 99, 132, 1)",
+              pointBackgroundColor:"rgba(255, 99, 132, 1)",
+              pointBorderWidth:0.5,
+              pointRadius: 0,
+              pointHoverRadius:5,
+              pointHoverBackgroundColor:"rgba(255, 99, 132, 1)",
+              pointHoverBorderColor: "rgbd(220,200,220,1)",
+              pointHoverBorderWidth:2,
+              pointHitRadius:10,
+              lineTension: 0.5,
+
             }]
           },
           options: {
-              scales: {
-                y: {
-                  ticks: {
-                    // Include a dollar sign in the ticks
-                    callback: function(value, index, values) {
-                      return value +'m';
-                    }
+                responsive: true,
+                plugins: {
+                  title: {
+                    display: true,
+                    text: 'Chart of frame number of processing time(m)'
                   }
-                }
+                },
+              scales: {
+                //x axis detail
+                    x: {
+                      display: true,
+                      title: {
+                        display: true,
+                        text: 'Cumulative time (second)'
+                      }
+                    },
+                  //y axis detail
+                    y:{
+                      display: true,
+                        title: {
+                          display: true,
+                          text: 'Distance (meter)'
+                      },
+                      ticks: {
+                        min:0,
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                          return value +'m';
+                        }
+                    }
+                    }
               }
-            },
-
+            },            
+               
         });
         }
           async function getData(){
@@ -211,14 +340,14 @@
               xlabels.push(Cultime);
               const distance = columns[4];
                yDist.push(parseFloat(distance));
-              console.log(Cultime, distance);
+              //console.log(Cultime, distance);
             });
 
             }
         </script>
 
 
-
+          <!----script for graph 2---->
             <script>
             const xAxis = [];
             const yFrame = [];
@@ -234,7 +363,6 @@
                 {
                   data: yFrame,
                   label: 'Frame number in processing time(s)',
-
                   fill:false,
                   backgroundColor: "rgba(255, 99, 132, 0.4)",
                   borderColor: "rgba(255, 99, 132, 1)",
@@ -256,18 +384,39 @@
                 }]
               },
               options: {
-                  scales: {
-                    y: {
-                      ticks: {
-                        // Include a dollar sign in the ticks
-                        callback: function(value, index, values) {
-                          return value +'m';
-                        }
+                    responsive: true,
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: 'Chart with frame number in processing time (m)'
                       }
-                    }
-                  }
-                },
-
+                    },
+                  scales: {
+                    //x axis detail
+                        x: {
+                          display: true,
+                          title: {
+                            display: true,
+                            text: 'Processing time'
+                          }
+                        },
+                      //y axis detail
+                        y:{
+                          display: true,
+                            title: {
+                              display: true,
+                              text: 'Distance'
+                          },
+                          ticks: {
+                            min:0,
+                            // Include a dollar sign in the ticks
+                            callback: function(value, index, values) {
+                              return value +'m';
+                            }
+                        }
+                        }
+                  }                
+                  },
             });
             }
 
@@ -284,7 +433,7 @@
                   xAxis.push(FrameNo);
                   const ProcessTime = columns[1];
                    yFrame.push(parseFloat(ProcessTime));
-                  console.log(FrameNo, ProcessTime);
+                  //console.log(FrameNo, ProcessTime);
                 });
 
                 }
@@ -292,4 +441,3 @@
 
 
       </body>
-</html>
