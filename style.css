@@ -11,6 +11,7 @@
 				background-size:110% 300%;
 				margin-bottom: auto;
 				margin-top: auto;
+				
 				}
 			header{
 				height: 90px;
@@ -138,144 +139,7 @@
 
 			}
 			/*for the image and video process*/
-			.container{
-				height: 350px;
-				width: 430px;
-				position: relative;
-				margin-right: auto;
-				margin-left: auto;
-			}
-			.container .wrapper{
-				position: relative;
-				height: 300px;
-				width: 100%;
-				margin-right: 100%;
-				border-radius: 10px;
-				background: #fff;
-				border: 2px dashed #c2cdda;
-			 /* display: flex; */
-				align-items: center;
-				justify-content: center;
-				overflow: hidden;
-			}
-			.wrapper.active{
-				border: none;
-			}
-			.wrapper .image{
-				position: absolute;
-				height: 100%;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.wrapper .video{
-				position: absolute;
-				height: 100%;
-				width: 100%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-			.wrapper img{
-				height: 100%;
-				width: 100%;
-				object-fit: cover;
-			}
-
-			.wrapper video{
-				height: 100%;
-				width: 100%;
-				object-fit: cover;
-			}
-
-			.wrapper .icon{
-				font-size: 100px;
-				color: #2ECCFA;
-				text-align: center;
-			}
-			.wrapper .text{
-				font-size: 20px;
-				font-weight: 500;
-				color: #5B5B7B;
-			 text-align:center;
-			}
-			.wrapper #cancel-btn i{
-				position: absolute;
-				font-size: 20px;
-				right: 15px;
-				top: 15px;
-				color: #2ECCFA;
-				cursor: pointer;
-				display: none;
-			}
-			.wrapper.active:hover #cancel-btn i{
-				display: block;
-			}
-			.wrapper #cancel-btn i:hover{
-				color: #e74c3c;
-			}
-			.wrapper .file-name{
-				position: absolute;
-				bottom: 0px;
-				width: 100%;
-				padding: 8px 0;
-				font-size: 18px;
-				color: #fff;
-				display: none;
-				background: linear-gradient(135deg,#3a8ffe 0%,#9658fe 100%);
-			}
-			.wrapper.active:hover .file-name{
-				display: block;
-			}
-			.pbLable{
-				margin-top: 30px;
-				display: block;
-				width: 100%;
-				height: 50px;
-				border: none;
-				outline: none;
-				border-radius: 25px;
-				color: #fff;
-				font-size: 18px;
-				font-weight: 500;
-				letter-spacing: 1px;
-				text-transform: uppercase;
-				cursor: pointer;
-				background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
-			}
-			.container #custom-btn{
-				margin-top: 30px;
-				display: block;
-				width: 100%;
-				height: 50px;
-				border: none;
-				outline: none;
-				border-radius: 25px;
-				color: #fff;
-				font-size: 18px;
-				font-weight: 500;
-				letter-spacing: 1px;
-				text-transform: uppercase;
-				cursor: pointer;
-				background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
-			}
-			.container #analysis-btn{
-				margin-top: 30px;
-				display: block;
-				width: 100%;
-				height: 50px;
-				border: none;
-				outline: none;
-				border-radius: 25px;
-				color: #fff;
-				font-size: 18px;
-				font-weight: 500;
-				letter-spacing: 1px;
-				text-transform: uppercase;
-				cursor: pointer;
-				background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
-			}
+			
 			.bar {
 				width: 100%;
 				background-color: #ddd;
@@ -453,7 +317,7 @@
 				}
 				#box8 {
 					flex-grow: 2;
-					border: solid 1px lightblue;
+					border: solid 0px lightblue;
 					color: black;
 					width: 50%;
 					background: white;
@@ -517,3 +381,72 @@
 	background-color: #58ACFA;
 }
 /*drop down end*/
+
+/*procesing bar style*/
+.container{
+	width: 100%;
+	position: absolute;
+	z-index: 1;
+}
+.progressbar li{
+	float: left;
+	width: 20%;
+	position: relative;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto;
+	
+}
+.progressbar li:before{
+	content:"1";
+	width: 30px;
+	height: 30px;
+	border: 2px solid #bebebe;
+	display: block;
+	margin: 0 auto 10px auto;
+	border-radius: 50%;
+	line-height: 27px;
+	background: white;
+	color: #bebebe;
+	text-align: center;
+	font-weight: bold;
+}
+.progressbar{
+	counter-reset: step;
+}
+.progressbar li:before{
+	content:counter(step);
+	counter-increment: step;
+	width: 30px;
+	height: 30px;
+	border: 2px solid #bebebe;
+	display: block;
+	margin: 0 auto 10px auto;
+	border-radius: 50%;
+	line-height: 27px;
+	background: white;
+	color: #bebebe;
+	text-align: center;
+	font-weight: bold;
+}
+.progressbar li:after{
+	content: '';
+	position: absolute;
+	width:100%;
+	height: 3px;
+	background: #979797;
+	top: 15px;
+	left: -50%;
+	z-index: -1;
+}
+.progressbar li:first-child:after{
+content: none;
+}
+.progressbar li.active + li:after{
+ background: #3aac5d;
+}
+.progressbar li.active + li:before{
+border-color: #3aac5d;
+background: #3aac5d;
+color: white
+}
