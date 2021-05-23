@@ -22,8 +22,8 @@ function generateCharts() {
                                 data_frameNo,
                                 'Frame Number',
                                 data_incidents,
-                                'incidents',
-                                'occurance',
+                                'Incidents',
+                                'Occurance',
                                 'rgba(255, 99, 132, 1)'
                         );
 
@@ -32,8 +32,8 @@ function generateCharts() {
                                 data_frameNo,
                                 'Frame Number',
                                 f0t1,
-                                'distance(m)',
-                                'Obj1 - Obj2',
+                                'Distance(m)',
+                                'Distance between objects',
                                 'rgba(255, 99, 132, 1)'
                         );
 }
