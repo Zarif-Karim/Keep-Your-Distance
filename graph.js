@@ -34,7 +34,7 @@ function generateCharts() {
                                 f0t1,
                                 'Distance(m)',
                                 'Distance between objects',
-                                'rgba(255, 99, 132, 1)'
+                                'rgba(135, 25, 199, 0.47)'
                         );
 }
 
