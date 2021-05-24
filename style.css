@@ -343,7 +343,8 @@
 
 /*procesing bar style*/
 .bar{
-	margin-right: 10px;
+	margin-right: auto;
+	margin-left: auto;
 	width: auto;
 }
 /*end process bar*/
