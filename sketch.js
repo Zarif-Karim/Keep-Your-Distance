@@ -164,7 +164,7 @@ function calculate_distance(obj1, obj2, color) {
 	if (distance < 3.0) {
                 stroke(255);
                 strokeWeight(5);
-		line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
+				line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
                 fill(255);
                 textSize(32);
                 text(nf(distance,0,2), 50, 100);
