@@ -7,7 +7,7 @@
 
 			}
 			body{
-				background: url(video.mp4) no-repeat center center fixed;
+				background-color:#f2f2f2;
 				background-size: cover;
 				height: 100%;
 				overflow: hidden;
@@ -134,7 +134,7 @@
 			h1{
 				font-size: 20px;
 				text-align: center;
-				color: white;
+				color: black;
 				margin-left: 35%;
 				margin-right: 50%;
 				font-family: "Times New Roman",sans-serif;
@@ -307,6 +307,7 @@
 					color: black;
 					width: 30%;
 					background: white;
+					margin-right: 100px;
 				}
 				/*graph display*/
 				.middle-column {
@@ -352,4 +353,3 @@
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
-
