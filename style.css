@@ -306,7 +306,7 @@
 					border: solid 0px lightblue;
 					color: black;
 					width: 30%;
-					background: white;
+					background:#f2f2f2;
 					margin-right: 100px;
 				}
 				/*graph display*/
@@ -353,3 +353,20 @@
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
+/*graph style*/
+.chart0 {
+	background-color: white;
+	margin-bottom: 10px;
+
+}
+
+.chart1{
+	background-color: white;
+	margin-bottom: 10px;
+
+}
+
+.chart2{
+	background-color: white;
+}
+/*end graph style*/
