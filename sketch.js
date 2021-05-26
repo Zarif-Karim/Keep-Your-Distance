@@ -105,7 +105,8 @@ function draw() {
 						if(i==0 && j==1) f0t1.push(dist[0]);
 				        }
 				}
-				/*if(dist.length > 0)*/ data_distances.push(dist);
+				/*if(dist.length > 0)*/
+				data_distances.push(dist);
 				data_incidents.push(incidents);
 	                }
                 });
@@ -147,7 +148,7 @@ function calculate_distance(obj1, obj2, color) {
 	let y_1 = vertical_dist * pixelToCentimeretRatio_1;
 	let z_1 = dfc_1;
 
-        horizontal_dist = centre[0] - obj2Centre[0];
+  horizontal_dist = centre[0] - obj2Centre[0];
 	vertical_dist = centre[1] - obj2Centre[1];
 	let distToCentre_2 = pythagaros(vertical_dist, horizontal_dist);
 
@@ -164,7 +165,7 @@ function calculate_distance(obj1, obj2, color) {
 	if (distance < 3.0) {
                 stroke(255);
                 strokeWeight(5);
-		line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
+				line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
                 fill(255);
                 textSize(32);
                 text(nf(distance,0,2), 50, 100);
