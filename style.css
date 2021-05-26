@@ -321,7 +321,7 @@
 					flex-grow: 2;
 					border: solid 0px lightblue;
 					color: black;
-					width: 50%;
+					width: 30%;
 					background: white;
 				}
 				/*graph display*/
@@ -349,5 +349,23 @@
 }
 /*end process bar*/
 
-/*video style*/
+/*button style*/
+.button #start-btn{
+	margin-top: 30px;
+	display: block;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
 
