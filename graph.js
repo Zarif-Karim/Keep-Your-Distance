@@ -75,7 +75,6 @@ function makeChart(container,
               pointHoverBorderWidth:2,
               pointHitRadius:10,
               lineTension: 0.5,
-
             }]
           },
           options: {
