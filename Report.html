@@ -2,262 +2,169 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Live Camera</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content = "ie=edge"/>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
-    <script src="https://d3js.org/d3.v4.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.3.1/lib/p5.js"></script>
+    <script src="https://unpkg.com/ml5@0.6.1/dist/ml5.min.js" type="text/javascript"></script>
+    <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
+    <script src="sketch.js"></script>
     <style>
-        #myProgress {
-          width: 100%;
-          background-color: rgb(241, 241, 241);
-          border-radius:100px;
-        }
-        #myBar {
-          width: 3%;
-          height: 20px;
-          background-color: #18bcee;
-          border-radius:100px;
-        }
-        </style>
+      h1{
+        text-align: absolute;
+        font-family: "Times New Roman",sans-serif;
+
+      }
+      .vidElement{
+        border: pink;
+        margin-left: 10px:
+      }
+      </style>
   </head>
-  <body>
-    <header>
-      <div class="inner-width">
-        <a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
-        <i class="menu-toggle-btn fas fa-bars"></i>
-       <nav class="navigation-menu">
-        <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-        <a href="Live.html"><i class="fas fa-users live"></i>LIVE CAMERA</a>
-        <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
-      </nav>
-      </div>
-    </header>
-<!--Report page-->
-    <h1>Report page</h1>
-    <p style="color: black; text-align: center;">This page contains useful information on the images and videos processed.</p>
-<!--    <div class="w3-light-grey w3-round-xlarge" style="width: 1000px; height: 20px">
-      <div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
-      
-          <div id="chart_div" style="width: 100%; height: 500px;"></div>
-<!--Navigation bar for Report page-->
+   <header>
+      <div class="twp-video-layer"></div>
+    </div>
+    <div class="inner-width">
+      <a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+      <i class="menu-toggle-btn fas fa-bars"></i>
+     <nav class="navigation-menu">
+      <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+      <a href="Live.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+      <a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
+     </nav>
+    </div>
+  </header>
+
+    <!-- live camera page--->
+                  <h1>System Demo</h1>
+                  <div id = "bar">
+                  <div class="w3-light-black w3-round-xlarge bar" style="width:50%; height: 20px">
+		                    <div class="w3-container w3-blue w3-round-xlarge" style="width:0%; height: 100%" id="progressBar"></div>
+		                      <div id="progressLable" style="text-align: center; color: black; "> Step 1: Upload Video </div>
+		                      </div>
+                      </div>
+                    <br>
+                    <br>
+                      <!--check box code--->
+                    <div id="box3">
+                      <div id="box4">
+                        <div class="live-camera" style="margin-left: auto; margin-right: auto;">
+                        <div id="canvas-container" style="width=640; height=480; margin-right: 0px; margin-left: 50px;"></div>
+                        <div class="button">
+                          <button id="start-btn">Play Video</button>
+                        </div>
+                        </div>
+                      </div>
+                     <div id="box8">
+                    <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
+                      </div>
+                      <!-- nav function--->
     <script type="text/javascript">
       $(".menu-toggle-btn").click(function(){
         $(this).toggleClass("fa-times");
         $(".navigation-menu").toggleClass("active");
       });
     </script>
-    
-    <!--graph for report-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-          google.charts.load('current', {'packages':['line']});
-          google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-          var data = new google.visualization.DataTable();
-          data.addColumn('number', 'FrameNo');
-          data.addColumn('number', 'Frame Process');
-          data.addColumn('number', 'CumulativeTime(s)');
-          data.addColumn('number', 'Number of objects');
-          data.addColumn('number', 'Distance(m)');
-
-          data.addRows([
-            [1,1.7243,1.7243,2, 1.452602],
-            [2,0.272714,1.99702,2,1.402596],
-            [3,0.294398,2.29141,2,1.3873],
-            [4,0.303074,2.59449,2,1.394986],
-            [5,0.294808,2.8893,2,1.41577],
-            [6,0.289698,3.17899,2,1.41577],
-            [7,0.283384,3.46238,2,1.402983],
-            [8,0.290333,3.75271,2,1.467531],
-            [9,0.294926,4.04763,2,1.543216],
-            [10,0.303718,4.35135,2,1.52345],
-            [11,0.309088,4.66044,2,1.452795],
-            [12,0.310783,4.97122,2,1.479872],
-            [13,0.324169,5.29539,2,1.527952],
-            [14,0.33469,5.63008,2,1.629402],
-            [15,0.352106,5.98219,2,1.56344],
-            [16,0.378035,6.36022,2,1.547316],
-            [17,0.44554,6.80576,2,1.514461],
-            [18,0.445642,7.25141,2,1.468129],
-            [19,0.435316,7.68672,2,1.375779],
-            [20,0.439635,8.12636,2,1.490569],
-            [21,0.450842,8.5772,2,1.505475],
-            [22,0.443416,9.02061,2,1.65951],
-            [23,0.433455,9.45407,2,1.590888],
-            [24,0.425739,9.87981,2,1.541724],
-            [25,0.424206,10.304,2,1.594937],
-            [26,0.429989,10.734,2,1.584213],
-            [27,0.415299,11.1493,2,1.627065],
-            [28,0.423003,11.5723,2,1.512876],
-            [29,0.424565,11.9969,2,1.307902],
-            [30,0.423332,12.4202,1,0],
-            [31,0.409091,12.8293,2,1.355539],
-            [32,0.443495,13.2728,2,1.042684],
-            [33,0.398091,13.6709,2,1.02069],
-            [34,0.420305,14.0912,2,0.996852],
-            [35,0.438076,14.5293,2,1.064077],
-            [36,0.434989,14.9642,2,1.082381],
-            [37,0.440845,15.4051,2,0.932836],
-            [38,0.450702,15.8558,2,1.491286],
-            [39,0.449845,16.3056,2,1.354399],
-            [40,0.389068,16.6947,2,1.351076],
-            [41,0.421929,17.1166,2,1.47504],
-            [42,0.426187,17.5428,2,1.182235],
-            [43,0.425536,17.9684,2,1.287641],
-            [44,0.464499,18.4329,2,1.548139],
-           [45,0.424742,18.8576,2,1.31059],
-            [46,0.407879,19.2655,2,1.254696],
-            [47,0.431878,19.6974,2,1.822736],
-            [48,0.421948,20.1193,2,1.14442],
-            [49,0.462395,20.5817,2,1.078812],
-            [50,0.443448,21.0252,2,1.466623],
-            [51,0.418614,21.4438,2,1.466491],
-            [52,0.421616,21.8654,2,1.500097],
-            [53,0.41859,22.284,2,1.854399],
-            [54,0.417247,22.7012,2,1.364859],
-            [55,0.433585,23.1348,2,1.298487],
-            [56,0.422438,23.5572,2,1.106813],
-            [57,0.38436,23.9416,2,1.026568],
-            [58,0.39161,24.3332,2,0.995921],
-            [59,0.381137,24.7143,2,1.181459],
-            [60,0.4141,25.1284,2,1.227315],
-            [61,0.41801,25.5465,2,1.231231],
-            [62,0.426969,25.9734,2,1.399389],
-            [63,0.421005,26.3944,2,1.448793],
-            [64,0.448695,26.8431,2,1.654289],
-            [65,0.459176,27.3023,1,0],
-            [66,0.440339,27.7426,1, 0],
-            [67,0.447971,28.1906,1, 0],
-            [68,0.444319,28.6349,2,1.288856],
-            [69,0.429565,29.0645,2,1.208357],
-            [70,0.387761,29.4523,2,1.423715],
-            [71,0.393191,29.8454,2,1.499464],
-            [72,0.414952,30.2604,2,1.563849],
-            [73,0.375538,30.6359,2,1.590956],
-            [74,0.396308,31.0322,2,1.155358],
-            [75,0.415287,31.4475,2,1.104079],
-            [76,0.419384,31.8669,2,1.038819],
-            [77,0.44051,32.3074,2,1.032743],
-            [78,0.443098,32.7505,2,1.061246],
-            [79,0.417792,33.1683,2,1.042617],
-            [80,0.439036,33.6074,2,1.172945],
-            [81,0.446049,34.0534,2,1.283895],
-            [82,0.435517,34.4889,2,1.140492],
-            [83,0.434316,34.9232,2,1.226149],
-            [84,0.454887,35.3781,1,0],
-            [85,0.461664,35.8398,1,0],
-            [86,0.451373,36.2912,1,0],
-            [87,0.420329,36.7115,1,0],
-            [88,0.424729,37.1362,1,0],
-            [89,0.424344,37.5606,2,1.350814],
-            [90,0.432693,37.9933,2,1.244816],
-            [91,0.454427,38.4477,2,1.365415],
-            [92,0.439197,38.8869,2,1.322667],
-            [93,0.419447,39.3063,2,1.182299],
-            [94,0.435889,39.7422,2,1.187385],
-            [95,0.394649,40.1369,2,1.127393],
-            [96,0.41736,40.5542,2,1.192364],
-            [97,0.432511,40.9867,2,1.192029],
-            [98,0.457113,41.4438,2,1.169338],
-            [99,0.410181,41.854,2,1.218148],
-            [100,0.46777,42.3218,2,1.193251],
-            [101,0.445855,42.7677,2,1.15891],
-            [102,0.436758,43.2044,2,1.202658],
-            [103,0.411839,43.6163,2,1.233944],
-            [104,0.444091,44.0603,2,1.1293],
-            [105,0.43522,44.4956,2,1.115191],
-            [106,0.41231,44.9079,2,1.042705],
-            [107,0.441505,45.3494,2,0.842714],
-            [108,0.452498,45.8019,2,0.536715],
-            [109,0.437355,46.2392,2,0.601586],
-            [110,0.452869,46.6921,2,0.36647]          
-            ]);
-
-          var options = {
-            chart: {
-              title: 'Graph Report of Live Camera  ',
-              subtitle: 'in distace(m)'
-            },
-            width: 500,
-            height: 500,
-            axes: {
-              x: {
-                0: {side: 'top'}
-              }
+    <!---graph 1---->
+     <script>
+      const xlabels = [];
+      const yDist = [];
+      chartIt();
+      async function chartIt() {
+        await getData();
+      const ctx = document.getElementById('chart').getContext('2d');
+      const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xlabels,
+          datasets: [
+          {
+            label: 'Distance(m) in the cumulative time(s)',
+            data: yDist,
+            backgroundColor: "rgba(120, 190, 132, 1)",
+            borderColor: "rgba(120, 190, 132, 1)",
+            borderCapStyle:'butt',
+            borderDash:[],
+            borderDashOffset: 0.0,
+            borderJoinStyle:'miter',
+            pointBorderColor: "rgba(120, 190, 132, 1)",
+            pointBackgroundColor: "rgba(120, 190, 132, 1)",
+            pointBorderWidth:0.1,
+            pointRadius: 0,
+            pointHoverRadius:5,
+            pointHoverBackgroundColor: "rgbd(50,50,50,1)",
+            pointHoverBorderColor: "rgbd(50,50,50,1)",
+            pointHoverBorderWidth:2,
+            pointHitRadius:10,
+            lineTension: 0.5,
+          }]
+        },
+        options: {
+              responsive: true,
+              plugins: {
+                title: {
+                  display: true,
+                  text: "Graph with distance(m) in the cumulative time(s)"
+                }
+              },
+            scales: {
+              //x axis detail
+                  x: {
+                    display: true,
+                    title: {
+                      display: true,
+                      text: "Cumulative time (s)",
+                    }
+                  },
+                //y axis detail
+                  y:{
+                    display: true,
+                      title: {
+                        display: true,
+                        text:"Distance (m)",
+                    },
+                    ticks: {
+                      min:0,
+                      // Include a dollar sign in the ticks
+                      callback: function(value, index, values) {
+                        return value;
+                      }
+                      },
+                      // grid: {
+                      //   display: false
+                      // }
+                  }
             }
-          };
+            },
 
-          var chart = new google.charts.Line(document.getElementById('line_top_x'));
-
-          chart.draw(data, google.charts.Line.convertOptions(options));
-        }
+      });
+      }
+      
+      
+        getData();
+        
+        async function getData(){
+          const response = await fetch('live-camera.csv');
+          const data = await response.text();
+                
+          
+          const table = data.split('\n').slice(1);
+          table.forEach(row =>
+          {
+            const columns = row.split(',');
+            const Cultime = columns[2];
+            xlabels.push(Cultime);
+            const distance = columns[4];
+             yDist.push(parseFloat(distance));
+            console.log(Cultime, distance);
+          });
+          
+          }
       </script>
-      <!---2nd graph---->
-         <div id="line_top_x" style="width: auto; height: auto; margin-left: 50px; margin-right: auto;"></div>
-        <!--3rd hraph part-->
-        <div id="my_dataviz"></div>
-        <script>
-        // set the dimensions and margins of the graph
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
-        var svg = d3.select("#my_dataviz")
-          .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-          .append("g")
-            .attr("transform",
-                  "translate(" + margin.left + "," + margin.top + ")");
-
-        //Read the data
-        d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/connectedscatter.csv",
-          // When reading the csv, I must format variables:
-          function(d){
-            return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value }
-          },
-          // Now I can use this dataset:
-          function(data) {
-            // Add X axis --> it is a date format
-            var x = d3.scaleTime()
-              .domain(d3.extent(data, function(d) { return d.date; }))
-              .range([ 0, width ]);
-            svg.append("g")
-              .attr("transform", "translate(0," + height + ")")
-              .call(d3.axisBottom(x));
-            // Add Y axis
-            var y = d3.scaleLinear()
-              .domain( [8000, 9200])
-              .range([ height, 0 ]);
-            svg.append("g")
-              .call(d3.axisLeft(y));
-            // Add the line
-            svg.append("path")
-              .datum(data)
-              .attr("fill", "none")
-              .attr("stroke", "#69b3a2")
-              .attr("stroke-width", 1.5)
-              .attr("d", d3.line()
-                .x(function(d) { return x(d.date) })
-                .y(function(d) { return y(d.value) })
-                )
-            // Add the points
-            svg
-              .append("g")
-              .selectAll("dot")
-              .data(data)
-              .enter()
-              .append("circle")
-                .attr("cx", function(d) { return x(d.date) } )
-                .attr("cy", function(d) { return y(d.value) } )
-                .attr("r", 5)
-                .attr("fill", "#69b3a2")
-        })
-        </script>
-          </body>
+      </body>
 </html>
