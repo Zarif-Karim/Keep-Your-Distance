@@ -148,7 +148,7 @@ function calculate_distance(obj1, obj2, color) {
 	let y_1 = vertical_dist * pixelToCentimeretRatio_1;
 	let z_1 = dfc_1;
 
-  horizontal_dist = centre[0] - obj2Centre[0];
+  	horizontal_dist = centre[0] - obj2Centre[0];
 	vertical_dist = centre[1] - obj2Centre[1];
 	let distToCentre_2 = pythagaros(vertical_dist, horizontal_dist);
 
