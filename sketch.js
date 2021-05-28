@@ -4,6 +4,7 @@ let detector;
 let WIDTH = 640;
 let HEIGHT = 480;
 let cameraBtnStart;
+let dwnBtn;
 let cST = 'Start';
 let stream = false;
 
@@ -11,6 +12,7 @@ let incident_tolerance;
 let incident_input;
 let incident_submit;
 
+let data_table;
 
 //data containers
 let frameData = [];
@@ -45,8 +47,9 @@ function setup() {
 	                        stream = true;
 				cST = 'Stop';
 				cameraBtnStart.html(cST);
-	                        update();
 	                        loop();
+
+				dwnBtn.hide();
 	                });
 		} else {
 			capture.remove();
@@ -54,7 +57,9 @@ function setup() {
 			cST = 'Start';
 			cameraBtnStart.html(cST);
 	                noLoop();
+			//saveTable(data_table, getName("data/"));
 			redraw();
+			dwnBtn.show();
 		}
         });
 
@@ -64,6 +69,18 @@ function setup() {
 	if(incident_input && incident_submit) incident_submit.mouseClicked(()=> {
 		incident_tolerance = incident_input.value();
 	});
+
+	data_table = new p5.Table();
+
+	data_table.addColumn('Frame_Number');
+	data_table.addColumn('Objects_Detected');
+	data_table.addColumn('Incidents_Occured');
+
+	dwnBtn = select("#dwn-btn");
+	if (dwnBtn) {
+		dwnBtn.hide();
+		dwnBtn.mouseClicked(download_reset);
+	}
 }
 
 function draw() {
@@ -110,9 +127,44 @@ function draw() {
 				/*if(dist.length > 0)*/
 				data_distances.push(dist);
 				data_incidents.push(incidents);
+
+				let newRow = data_table.addRow();
+				newRow.setNum('Frame_Number', frameNo);
+				newRow.setNum('Objects_Detected', frameData.length);
+				newRow.setNum('Incidents_Occured', incidents);
+
+				//update graphs
+				update();
 	                }
                 });
         }
+}
+
+function download_reset(){
+	try {
+		saveTable(data_table, getName("data/"));
+
+	} catch (error) {
+		console.error(error);
+		// expected output: ReferenceError: nonExistentFunction is not defined
+		// Note - error messages will vary depending on browser
+	}
+
+	data_frameNo = [];
+	data_numObjDetected = [];
+	data_distances = [];
+	data_incidents = [];
+
+	update();
+
+	dwnBtn.hide();
+}
+
+function getName(path) {
+	let name = path + day() + "-" + month() + "-" + year()
+	 		+ " ["  + hour() + "-" + minute() + "-" + second()
+			+ "].csv";
+	return name;
 }
 
 function pythagaros(vd, hd)
