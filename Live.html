@@ -61,17 +61,17 @@
                           <button id="start-btn">Start</button>
                         </div>
                         <div class="input-text">
-                        <form>
-                          <label for="incident">Incidents:</label><br>
-                          <input type="text" id="incident" name="incident"><br>
-                        </form>
-                        <button id="submit"> Submit</button>
                         </div>
                         </div>
                       </div>
                      <div id="box8">
                     <div class="chart0"><canvas id = "chart0" width="auto" height="100px"></canvas></div>
-                    <div class="chart1"><canvas id = "chart1" width="auto" height="100px"></canvas></div>
+                    <div class="chart1">
+                            <canvas id = "chart1" width="auto" height="100px"></canvas>
+                            <label for="incident">Incidents tolerance(meters):</label><br>
+                            <input type="text" id="incident" name="incident" value="1.5">
+                            <button id="incident_submit"> Set</button>
+                    </div>
                     <div class="chart2"><canvas id = "chart2" width="auto" height="100px"></canvas></div>
                       </div>
                       <!-- nav function--->
