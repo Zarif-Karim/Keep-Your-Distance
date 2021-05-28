@@ -4,7 +4,6 @@ let detector;
 let WIDTH = 640;
 let HEIGHT = 480;
 let cameraBtnStart;
-let cameraBtnStop;
 let cST = 'Start';
 let stream = false;
 
@@ -54,14 +53,6 @@ function setup() {
 			redraw();
 		}
         });
-
-        cameraBtnStop = select("#stop-btn");
-        if(cameraBtnStop) cameraBtnStop.mouseClicked(() =>{
-        	capture.remove();
-                stream = false;
-                noLoop();
-		redraw();
-        });
 }
 
 function draw() {
@@ -90,7 +81,7 @@ function draw() {
 	                                let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
 	                                fill(255);
 	                                textSize(32);
-	                                text(nf(distance,0,2), obj.x + 5, obj.y + 100);
+	                                text(i + ": " + nf(distance,0,2), obj.x + 5, obj.y + obj.height - 32);
 	                                //console.log(capture.width)
 	                        }
 
