@@ -42,7 +42,28 @@
 
     <!-- live camera page--->
                   <h1> Database report</h1>
-                  
+
+                  <div class= "drop-down">
+                  <label for="images">Select an image/video to view information</label>
+                    <select name="images" id="images">
+                        <option value="#">Object 0</option>
+                        <option value="#"> Object 1</option>
+                        <option value="#">Object 2</option>
+                        <option value="#">Object 3</option>
+                        <option value="#">Object 4</option>
+                        <option value="#">Object 5</option>
+                    </select>
+                     <select name="images" id="images">
+                      <option value="#">Object 0</option>
+                      <option value="#"> Object 1</option>
+                      <option value="#">Object 2</option>
+                      <option value="#">Object 3</option>
+                      <option value="#">Object 4</option>
+                      <option value="#">Object 5</option>
+                    </select>
+                    <br>
+            <button id="submit-report">Submit</button>
+            </div>
                       <!--check box code--->
                     <div id="box3">
                       <div id="box4">
@@ -94,7 +115,7 @@
             pointHoverBorderColor: "rgbd(50,50,50,1)",
             pointHoverBorderWidth:2,
             pointHitRadius:10,
-            lineTension: 0.5,
+            lineTension: 0.4,
           }]
         },
         options: {
@@ -161,3 +182,4 @@
       </script>
       </body>
 </html>
+
