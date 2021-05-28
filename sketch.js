@@ -7,6 +7,10 @@ let cameraBtnStart;
 let cST = 'Start';
 let stream = false;
 
+let incident_tolerance;
+let incident_input;
+let incident_submit;
+
 
 //data containers
 let frameData = [];
@@ -53,6 +57,13 @@ function setup() {
 			redraw();
 		}
         });
+
+	incident_tolerance = 1.5;
+	incident_input = select("#incident");
+	incident_submit = select("#incident_submit");
+	if(incident_input && incident_submit) incident_submit.mouseClicked(()=> {
+		incident_tolerance = incident_input.value();
+	});
 }
 
 function draw() {
@@ -81,7 +92,7 @@ function draw() {
 	                                let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
 	                                fill(255);
 	                                textSize(32);
-	                                text(i + ": " + nf(distance,0,2), obj.x + 5, obj.y + obj.height - 32);
+	                                text(i + ": " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 10);
 	                                //console.log(capture.width)
 	                        }
 
@@ -92,7 +103,7 @@ function draw() {
 				for(let i = 0; i < frameData.length; i++){
 				        for(let j = i+1; j < frameData.length; j++){
 				                dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
-						if(dist[i] <= 1.5) incidents++;
+						if(dist[i] <= incident_tolerance) incidents++;
 						if(i==0 && j==1) f0t1.push(dist[0]);
 				        }
 				}
@@ -112,7 +123,7 @@ function pythagaros(vd, hd)
 }
 
 //calculates the distance between two objects in meters
-function calculate_distance(obj1, obj2, color) {
+function calculate_distance(obj1, obj2) {
 	//the camera centre is assumed to be directly alligned with the centre point of the frame
 	const centre = [WIDTH/2,HEIGHT/2];
 
@@ -155,11 +166,16 @@ function calculate_distance(obj1, obj2, color) {
 
 	if (distance < 3.0) {
                 stroke(255);
-                strokeWeight(5);
-				line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
-                fill(255);
+                strokeWeight(3);
+		line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
+		if(distance <= incident_tolerance) fill(255,0,0);
+		else fill(0,255,0);
                 textSize(32);
-                text(nf(distance,0,2), 50, 100);
+		let x = Math.min(obj1Centre[0],obj2Centre[0]);
+		x = x + (Math.max(obj1Centre[0],obj2Centre[0]) - x)/2;
+		let y = Math.min(obj1Centre[1],obj2Centre[1])
+		y = y + (Math.max(obj1Centre[1],obj2Centre[1]) - y)/2;
+                text(nf(distance,0,2), x, y);
 	}
 
 	return distance;
