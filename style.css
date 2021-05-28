@@ -336,7 +336,7 @@
 
 /*button style*/
 .button #start-btn{
-	margin-top: 30px;
+	margin-top: 10px;
 	display: block;
 	width: 50%;
 	margin-right: auto;
@@ -353,6 +353,7 @@
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
+
 /*graph style*/
 .chart0 {
 	background-color: white;
@@ -370,3 +371,12 @@
 	background-color: white;
 }
 /*end graph style*/
+/*text input style in live demo*/
+.input-text{
+	margin-right: 50px;
+	margin-left: 100px;
+}
+.input-text #submit{
+	margin-top: 10px; 
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+	}
