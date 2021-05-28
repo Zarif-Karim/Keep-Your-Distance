@@ -150,12 +150,13 @@ function download_reset(){
 		// Note - error messages will vary depending on browser
 	}
 
-	data_frameNo = [];
-	data_numObjDetected = [];
-	data_distances = [];
-	data_incidents = [];
+	// data_frameNo = [];
+	// data_numObjDetected = [];
+	// data_distances = [];
+	// data_incidents = [];
+	// data_frameNo.clear();
 
-	update();
+	//update();
 
 	dwnBtn.hide();
 }
