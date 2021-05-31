@@ -306,7 +306,7 @@
 					border: solid 0px lightblue;
 					color: black;
 					width: 30%;
-					background: white;
+					background:#f2f2f2;
 					margin-right: 100px;
 				}
 				/*graph display*/
@@ -336,6 +336,27 @@
 
 /*button style*/
 .button #start-btn{
+	margin-top: 10px;
+	display: block;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
+/*end process bar*/
+
+/*button record*/
+.button #record{
 	margin-top: 30px;
 	display: block;
 	width: 50%;
@@ -353,3 +374,43 @@
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
+
+/*graph style*/
+.chart0 {
+	background-color: white;
+	margin-bottom: 10px;
+
+}
+
+.chart1{
+	background-color: white;
+	margin-bottom: 10px;
+
+}
+
+.chart2{
+	background-color: white;
+}
+/*end graph style*/
+/*text input style in live demo*/
+.input-text{
+	margin-right: 50px;
+	margin-left: 100px;
+}
+.input-text #submit{
+	margin-top: 10px; 
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+	}
+/*drop down for report*/
+.drop-down{
+	margin-left: 500px;
+	margin-right:300px;
+}
+.drop-down #submit-report{
+	margin-top: 10px;
+	background: linear-gradient(135deg, #3a8ffe 0%, #2ECCFA 100%);
+	margin-left: 200px;
+	margin-right: 700px;
+	color: white;
+}
+
