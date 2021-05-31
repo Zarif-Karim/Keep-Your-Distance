@@ -42,6 +42,7 @@
 
     <!-- live camera page--->
                   <h1> Database report</h1>
+
                   <div class= "drop-down">
                   <label for="images">Select two object to view distance between objects</label>
                     <select name="images" id="images">
@@ -74,8 +75,7 @@
                         </div>
                       </div>
                      <div id="box8">
-                    
-                    <div class="chart0"><canvas id = "chart" width="auto" height="100px"></canvas></div>
+                    <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
                       </div>
                       <!-- nav function--->
     <script type="text/javascript">
@@ -160,12 +160,12 @@
       }
 
         getData();
-        
+
         async function getData(){
           const response = await fetch('live-camera.csv');
           const data = await response.text();
-                
-          
+
+
           const table = data.split('\n').slice(1);
           table.forEach(row =>
           {
@@ -176,7 +176,7 @@
              yDist.push(parseFloat(distance));
             console.log(Cultime, distance);
           });
-          
+
           }
       </script>
       </body>

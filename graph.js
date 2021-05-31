@@ -119,12 +119,7 @@ function makeChart(container,
 }
 
 async function update() {
-        if(stream) {
-                if(myChart_fno) myChart_fno.update();
-                if(myChart_fi) myChart_fi.update();
-                if(myChart_fd) myChart_fd.update();
-
-                setTimeout(update,1000);
-        }
-        else console.log("update(): stream ended");
+        if(myChart_fno) myChart_fno.update();
+        if(myChart_fi) myChart_fi.update();
+        if(myChart_fd) myChart_fd.update();
 }

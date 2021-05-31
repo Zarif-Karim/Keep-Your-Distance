@@ -353,6 +353,27 @@
 	cursor: pointer;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 }
+/*end process bar*/
+
+/*button record*/
+.button #record{
+	margin-top: 30px;
+	display: block;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
 
 /*graph style*/
 .chart0 {
@@ -377,7 +398,7 @@
 	margin-left: 100px;
 }
 .input-text #submit{
-	margin-top: 10px; 
+	margin-top: 10px;
 	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
 	}
 /*drop down for report*/
@@ -391,31 +412,4 @@
 	margin-left: 200px;
 	margin-right: 700px;
 	color: white;
-	margin-bottom: 10px;
-}
-.row {
-	height: 100%;
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0.5px;
-	flex-grow: 1;
-	display: flex;
-	flex-direction: row;
-	border: solid 1px orange;
-	background-size: cover;
-}
-#box1 {
-	flex-grow:1 ;
-	border: solid 1px orange;
-	margin: 0.5px;
-	width: 30%;
-}
-#box2 {
-	flex-grow: 2;
-	border: solid 1px lightblue;
-	color: black;
-	width: 30%;
-	background:#f2f2f2;
-	margin-right: 100px;
 }
