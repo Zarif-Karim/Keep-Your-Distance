@@ -3,12 +3,14 @@ let capture;
 let detector;
 let WIDTH = 640;
 let HEIGHT = 480;
-let cameraBtnStart;
+let cameraBtn;
+let progressBar;
+let progressLable;
 
 //Media Recorder
 let mediaRecorder; //reference to media recorder constructor
 let recordedBlobs; //store the bytes recorded by webcam
-const errorMsgElement = document.querySelector('span#errorMsg');
+let errorMsgElement;
 
 let dwnBtn;
 let cST = 'Start';
@@ -44,20 +46,27 @@ function setup() {
         //createCanvas(windowWidth, windowHeight);
         cnv = createCanvas(WIDTH, HEIGHT);
         cnv.parent("#canvas-container");
-        cameraBtnStart = select("#start-btn");
-        if(cameraBtnStart)  cameraBtnStart.mouseClicked(() => {
+
+	errorMsgElement = select("span#errorMsg");
+	progressBar = select("#progressBar");
+	progressLable = select("#progressLable");
+
+        cameraBtn = select("#start-btn");
+	cameraBtn.hide();
+        if(cameraBtn)  cameraBtn.mouseClicked(() => {
 		if(cST == 'Start') {
 			capture = createCapture(VIDEO, ()=>{
 	                        capture.size(WIDTH, HEIGHT);
 	                        capture.hide();
 	                        stream = true;
 				cST = 'Stop';
-				cameraBtnStart.html(cST);
+				cameraBtn.html(cST);
 	                        loop();
 
 				dwnBtn.hide();
+				setProgressBar(50, "Stop Video");
 
-        	// var canvas = document.querySelector('canvas');
+        			// var canvas = document.querySelector('canvas');
 				window.stream = canvas.captureStream(30);
 				startRecording();
 	                });
@@ -65,14 +74,15 @@ function setup() {
 			capture.remove();
 	                stream = false;
 			cST = 'Start';
-			cameraBtnStart.html(cST);
+			cameraBtn.html(cST);
 	                noLoop();
 			//saveTable(data_table, getName("data/"));
 			redraw();
 			dwnBtn.show();
+			setProgressBar(75, "Download Files");
 
-      stopRecording();
-			sleep(1000).then(() => { downloadRecording(); });
+      			stopRecording();
+			//sleep(1000).then(() => { download_reset(); });
 		}
         });
 
@@ -158,30 +168,29 @@ function draw() {
  }
 
 function download_reset(){
+	let filename = getName("data/");
 	try {
-		saveTable(data_table, getName("data/"));
-
+		saveTable(data_table, filename+".csv");
 	} catch (error) {
 		console.error(error);
-		// expected output: ReferenceError: nonExistentFunction is not defined
-		// Note - error messages will vary depending on browser
 	}
 
-	// data_frameNo = [];
-	// data_numObjDetected = [];
-	// data_distances = [];
-	// data_incidents = [];
-	// data_frameNo.clear();
+	try {
+		downloadRecording(filename+".mp4");
+	} catch (error) {
+		console.error(error);
+	}
 
-	//update();
+	//add mechanism to  refresh chart datasets
 
 	dwnBtn.hide();
+	setProgressBar(100, "Finished -> Refresh Page To Start New");
 }
 
 function getName(path) {
 	let name = path + day() + "-" + month() + "-" + year()
 	 		+ " ["  + hour() + "-" + minute() + "-" + second()
-			+ "].csv";
+			+ "]";
 	return name;
 }
 
@@ -213,19 +222,19 @@ function calculate_distance(obj1, obj2) {
 	let distToCentre_1 = pythagaros(vertical_dist, horizontal_dist);
 
 	let dfcp_1 = pythagaros(distToCentre_1, FOCAL_LENGTH_IN_PIXELS);
-  let dfc_1 = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj1.width;
+  	let dfc_1 = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj1.width;
 	let pixelToCentimeretRatio_1 = dfc_1 / dfcp_1;
 
 	let x_1 = horizontal_dist * pixelToCentimeretRatio_1;
 	let y_1 = vertical_dist * pixelToCentimeretRatio_1;
 	let z_1 = dfc_1;
 
-  horizontal_dist = centre[0] - obj2Centre[0];
+  	horizontal_dist = centre[0] - obj2Centre[0];
 	vertical_dist = centre[1] - obj2Centre[1];
 	let distToCentre_2 = pythagaros(vertical_dist, horizontal_dist);
 
 	let dfcp_2 = pythagaros(distToCentre_2, FOCAL_LENGTH_IN_PIXELS);
-  let dfc_2 = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj2.width;
+  	let dfc_2 = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj2.width;
 
 	let pixelToCentimeretRatio_2 = dfc_2 / dfcp_2;
 	/* real-world coordinates relative to picture frame center */
@@ -236,8 +245,8 @@ function calculate_distance(obj1, obj2) {
 	let distance = Math.sqrt((x_2 - x_1) * (x_2 - x_1) + (y_2 - y_1) * (y_2 - y_1) + (z_2 - z_1) * (z_2 - z_1));
 
 	if (distance < 3.0) {
-    stroke(255);
-    strokeWeight(3);
+    		stroke(255);
+    		strokeWeight(3);
 		line(obj1Centre[0],obj1Centre[1], obj2Centre[0],obj2Centre[1]);
 		if(distance <= incident_tolerance) fill(255,0,0);
 		else fill(0,255,0);
@@ -258,8 +267,17 @@ function windowResized() {
 
 function modeloaded() {
 	console.log("Model Loaded");
+	setProgressBar(25, "Model Loaded");
+	setTimeout(()=>{
+		setProgressBar(25, "Start Video");
+		cameraBtn.show();
+	}, 1500);
 }
 
+function setProgressBar(percentage, label) {
+	progressBar.style("width:"+percentage+"%; height: 100%");
+	progressLable.html(label);
+}
 // ********/
 
 function handleDataAvailable(event) {
@@ -294,13 +312,13 @@ function stopRecording() {
 	mediaRecorder.stop();
 }
 
-function downloadRecording() {
+function downloadRecording(path) {
 	const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
 	const url = window.URL.createObjectURL(blob);
 	const a = document.createElement('a');
 	a.style.display = 'none';
 	a.href = url;
-	a.download = 'LiveRecording.mp4';
+	a.download = path;
 	document.body.appendChild(a);
 	a.click();
 	setTimeout(() => {
