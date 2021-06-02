@@ -139,67 +139,67 @@
 			<div class="item3">3</div>   
 		</div>	
 <!--slide show js-->
-<script>
-var slideIndex = 0;
-showSlides();
-
-function showSlides() {
-	var i;
-	var slides = document.getElementsByClassName("mySlides");
-	var dots = document.getElementsByClassName("dot");
-	for (i = 0; i < slides.length; i++) {
-		slides[i].style.display = "none";
-	}
-	slideIndex++;
-	if (slideIndex > slides.length) {slideIndex = 1}
-	for (i = 0; i < dots.length; i++) {
-		dots[i].className = dots[i].className.replace(" active", "");
-	}
-	slides[slideIndex-1].style.display = "block";
-	dots[slideIndex-1].className += " active";
-	setTimeout(showSlides, 2000); // Change image every 2 seconds
-}
-</script>
-<script>
-			const wrapper = document.querySelector(".wrapper");
-			const fileName = document.querySelector(".file-name");
-			const defaultBtn = document.querySelector("#default-btn");
-			const customBtn = document.querySelector("#custom-btn");
-			const detectionBtn = document.querySelector("#analysis-btn");
-			const cancelBtn = document.querySelector("#cancel-btn i");
-			const img = document.querySelector("img");
-			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-			function defaultBtnActive(){
-				defaultBtn.click();
-			}
-			defaultBtn.addEventListener("change", function(){
-				const file = this.files[0];
-				if(file){
-					const reader = new FileReader();
-					reader.onload = function(){
-						const result = reader.result;
-						img.src = result;
-						wrapper.classList.add("active");
-					}
-					cancelBtn.addEventListener("click", function(){
-						img.src = "";
-						wrapper.classList.remove("active");
-					})
-					reader.readAsDataURL(file);
-				}
-				if(this.value){
-					let valueStore = this.value.match(regExp);
-					fileName.textContent = valueStore;
-				}
-			});
-		</script>
-		</script>
-		<!--for nav button-->
-		<script type="text/javascript">
-			$(".menu-toggle-btn").click(function(){
-				$(this).toggleClass("fa-times");
-				$(".navigation-menu").toggleClass("active");
-			});
-		</script>
+<!-- <script> -->
+<!-- var slideIndex = 0; -->
+<!-- showSlides(); -->
+<!--  -->
+<!-- function showSlides() { -->
+<!-- 	var i; -->
+<!-- 	var slides = document.getElementsByClassName("mySlides"); -->
+<!-- 	var dots = document.getElementsByClassName("dot"); -->
+<!-- 	for (i = 0; i < slides.length; i++) { -->
+<!-- 		slides[i].style.display = "none"; -->
+<!-- 	} -->
+<!-- 	slideIndex++; -->
+<!-- 	if (slideIndex > slides.length) {slideIndex = 1} -->
+<!-- 	for (i = 0; i < dots.length; i++) { -->
+<!-- 		dots[i].className = dots[i].className.replace(" active", ""); -->
+<!-- 	} -->
+<!-- 	slides[slideIndex-1].style.display = "block"; -->
+<!-- 	dots[slideIndex-1].className += " active"; -->
+<!-- 	setTimeout(showSlides, 2000); // Change image every 2 seconds -->
+<!-- } -->
+<!-- </script> -->
+<!-- <script> -->
+<!-- 			const wrapper = document.querySelector(".wrapper"); -->
+<!-- 			const fileName = document.querySelector(".file-name"); -->
+<!-- 			const defaultBtn = document.querySelector("#default-btn"); -->
+<!-- 			const customBtn = document.querySelector("#custom-btn"); -->
+<!-- 			const detectionBtn = document.querySelector("#analysis-btn"); -->
+<!-- 			const cancelBtn = document.querySelector("#cancel-btn i"); -->
+<!-- 			const img = document.querySelector("img"); -->
+<!-- 			let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/; -->
+<!-- 			function defaultBtnActive(){ -->
+<!-- 				defaultBtn.click(); -->
+<!-- 			} -->
+<!-- 			defaultBtn.addEventListener("change", function(){ -->
+<!-- 				const file = this.files[0]; -->
+<!-- 				if(file){ -->
+<!-- 					const reader = new FileReader(); -->
+<!-- 					reader.onload = function(){ -->
+<!-- 						const result = reader.result; -->
+<!-- 						img.src = result; -->
+<!-- 						wrapper.classList.add("active"); -->
+<!-- 					} -->
+<!-- 					cancelBtn.addEventListener("click", function(){ -->
+<!-- 						img.src = ""; -->
+<!-- 						wrapper.classList.remove("active"); -->
+<!-- 					}) -->
+<!-- 					reader.readAsDataURL(file); -->
+<!-- 				} -->
+<!-- 				if(this.value){ -->
+<!-- 					let valueStore = this.value.match(regExp); -->
+<!-- 					fileName.textContent = valueStore; -->
+<!-- 				} -->
+<!-- 			}); -->
+<!-- 		</script> -->
+<!-- 		</script> -->
+<!-- 		<!--for nav button--> -->
+<!-- 		<script type="text/javascript"> -->
+<!-- 			$(".menu-toggle-btn").click(function(){ -->
+<!-- 				$(this).toggleClass("fa-times"); -->
+<!-- 				$(".navigation-menu").toggleClass("active"); -->
+<!-- 			}); -->
+<!-- 		</script> -->
 	</body>
 </html>
