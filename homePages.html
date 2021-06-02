@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
+<script src="utils.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -159,20 +160,21 @@ span.psw {
 			<a href="RegisterForm.html"><i class="fas fa-user register"></i>RESGITER</a>
 			<div id="id01" class="modal">
 
-				<form class="modal-content animate" action="/action_page.php" method="post">
+				<form class="modal-content animate" action="demo.html" method="post">
 					<div class="imgcontainer">
 						<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-						<img src="img_avatar2.png" alt="Avatar" class="avatar">
+						<!-- <img src="img_avatar2.png" alt="Avatar" class="avatar"> -->
 					</div>
 
 					<div class="container">
 						<label for="uname"><b>Username</b></label>
-						<input type="text" placeholder="Enter Username" name="uname" required>
+						<input type="text" placeholder="Enter Username" name="uname" id="uname" required>
 
 						<label for="psw"><b>Password</b></label>
 						<input type="password" placeholder="Enter Password" name="psw" required>
 
-						<button type="submit">Login</button>
+						<!-- <button type="submit" onClick="tempCookie();">Login</button> -->
+						<button onClick="tempCookie();">Login</button>
 						<label>
 							<input type="checkbox" checked="checked" name="remember"> Remember me
 						</label>

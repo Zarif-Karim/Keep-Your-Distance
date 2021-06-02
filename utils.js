@@ -31,3 +31,18 @@ function checkCookie() {
     }
   }
 }
+
+function tempCookie() {
+        var name = document.getElementById("uname");
+        if(name){
+                setCookie("username", name.value, 365);
+        }
+}
+
+function setUserName(){
+        var show_uname = document.getElementById("show_uname");
+        var user = getCookie("username");
+        if(user != "") {
+                show_uname.innerHTML = user;
+        }
+}
