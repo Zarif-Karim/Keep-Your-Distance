@@ -34,12 +34,33 @@ let f0t1 = [];
 
 let frameNo = 0;
 
-let FOCAL_LENGTH_IN_PIXELS = 651.222;
+let calibrationBtn;
+let calibrationMode = false;
+let chartView;
+let calibrateBox;
+
+let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
 //PImage img;
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
+
+	//calibration
+	FOCAL_LENGTH_IN_PIXELS = parseFloat(getCookie('focallength')); //get from db
+	if(!FOCAL_LENGTH_IN_PIXELS) {
+		calibrationMode = true;
+	}
+
+	chartView = select("#chartsView");
+	calibrateBox = select("#calibrateBox");
+	if(calibrationMode) {
+		chartView.hide();
+		calibrateBox.show();
+	} else {
+		chartView.show();
+		calibrateBox.hide();
+	}
 }
 
 function setup() {
@@ -62,15 +83,18 @@ function setup() {
 				cST = 'Stop';
 				cameraBtn.html(cST);
 	                        loop();
-
 				dwnBtn.hide();
-				setProgressBar(50, "Stop Video");
 
-        			// var canvas = document.querySelector('canvas');
-				window.stream = canvas.captureStream(30);
-				startRecording();
+				if(!calibrationMode) {
+					setProgressBar(50, "Stop Video");
+	        			// var canvas = document.querySelector('canvas');
+					window.stream = canvas.captureStream(30);
+					startRecording();
+				} else {
+					setProgressBar(50, "Follow Calibration Steps");
+				}
 	                });
-		} else {
+		} else if (cST == 'Stop'){
 			capture.remove();
 	                stream = false;
 			cST = 'Start';
@@ -78,11 +102,28 @@ function setup() {
 	                noLoop();
 			//saveTable(data_table, getName("data/"));
 			redraw();
-			dwnBtn.show();
-			setProgressBar(75, "Download Files");
 
-      			stopRecording();
-			//sleep(1000).then(() => { download_reset(); });
+			if(!calibrationMode) {
+				dwnBtn.show();
+				setProgressBar(75, "Download Files");
+	      			stopRecording();
+				//sleep(1000).then(() => { download_reset(); });
+			} else {
+				cST = 'Calibration Done';
+				cameraBtn.html(cST);
+				setProgressBar(75, "Press Calibration Done or Recalibrate if required");
+
+			}
+		}
+		else {
+			setProgressBar(100, "Calibration Done, Please Wait...");
+			sleep(1000);
+			cST = 'Start';
+			cameraBtn.html(cST);
+			chartView.show();
+			calibrateBox.hide();
+			calibrationMode = false;
+			setProgressBar(25, "Start Video");
 		}
         });
 
@@ -104,6 +145,19 @@ function setup() {
 		dwnBtn.hide();
 		dwnBtn.mouseClicked(download_reset);
 	}
+
+	calibrationBtn = select("#c_btn");
+	if (calibrationBtn) {
+		calibrationBtn.mouseClicked(() => {
+			var distInput = select("#c_dist");
+			var widthInput = select("#c_width");
+			FOCAL_LENGTH_IN_PIXELS =
+					(parseFloat(distInput.elt.value) *
+					parseFloat(widthInput.elt.value)) /
+					averagewidth;
+			setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 365);
+		});
+	}
 }
 
 function draw() {
@@ -112,54 +166,8 @@ function draw() {
 	if(stream)
         {
                 image(capture, 0, 0, WIDTH, HEIGHT);
-                detector.detect(capture, (err, results) => {
-	                if(err) console.log(err);
-	                else {
-	                        frameData = [];
-	                	for(let i=0; i < results.length; i++) {
-	                        	if(results[i].label == "person")
-	                        	{
-	                                	frameData.push(results[i]);
-	                        	}
-	        		}
-
-	                        for(let i = 0; i < frameData.length; i++) {
-	                        	let obj = frameData[i];
-	                                stroke(0,255,0);
-	                                strokeWeight(4);
-	                                noFill();
-	                                rect(obj.x, obj.y, obj.width, obj.height);
-	                                let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
-	                                fill(255);
-	                                textSize(32);
-	                                text(i + ": " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 10);
-	                                //console.log(capture.width)
-	                        }
-
-	                        data_frameNo.push(++frameNo);
-	                        data_numObjDetected.push(frameData.length);
-				let dist = [];
-				let incidents = 0;
-				for(let i = 0; i < frameData.length; i++){
-				        for(let j = i+1; j < frameData.length; j++){
-				                dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
-						if(dist[i] <= incident_tolerance) incidents++;
-						if(i==0 && j==1) f0t1.push(dist[0]);
-				        }
-				}
-				/*if(dist.length > 0)*/
-				data_distances.push(dist);
-				data_incidents.push(incidents);
-
-				let newRow = data_table.addRow();
-				newRow.setNum('Frame_Number', frameNo);
-				newRow.setNum('Objects_Detected', frameData.length);
-				newRow.setNum('Incidents_Occured', incidents);
-
-				//update graphs
-				update();
-	                }
-                });
+                if(calibrationMode) detector.detect(capture, calibrate_device);
+		else detector.detect(capture, video_data);
         }
 }
 
@@ -199,7 +207,16 @@ function download_reset(){
        //add mechanism to  refresh chart datasets
 
        dwnBtn.hide();
-       setProgressBar(100, "Finished -> Refresh Page To Start New");
+
+       let timer = 5;
+       let id = setInterval(()=>{
+	       	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
+		timer--;
+		if (timer == 0) {
+			clearInterval(id);
+			window.location.reload();
+		}
+       }, 1000);
 }
 
 function getName(path) {
@@ -327,4 +344,74 @@ function downloadRecording(path) {
 	       document.body.removeChild(a);
 	       window.URL.revokeObjectURL(url);
        }, 100);
+}
+
+function video_data(err, results) {
+	if(err) console.log(err);
+	else {
+		frameData = [];
+		for(let i=0; i < results.length; i++) {
+			if(results[i].label == "person")
+			{
+				frameData.push(results[i]);
+			}
+		}
+
+		for(let i = 0; i < frameData.length; i++) {
+			let obj = frameData[i];
+			stroke(0,255,0);
+			strokeWeight(4);
+			noFill();
+			rect(obj.x, obj.y, obj.width, obj.height);
+			let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
+			fill(255);
+			textSize(32);
+			text(i + ": " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 10);
+			//console.log(capture.width)
+		}
+
+		data_frameNo.push(++frameNo);
+		data_numObjDetected.push(frameData.length);
+		let dist = [];
+		let incidents = 0;
+		for(let i = 0; i < frameData.length; i++){
+			for(let j = i+1; j < frameData.length; j++){
+				dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
+				if(dist[i] <= incident_tolerance) incidents++;
+				if(i==0 && j==1) f0t1.push(dist[0]);
+			}
+		}
+		/*if(dist.length > 0)*/
+		data_distances.push(dist);
+		data_incidents.push(incidents);
+
+		let newRow = data_table.addRow();
+		newRow.setNum('Frame_Number', frameNo);
+		newRow.setNum('Objects_Detected', frameData.length);
+		newRow.setNum('Incidents_Occured', incidents);
+
+		//update graphs
+		update();
+	}
+}
+
+function calibrate_device(err, results) {
+	if(err) console.log(err);
+	else {
+		for(let i = 0; i < results.length; i++) {
+			let obj = results[i];
+			stroke(0,255,0);
+			strokeWeight(4);
+			noFill();
+			rect(obj.x, obj.y, obj.width, obj.height);
+			fill(255);
+			textSize(32);
+			text("width: " + nf(obj.width,0,2), obj.x + 10, obj.y + obj.height - 10);
+			if(FOCAL_LENGTH_IN_PIXELS) {
+				let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
+				text("distance: " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 30);
+			}
+			//console.log(capture.width)
+		}
+	}
 }
