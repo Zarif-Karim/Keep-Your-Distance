@@ -1,3 +1,28 @@
+function getVideo(videoName) {
+        const video = document.querySelector("#uploaded");
+
+        fetch(videoName, {
+                method: 'GET',
+        })
+        .then(response => response.blob())
+        .then(result => {
+                        const reader = new FileReader();
+
+                        reader.addEventListener("load", function () {
+                                        // convert image file to base64 string
+                                        video.src = reader.result;
+                                        video.load();
+                        });
+                        if (result) {
+                                reader.readAsDataURL(result);
+                        }
+                console.log('Success: video loaded');
+        })
+        .catch(error => {
+                console.log('Error:', error);
+        });
+}
+
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
