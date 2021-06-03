@@ -12,7 +12,6 @@ let mediaRecorder; //reference to media recorder constructor
 let recordedBlobs; //store the bytes recorded by webcam
 let errorMsgElement;
 
-let dwnBtn;
 let cST = 'Start';
 let stream = false;
 
@@ -41,7 +40,6 @@ let calibrateBox;
 
 let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
-//PImage img;
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
@@ -64,7 +62,6 @@ function preload() {
 }
 
 function setup() {
-        //createCanvas(windowWidth, windowHeight);
         cnv = createCanvas(WIDTH, HEIGHT);
         cnv.parent("#canvas-container");
 
@@ -83,7 +80,6 @@ function setup() {
 				cST = 'Stop';
 				cameraBtn.html(cST);
 	                        loop();
-				dwnBtn.hide();
 
 				if(!calibrationMode) {
 					setProgressBar(50, "Stop Video");
@@ -103,16 +99,22 @@ function setup() {
 			redraw();
 
 			if(!calibrationMode) {
-				dwnBtn.show();
 				setProgressBar(75, "Download Files");
 	      			stopRecording();
-				//sleep(1000).then(() => { download_reset(); });
+				sleep(1000).then(() => {
+					download_reset();
+					cST = 'Refresh';
+					cameraBtn.html(cST);
+				});
 			} else {
 				cST = 'Calibration Done';
 				cameraBtn.html(cST);
 				setProgressBar(75, "Press Calibration Done or Recalibrate if required");
 
 			}
+		}
+		else if(cST == 'Refresh') {
+			window.location.reload();
 		}
 		else {
 			setProgressBar(100, "Calibration Done, Please Wait...");
@@ -138,12 +140,6 @@ function setup() {
 	data_table.addColumn('Frame_Number');
 	data_table.addColumn('Objects_Detected');
 	data_table.addColumn('Incidents_Occured');
-
-	dwnBtn = select("#dwn-btn");
-	if (dwnBtn) {
-		dwnBtn.hide();
-		dwnBtn.mouseClicked(download_reset);
-	}
 
 	calibrationBtn = select("#c_btn");
 	if (calibrationBtn) {
@@ -190,24 +186,27 @@ function sleep(ms) {
 }
 
 function download_reset(){
+	setProgressBar(85, "Files Being Uploaded....");
        let filename = getName("data/");
+       console.log(filename);
        try {
-	       saveTable(data_table, filename+".csv");
-	       saveDataTable(data_table, filename, "csv");
+	       saveDataTable();
+	       setProgressBar(90, "Video Data Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        try {
 	       downloadRecording();
+	       setProgressBar(95, "Video File Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        //add mechanism to  refresh chart datasets
 
-       dwnBtn.hide();
-
+	//Refreshing page for now....
+	setProgressBar(100, "Uploading Finished: Refresh Page");
        // let timer = 5;
        // let id = setInterval(()=>{
 	//        	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
@@ -231,7 +230,7 @@ function saveDataTable() {
 		rd += "\n";
 		toWrite.push(rd);
 	}
-	
+
 	if(toWrite.length > 0) {
 		console.log(toWrite);
 		let file = new File(toWrite, "file.csv", {type: "text/csv"});
@@ -256,9 +255,8 @@ function saveDataTable() {
 }
 
 function getName(path) {
-       let name = path + day() + "-" + month() + "-" + year()
-		       + " ["  + hour() + "-" + minute() + "-" + second()
-		       + "]";
+       let name = path + day() + "." + month() + "." + year()
+		       + " "  + hour() + "-" + minute() + "-" + second();
        return name;
 }
 
