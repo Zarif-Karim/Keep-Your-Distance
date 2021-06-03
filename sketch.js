@@ -12,7 +12,6 @@ let mediaRecorder; //reference to media recorder constructor
 let recordedBlobs; //store the bytes recorded by webcam
 let errorMsgElement;
 
-let dwnBtn;
 let cST = 'Start';
 let stream = false;
 
@@ -41,7 +40,6 @@ let calibrateBox;
 
 let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
-//PImage img;
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
@@ -64,7 +62,6 @@ function preload() {
 }
 
 function setup() {
-        //createCanvas(windowWidth, windowHeight);
         cnv = createCanvas(WIDTH, HEIGHT);
         cnv.parent("#canvas-container");
 
@@ -83,7 +80,6 @@ function setup() {
 				cST = 'Stop';
 				cameraBtn.html(cST);
 	                        loop();
-				dwnBtn.hide();
 
 				if(!calibrationMode) {
 					setProgressBar(50, "Stop Video");
@@ -100,20 +96,25 @@ function setup() {
 			cST = 'Start';
 			cameraBtn.html(cST);
 	                noLoop();
-			//saveTable(data_table, getName("data/"));
 			redraw();
 
 			if(!calibrationMode) {
-				dwnBtn.show();
 				setProgressBar(75, "Download Files");
 	      			stopRecording();
-				//sleep(1000).then(() => { download_reset(); });
+				sleep(1000).then(() => {
+					download_reset();
+					cST = 'Refresh';
+					cameraBtn.html(cST);
+				});
 			} else {
 				cST = 'Calibration Done';
 				cameraBtn.html(cST);
 				setProgressBar(75, "Press Calibration Done or Recalibrate if required");
 
 			}
+		}
+		else if(cST == 'Refresh') {
+			window.location.reload();
 		}
 		else {
 			setProgressBar(100, "Calibration Done, Please Wait...");
@@ -139,12 +140,6 @@ function setup() {
 	data_table.addColumn('Frame_Number');
 	data_table.addColumn('Objects_Detected');
 	data_table.addColumn('Incidents_Occured');
-
-	dwnBtn = select("#dwn-btn");
-	if (dwnBtn) {
-		dwnBtn.hide();
-		dwnBtn.mouseClicked(download_reset);
-	}
 
 	calibrationBtn = select("#c_btn");
 	if (calibrationBtn) {
@@ -191,38 +186,77 @@ function sleep(ms) {
 }
 
 function download_reset(){
+	setProgressBar(85, "Files Being Uploaded....");
        let filename = getName("data/");
+       console.log(filename);
        try {
-	       saveTable(data_table, filename+".csv");
+	       saveDataTable();
+	       setProgressBar(90, "Video Data Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        try {
-	       downloadRecording(filename+".mp4");
+	       downloadRecording();
+	       setProgressBar(95, "Video File Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        //add mechanism to  refresh chart datasets
 
-       dwnBtn.hide();
+	//Refreshing page for now....
+	setProgressBar(100, "Uploading Finished: Refresh Page");
+       // let timer = 5;
+       // let id = setInterval(()=>{
+	//        	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
+	// 	timer--;
+	// 	if (timer == 0) {
+	// 		clearInterval(id);
+	// 		window.location.reload();
+	// 	}
+       // }, 1000);
+}
 
-       let timer = 5;
-       let id = setInterval(()=>{
-	       	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
-		timer--;
-		if (timer == 0) {
-			clearInterval(id);
-			window.location.reload();
+function saveDataTable() {
+	//let test = ["0,1,2,3", "1,2,3,4", "2,3,4,5"];
+	let toWrite = [];
+	let td = data_table.getArray();
+	for(let i = 0; i< td.length; i++) { //rows
+		let rd = "";
+		for(let j = 0; j < td[i].length; j++) { //columns
+			rd += td[i][j] + ",";
 		}
-       }, 1000);
+		rd += "\n";
+		toWrite.push(rd);
+	}
+
+	if(toWrite.length > 0) {
+		console.log(toWrite);
+		let file = new File(toWrite, "file.csv", {type: "text/csv"});
+		if(file){
+		      //make form and send data to php script to upload to server.
+		      const formData = new FormData();
+		      formData.append('file', file);
+
+		      fetch('fileuploaded.php', {
+			method: 'POST',
+			body: formData
+		      })
+		      .then(response => response.text())
+		      .then(result => {
+			console.log('Success:', result);
+		      })
+		      .catch(error => {
+			console.log('Error:', error);
+		      });
+		}
+	}
 }
 
 function getName(path) {
-       let name = path + day() + "-" + month() + "-" + year()
-		       + " ["  + hour() + "-" + minute() + "-" + second()
-		       + "]";
+       let name = path + day() + "." + month() + "." + year()
+		       + " "  + hour() + "-" + minute() + "-" + second();
        return name;
 }
 
@@ -331,19 +365,28 @@ function stopRecording() {
        mediaRecorder.stop();
 }
 
-function downloadRecording(path) {
+function downloadRecording() {
        const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
-       const url = window.URL.createObjectURL(blob);
-       const a = document.createElement('a');
-       a.style.display = 'none';
-       a.href = url;
-       a.download = path;
-       document.body.appendChild(a);
-       a.click();
-       setTimeout(() => {
-	       document.body.removeChild(a);
-	       window.URL.revokeObjectURL(url);
-       }, 100);
+
+	let file =  new File([blob], "vid.mp4",{type: "video/mp4"});
+       //const file = this.files[0];
+       if(file){
+	       //make form and send data to php script to upload to server.
+	       const formData = new FormData();
+	       formData.append('file', file);
+
+	       fetch('fileuploaded.php', {
+		 method: 'POST',
+		 body: formData
+	       })
+	       .then(response => response.text())
+	       .then(result => {
+		 console.log('Success:', result);
+	       })
+	       .catch(error => {
+		 console.log('Error:', error);
+	       });
+       }
 }
 
 function video_data(err, results) {

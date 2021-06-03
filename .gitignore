@@ -1,11 +1,3 @@
-
-models/*
-ignoredir/*
 .DS_Store
-index.html
-sketch_index.js
-style_p5.css
 uploads/*
-processed/*
 data/*
-
