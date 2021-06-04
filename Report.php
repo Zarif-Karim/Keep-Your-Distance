@@ -1,3 +1,30 @@
+<?php
+	session_start();
+	require_once("php/dbconn.php");
+
+	$uID;
+	if(!isset($_SESSION['userId'])){
+		//page not accessable if not logged
+		die("User Information not available");
+		header("Location: http://localhost/Keep-Your-Distance/homePages.html");
+	} else {
+		$uID = $_SESSION['userId'];
+	}
+
+	$data = $dbConn->query("SELECT name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
+	// $startDate = date("Y-m-d h:m:s", strtotime("+2 days"));
+	// $endDate = date("Y-m-d h:m:s",strtotime("+1 month"));
+
+	// if(isset($_REQUEST['submit'])){
+	// 	$flight = $_POST['flightId'];
+	// 	$status = $dbConn->escape_string($_POST['status']);
+	//
+	// 	$update = "UPDATE flight SET status = '$status' WHERE id = $flight;";
+	// 	if(!($dbConn->query($update))) die('Update to flight table failed: '.$dbConn->error);
+	// }
+	//$sql = $dbConn->query("SELECT * FROM flight WHERE flight_datetime >= '$startDate' AND flight_datetime <= '$endDate';") OR die('Query Failed: '.$dbConn->error);
+?>
+
 <!DOCTYPE html>
 <html>
 <title>Keep Your Distance Report</title>
@@ -30,11 +57,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 			<a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
 			<i class="menu-toggle-btn fas fa-bars"></i>
 		 <nav class="navigation-menu" style="height:10px;">
-			<p><span class="Welcome">Welcome <strong id="show_uname"></strong></span></p>
+			<p><span class="Welcome">Welcome <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span></p>
 			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
 			<a href="demo.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
-			<a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
-			<a href="homePages.html"><i class="fa fa-sign-out" style="color:lightblue;"></i>Sign out</a>
+			<a href="Report.php"><i class="fas fa-headset report"></i>REPORT</a>
+			<a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>Sign out</a>
 		 </nav>
 		</div>
 </div>
@@ -47,7 +74,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       <img src="icon.png" class="w3-circle w3-margin-right" style="width:46px">
     </div>
     <div class="w3-col s8 w3-bar">
-      <span>Welcome, <strong id="show_uname"></strong></span><br>
+      <span>Welcome, <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span><br>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
     </div>
@@ -60,7 +87,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="homePages.html" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
     <a href="demo.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  System Demo</a>
-    <a href="Report.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
+    <a href="Report.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
   </div>
 </nav>
 
@@ -136,16 +163,26 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
             <div class="left-area">
               <span id="ss_elem">Video List:</span>
               <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
-                <li id="ss_elem_Np" role="option">garden.mp4</li>
+		<?php
+			if($data->num_rows) {
+				while($vf = $data->fetch_assoc()) {
+					echo '<li id="ss_elem_Np" role="option">'.$vf['name'].'</li>';
+				}
+			} else {
+				echo '<li id="ss_elem_Np" role="option">No Videos</li>';
+			}
+
+			$dbConn->close();
+		?>
                 <li id="ss_elem_Pu" role="option">video.mp4</li>
-                <li id="ss_elem_Am" role="option">security.mp4</li>
+                <!-- <li id="ss_elem_Am" role="option">security.mp4</li>
                 <li id="ss_elem_Cm" role="option">video1.mp4</li>
                 <li id="ss_elem_Bk" role="option">video2.mp4</li>
                 <li id="ss_elem_Cf" role="option">video3.mp4</li>
                 <li id="ss_elem_Es" role="option">video4.mp4</li>
                 <li id="ss_elem_Fm" role="option">video5.mp4</li>
                 <li id="ss_elem_Md" role="option">video6.mp4</li>
-                <li id="ss_elem_No" role="option">video7.mp4</li>
+                <li id="ss_elem_No" role="option">video7.mp4</li> -->
               </ul>
             </div>
             <div class="button">
