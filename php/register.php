@@ -17,7 +17,7 @@
  		} else {
  			$_SESSION['userId'] = $dbConn->insert_id;
  			$_SESSION['userName'] = $name;
- 			header("Location: http://localhost/Keep-Your-Distance/Report.html");
+ 			header("Location: http://localhost/Keep-Your-Distance/Report.php");
  		}
  	}
 	else {
