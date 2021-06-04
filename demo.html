@@ -62,6 +62,8 @@
                         <div class="button">
                           <button id="start-btn" style="margin-bottom: 10px;">Start</button>
                           <button id="dwn-btn">Download & Reset</button>
+                          <button id="start-btn">Start</button>
+                          <!-- <button id="dwn-btn">Download & Reset</button> -->
                         </div>
                         <div class="input-text">
                         </div>
@@ -80,6 +82,25 @@
                     <div class="chart2"><canvas id = "chart2" width="auto" height="100px"></canvas></div>
                         </div>
                         <div id="calibrateBox">
+                                <div id="instruction_list">
+                                        <p>
+                                        <strong>How to calibrate:</strong><br>
+                                                1. Turn on camera<br>
+                                                2. Select a known distance to be stood away from camera<br>
+                                                   Enter Distance in meters : <input type="number" placeholder="0.2" id="c_dist"><br>
+                                                3. Stand entered distance away form the camera<br>
+                                                4. Observe width from screen<br>
+                                                (Stand straight and square facing towards the camera)<br>
+                                                5. Enter Width in pixels: <input type="number" placeholder="352" id="c_width"><br>
+                                                6. Click Calibrate <button id="c_btn">Calibrate</button><br>
+                                                7. Observe distance on screen for resonable accuracy<br>
+                                                   (Repeat steps 2 - 7 for recalibration)<br>
+                                                8. Turn off camera<br>
+                                                9. Select Calibration Done<br>
+                                                <br>
+
+                                        </p>
+                                </div>
                         </div>
                       </div>
                       <!-- nav function--->

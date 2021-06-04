@@ -12,7 +12,6 @@ let mediaRecorder; //reference to media recorder constructor
 let recordedBlobs; //store the bytes recorded by webcam
 let errorMsgElement;
 
-let dwnBtn;
 let cST = 'Start';
 let stream = false;
 
@@ -34,16 +33,35 @@ let f0t1 = [];
 
 let frameNo = 0;
 
-let FOCAL_LENGTH_IN_PIXELS = 651.222;
+let calibrationBtn;
+let calibrationMode = false;
+let chartView;
+let calibrateBox;
+
+let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
-//PImage img;
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
+
+	//calibration
+	FOCAL_LENGTH_IN_PIXELS = parseFloat(getCookie('focallength')); //get from db
+	if(!FOCAL_LENGTH_IN_PIXELS) {
+		calibrationMode = true;
+	}
+
+	chartView = select("#chartsView");
+	calibrateBox = select("#calibrateBox");
+	if(calibrationMode) {
+		chartView.hide();
+		calibrateBox.show();
+	} else {
+		chartView.show();
+		calibrateBox.hide();
+	}
 }
 
 function setup() {
-        //createCanvas(windowWidth, windowHeight);
         cnv = createCanvas(WIDTH, HEIGHT);
         cnv.parent("#canvas-container");
 
@@ -63,26 +81,50 @@ function setup() {
 				cameraBtn.html(cST);
 	                        loop();
 
-				dwnBtn.hide();
-				setProgressBar(50, "Stop Video");
-
-        			// var canvas = document.querySelector('canvas');
-				window.stream = canvas.captureStream(30);
-				startRecording();
+				if(!calibrationMode) {
+					setProgressBar(50, "Stop Video");
+	        			// var canvas = document.querySelector('canvas');
+					window.stream = canvas.captureStream(30);
+					startRecording();
+				} else {
+					setProgressBar(50, "Follow Calibration Steps");
+				}
 	                });
-		} else {
+		} else if (cST == 'Stop'){
 			capture.remove();
 	                stream = false;
 			cST = 'Start';
 			cameraBtn.html(cST);
 	                noLoop();
-			//saveTable(data_table, getName("data/"));
 			redraw();
-			dwnBtn.show();
-			setProgressBar(75, "Download Files");
 
-      			stopRecording();
-			//sleep(1000).then(() => { download_reset(); });
+			if(!calibrationMode) {
+				setProgressBar(75, "Download Files");
+	      			stopRecording();
+				sleep(1000).then(() => {
+					download_reset();
+					cST = 'Refresh';
+					cameraBtn.html(cST);
+				});
+			} else {
+				cST = 'Calibration Done';
+				cameraBtn.html(cST);
+				setProgressBar(75, "Press Calibration Done or Recalibrate if required");
+
+			}
+		}
+		else if(cST == 'Refresh') {
+			window.location.reload();
+		}
+		else {
+			setProgressBar(100, "Calibration Done, Please Wait...");
+			sleep(1000);
+			cST = 'Start';
+			cameraBtn.html(cST);
+			chartView.show();
+			calibrateBox.hide();
+			calibrationMode = false;
+			setProgressBar(25, "Start Video");
 		}
         });
 
@@ -99,10 +141,17 @@ function setup() {
 	data_table.addColumn('Objects_Detected');
 	data_table.addColumn('Incidents_Occured');
 
-	dwnBtn = select("#dwn-btn");
-	if (dwnBtn) {
-		dwnBtn.hide();
-		dwnBtn.mouseClicked(download_reset);
+	calibrationBtn = select("#c_btn");
+	if (calibrationBtn) {
+		calibrationBtn.mouseClicked(() => {
+			var distInput = select("#c_dist");
+			var widthInput = select("#c_width");
+			FOCAL_LENGTH_IN_PIXELS =
+					(parseFloat(distInput.elt.value) *
+					parseFloat(widthInput.elt.value)) /
+					averagewidth;
+			setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 365);
+		});
 	}
 }
 
@@ -112,54 +161,8 @@ function draw() {
 	if(stream)
         {
                 image(capture, 0, 0, WIDTH, HEIGHT);
-                detector.detect(capture, (err, results) => {
-	                if(err) console.log(err);
-	                else {
-	                        frameData = [];
-	                	for(let i=0; i < results.length; i++) {
-	                        	if(results[i].label == "person")
-	                        	{
-	                                	frameData.push(results[i]);
-	                        	}
-	        		}
-
-	                        for(let i = 0; i < frameData.length; i++) {
-	                        	let obj = frameData[i];
-	                                stroke(0,255,0);
-	                                strokeWeight(4);
-	                                noFill();
-	                                rect(obj.x, obj.y, obj.width, obj.height);
-	                                let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
-	                                fill(255);
-	                                textSize(32);
-	                                text(i + ": " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 10);
-	                                //console.log(capture.width)
-	                        }
-
-	                        data_frameNo.push(++frameNo);
-	                        data_numObjDetected.push(frameData.length);
-				let dist = [];
-				let incidents = 0;
-				for(let i = 0; i < frameData.length; i++){
-				        for(let j = i+1; j < frameData.length; j++){
-				                dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
-						if(dist[i] <= incident_tolerance) incidents++;
-						if(i==0 && j==1) f0t1.push(dist[0]);
-				        }
-				}
-				/*if(dist.length > 0)*/
-				data_distances.push(dist);
-				data_incidents.push(incidents);
-
-				let newRow = data_table.addRow();
-				newRow.setNum('Frame_Number', frameNo);
-				newRow.setNum('Objects_Detected', frameData.length);
-				newRow.setNum('Incidents_Occured', incidents);
-
-				//update graphs
-				update();
-	                }
-                });
+                if(calibrationMode) detector.detect(capture, calibrate_device);
+		else detector.detect(capture, video_data);
         }
 }
 
@@ -183,29 +186,77 @@ function sleep(ms) {
 }
 
 function download_reset(){
+	setProgressBar(85, "Files Being Uploaded....");
        let filename = getName("data/");
+       console.log(filename);
        try {
-	       saveTable(data_table, filename+".csv");
+	       saveDataTable();
+	       setProgressBar(90, "Video Data Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        try {
-	       downloadRecording(filename+".mp4");
+	       downloadRecording();
+	       setProgressBar(95, "Video File Uploaded....");
        } catch (error) {
 	       console.error(error);
        }
 
        //add mechanism to  refresh chart datasets
 
-       dwnBtn.hide();
-       setProgressBar(100, "Finished -> Refresh Page To Start New");
+	//Refreshing page for now....
+	setProgressBar(100, "Uploading Finished: Refresh Page");
+       // let timer = 5;
+       // let id = setInterval(()=>{
+	//        	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
+	// 	timer--;
+	// 	if (timer == 0) {
+	// 		clearInterval(id);
+	// 		window.location.reload();
+	// 	}
+       // }, 1000);
+}
+
+function saveDataTable() {
+	//let test = ["0,1,2,3", "1,2,3,4", "2,3,4,5"];
+	let toWrite = [];
+	let td = data_table.getArray();
+	for(let i = 0; i< td.length; i++) { //rows
+		let rd = "";
+		for(let j = 0; j < td[i].length; j++) { //columns
+			rd += td[i][j] + ",";
+		}
+		rd += "\n";
+		toWrite.push(rd);
+	}
+
+	if(toWrite.length > 0) {
+		console.log(toWrite);
+		let file = new File(toWrite, "file.csv", {type: "text/csv"});
+		if(file){
+		      //make form and send data to php script to upload to server.
+		      const formData = new FormData();
+		      formData.append('file', file);
+
+		      fetch('fileuploaded.php', {
+			method: 'POST',
+			body: formData
+		      })
+		      .then(response => response.text())
+		      .then(result => {
+			console.log('Success:', result);
+		      })
+		      .catch(error => {
+			console.log('Error:', error);
+		      });
+		}
+	}
 }
 
 function getName(path) {
-       let name = path + day() + "-" + month() + "-" + year()
-		       + " ["  + hour() + "-" + minute() + "-" + second()
-		       + "]";
+       let name = path + day() + "." + month() + "." + year()
+		       + " "  + hour() + "-" + minute() + "-" + second();
        return name;
 }
 
@@ -314,17 +365,96 @@ function stopRecording() {
        mediaRecorder.stop();
 }
 
-function downloadRecording(path) {
+function downloadRecording() {
        const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
-       const url = window.URL.createObjectURL(blob);
-       const a = document.createElement('a');
-       a.style.display = 'none';
-       a.href = url;
-       a.download = path;
-       document.body.appendChild(a);
-       a.click();
-       setTimeout(() => {
-	       document.body.removeChild(a);
-	       window.URL.revokeObjectURL(url);
-       }, 100);
+
+	let file =  new File([blob], "vid.mp4",{type: "video/mp4"});
+       //const file = this.files[0];
+       if(file){
+	       //make form and send data to php script to upload to server.
+	       const formData = new FormData();
+	       formData.append('file', file);
+
+	       fetch('fileuploaded.php', {
+		 method: 'POST',
+		 body: formData
+	       })
+	       .then(response => response.text())
+	       .then(result => {
+		 console.log('Success:', result);
+	       })
+	       .catch(error => {
+		 console.log('Error:', error);
+	       });
+       }
+}
+
+function video_data(err, results) {
+	if(err) console.log(err);
+	else {
+		frameData = [];
+		for(let i=0; i < results.length; i++) {
+			if(results[i].label == "person")
+			{
+				frameData.push(results[i]);
+			}
+		}
+
+		for(let i = 0; i < frameData.length; i++) {
+			let obj = frameData[i];
+			stroke(0,255,0);
+			strokeWeight(4);
+			noFill();
+			rect(obj.x, obj.y, obj.width, obj.height);
+			let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
+			fill(255);
+			textSize(32);
+			text(i + ": " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 10);
+			//console.log(capture.width)
+		}
+
+		data_frameNo.push(++frameNo);
+		data_numObjDetected.push(frameData.length);
+		let dist = [];
+		let incidents = 0;
+		for(let i = 0; i < frameData.length; i++){
+			for(let j = i+1; j < frameData.length; j++){
+				dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
+				if(dist[i] <= incident_tolerance) incidents++;
+				if(i==0 && j==1) f0t1.push(dist[0]);
+			}
+		}
+		/*if(dist.length > 0)*/
+		data_distances.push(dist);
+		data_incidents.push(incidents);
+
+		let newRow = data_table.addRow();
+		newRow.setNum('Frame_Number', frameNo);
+		newRow.setNum('Objects_Detected', frameData.length);
+		newRow.setNum('Incidents_Occured', incidents);
+
+		//update graphs
+		update();
+	}
+}
+
+function calibrate_device(err, results) {
+	if(err) console.log(err);
+	else {
+		for(let i = 0; i < results.length; i++) {
+			let obj = results[i];
+			stroke(0,255,0);
+			strokeWeight(4);
+			noFill();
+			rect(obj.x, obj.y, obj.width, obj.height);
+			fill(255);
+			textSize(32);
+			text("width: " + nf(obj.width,0,2), obj.x + 10, obj.y + obj.height - 10);
+			if(FOCAL_LENGTH_IN_PIXELS) {
+				let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
+				text("distance: " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 30);
+			}
+			//console.log(capture.width)
+		}
+	}
 }

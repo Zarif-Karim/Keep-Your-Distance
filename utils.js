@@ -1,6 +1,13 @@
-function getVideo(videoName) {
+function getVideo() {
         const video = document.querySelector("#uploaded");
 
+        //get video name from file addEventListener
+        //...............
+        //...............
+        //...............
+        //test name
+        let videoName = "video.mp4";
+        
         fetch(videoName, {
                 method: 'GET',
         })
