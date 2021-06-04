@@ -287,9 +287,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       table.forEach(row =>
       {
         const columns = row.split(',');
-        const Cultime = columns[2];
+        const Cultime = columns[x];
         xlabels.push(Cultime);
-        const distance = columns[4];
+        const distance = columns[y];
          yDist.push(parseFloat(distance));
         console.log(Cultime, distance);
       });
