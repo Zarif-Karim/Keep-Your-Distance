@@ -276,9 +276,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   });
   }
 
-    getData();
+    getData(2,4);
 
-    async function getData(){
+    async function getData(x,y){
       const response = await fetch('live-camera.csv');
       const data = await response.text();
 
