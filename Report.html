@@ -14,7 +14,7 @@
 <script src="https://unpkg.com/ml5@0.6.1/dist/ml5.min.js" type="text/javascript"></script>
 <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
 <script src="utils.js"></script>
-
+<link rel="stylesheet" href="listbox.css">
 <style>
 html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 </style>
@@ -65,12 +65,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-row-padding w3-margin-bottom">
     <div class="w3-quarter">
       <div class="w3-container w3-red w3-padding-16">
-        <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-camera w3-xxxlarge"></i></div>
         <div class="w3-right">
           <h3>52</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Messages</h4>
+        <h4>Video</h4>
       </div>
     </div>
     <div class="w3-quarter">
@@ -107,22 +107,47 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
-      <div class="w3-one">
-        <h5>Regions</h5>
+      <div class="w3-third">
+        <h5>Video</h5>
         <!-- <div id="canvas-container"></div> -->
-        <div class="w3-two">
         <div class="video">
                 <video id="uploaded" controls height="300" width="400">
                 </video>
         </div>
-        <div class="button">
-          <button id="start-btn" onClick="getVideo('video.mp4');">Play Video</button>
+        </div>
+        <div class="w3-twothird">
+        <div id="ex" style="margin-left: 50px;">
+          <p>Choose your previous video.</p>
+          <div class="listbox-area">
+            <div class="left-area">
+              <span id="ss_elem">Video List:</span>
+              <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
+                <li id="ss_elem_Np" role="option">garden.mp4</li>
+                <li id="ss_elem_Pu" role="option">video.mp4</li>
+                <li id="ss_elem_Am" role="option">security.mp4</li>
+                <li id="ss_elem_Cm" role="option">video1.mp4</li>
+                <li id="ss_elem_Bk" role="option">video2.mp4</li>
+                <li id="ss_elem_Cf" role="option">video3.mp4</li>
+                <li id="ss_elem_Es" role="option">video4.mp4</li>
+                <li id="ss_elem_Fm" role="option">video5.mp4</li>
+                <li id="ss_elem_Md" role="option">video6.mp4</li>
+                <li id="ss_elem_No" role="option">video7.mp4</li>
+                <li id="ss_elem_No" role="option">video8.mp4</li>
+              </ul>
+            </div>
+            <div class="button">
+              <button id="start-btn" onClick="getVideo('video.mp4');">Play Video</button>
+            </div>
+            <div class="button">
+              <button id="delete-btn" onClick="getVideo('video.mp4');">Delete Video</button>
+            </div>
+          </div>
         </div>
         </div>
-          <div><canvas id = "chart" width="auto" height="100px" style="background-color: white;"></canvas></div>
+        <hr>
+          <div><canvas id = "chart" width="auto" height="100px" style="background-color: white; margin-top: 10px;"></canvas></div>
         </div>
-      </div>
-      <div class="w3-third">
+      <div class="w3-twothird">
         <h5>Feeds</h5>
         <div><canvas id = "chart" width="auto" height="100px"></canvas></div>
         <table class="w3-table w3-striped w3-white">
@@ -164,68 +189,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </table>
       </div>
     </div>
-  </div>
-  <hr>
-  <div class="w3-container">
-    <h5>General Stats</h5>
-    <p>New Video</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+50%</div>
-    </div>
+     <footer class="w3-container w3-padding-10 w3-light-grey">
+      <p style="background-color: white; text-align: center;">Thank you to vist our system</p>
+      </footer>
 
-    <p>New Users</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
-    </div>
-
-    <p>Bounce Rate</p>
-    <div class="w3-grey">
-      <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
-    </div>
-  </div>
   <hr>
-  <div class="w3-container">
-    <h5>Recent Users</h5>
-    <ul class="w3-ul w3-card-4 w3-white">
-      <li class="w3-padding-16">
-        <!-- <img src="/w3images/avatar2.png" class="w3-left w3-circle w3-margin-right" style="width:35px"> -->
-        <span class="w3-xlarge">Kieu</span><br>
-      </li>
-      <li class="w3-padding-16">
-        <!-- <img src="/w3images/avatar5.png" class="w3-left w3-circle w3-margin-right" style="width:35px"> -->
-        <span class="w3-xlarge">Zarif</span><br>
-      </li>
-      <li class="w3-padding-16">
-        <!-- <img src="/w3images/avatar6.png" class="w3-left w3-circle w3-margin-right" style="width:35px"> -->
-        <span class="w3-xlarge">Aakash</span><br>
-      </li>
-    </ul>
-  </div>
-  <hr>
-  <br>
-  <div class="w3-container w3-dark-grey w3-padding-32">
-    <div class="w3-row">
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-green">Demographic</h5>
-        <p>Language</p>
-        <p>Country</p>
-        <p>City</p>
-      </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-red">System</h5>
-        <p>Browser</p>
-        <p>OS</p>
-        <p>More</p>
-      </div>
-      <div class="w3-container w3-third">
-        <h5 class="w3-bottombar w3-border-orange">Target</h5>
-        <p>Users</p>
-        <p>Active</p>
-        <p>Geo</p>
-        <p>Interests</p>
-      </div>
-    </div>
-  </div>
+ 
                               <!-- nav function--->
 <script type="text/javascript">
   $(".menu-toggle-btn").click(function(){
@@ -330,10 +299,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   </script>
 
   <!-- Footer -->
-  <footer class="w3-container w3-padding-16 w3-light-grey">
-
-  </footer>
-
+ 
   <!-- End page content -->
 </div>
 
