@@ -10,14 +10,64 @@
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="login_style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Custom links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
 </head>
 <body>
+        <header>
+		<div class="inner-width">
+			<a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+			<i class="menu-toggle-btn fas fa-bars"></i>
+		 <nav class="navigation-menu">
+			<p><span>Welcome <strong id="show_uname"></strong></span></p>
+			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+			<a href="demo.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+			<a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
+			<!-- <a href="login_register.html"><i class="fa fa-sign-in"></i>LOGIN</a> -->
+		 </nav>
+		</div>
+	</header>
 
     <div class="main">
 
+        <!-- Sing in  Form -->
+        <section class="sign-in" id="loginForm">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="#" onclick="changeDisplay('register');" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign In</h2>
+                        <form method="POST" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Sign up form -->
-        <section class="signup">
+        <section class="signup" id="registerForm" hidden>
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
@@ -50,40 +100,7 @@
                     </div>
                     <div class="signup-image">
                         <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">I am already a member</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sing in  Form -->
-        <section class="sign-in">
-            <div class="container">
-                <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Create an account</a>
-                    </div>
-
-                    <div class="signin-form">
-                        <h2 class="form-title">Sign In</h2>
-                        <form method="POST" class="register-form" id="login-form">
-                            <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
-                            </div>
-                        </form>
+                        <a href="#" onclick="changeDisplay('login');" class="signup-image-link">I am already a member</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +109,18 @@
     </div>
 
     <!-- JS -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+    <script>
+            function changeDisplay(to){
+                    var loginForm = document.getElementById("loginForm");
+                    var registerForm = document.getElementById("registerForm");
+                    if(to == 'register') {
+                            loginForm.hidden = true;
+                            registerForm.hidden = false;
+                    } else {
+                            loginForm.hidden = false;
+                            registerForm.hidden = true;
+                    }
+            }
+    </script>
+</body>
 </html>
