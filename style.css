@@ -299,7 +299,7 @@
 				#box4 {
 					flex-grow:1 ;
 					border: solid 0px orange;
-					
+
 					margin: 0.5px;
 				}
 				#box8 {
@@ -337,6 +337,24 @@
 
 /*button style*/
 .button #start-btn{
+	margin-top: 10px;
+	display: block;
+	width: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+	border: none;
+	outline: none;
+	border-radius: 25px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	background: linear-gradient(135deg,#3a8ffe 0%,#2ECCFA 100%);
+}
+.button #delete-btn{
 	margin-top: 10px;
 	display: block;
 	width: 50%;
