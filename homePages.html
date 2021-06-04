@@ -21,7 +21,7 @@
 			<a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
 			<i class="menu-toggle-btn fas fa-bars"></i>
 		 <nav class="navigation-menu">
-			<p><span>Welcome <strong id="show_uname"></strong></span></p>
+			<p><span class="Welcome">Welcome <strong id="show_uname"></strong></span></p>
 			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
 			<a href="demo.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
 			<a href="Report.html"><i class="fas fa-headset report"></i>REPORT</a>
@@ -48,11 +48,9 @@
 	<div class="w3-content">
 		<div class="w3-twothird">
 			<h1>Welcome to our system</h1>
-			<h5 class="w3-padding-32">The innovation of new technology provides a better and high of quality life. Technology is necessary for human and the workplace environment</h5>
+			<h5 class="w3-padding-32">The explosion of the new system contributes to the technology industry. The system operates on object detection and measurement distance.</h5>
 
-			<p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
-				occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-				laboris nisi ut aliquip ex ea commodo consequat.</p>
+			<p class="w3-text-grey">We create a new system to adapt the requirements for our system. Creating a convenient life and productivity is our aim for this system. Technology has vastly increased productivity since the ability of computers to solve complex mathematical equations has allowed them to speed up practically every task. Computer modelling permits engineers to simulate structures, vehicles, and materials to provide information on performance before prototyping</p>
 		</div>
 
 		<div class="w3-third w3-center">
@@ -70,7 +68,7 @@
 			</div>
 		<div class="w3-twothird">
 			<h1>The New AI Technology</h1>
-			<h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+			<h5 class="w3-padding-32">The innovation of new technology provides a better and high of quality life. Technology is necessary for human and the workplace environment</h5>
 			<p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
 				occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
 				laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -98,5 +96,11 @@ function myFunction() {
 }
 </script>
 
+<script type="text/javascript">
+	$(".menu-toggle-btn").click(function(){
+		$(this).toggleClass("fa-times");
+		$(".navigation-menu").toggleClass("active");
+	});
+</script>
 </body>
 </html>
