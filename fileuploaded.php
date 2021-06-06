@@ -6,7 +6,7 @@ require_once("php/dbconn.php");
 date_default_timezone_set("Australia/Sydney");
 $device = gethostname();
 $target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["file"]["name"]);
+$target_file = $target_dir . basename($_FILES["video_file"]["name"]);
 $uploadOk = 1;
 $fileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 $file_save_name = $target_dir . date("d.m.Y h-i-s A") . "." . $fileType;

@@ -47,6 +47,7 @@ function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
 	//get userID
 	userID = parseInt(getCookie('userId')); //get from db
+	//userID = '<%=Session["usedId"]%>'
 	if(userID) {
 		demoMode = false;
 	}
@@ -157,7 +158,10 @@ function setup() {
 					(parseFloat(distInput.elt.value) *
 					parseFloat(widthInput.elt.value)) /
 					averagewidth;
-			setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 365);
+			if(userID) { //userID valid means user logged IN
+				setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 7);
+				updateUserDevice();
+			}
 		});
 	}
 }
@@ -188,6 +192,24 @@ function modeloaded() {
 
 function sleep(ms) {
        return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function updateUserDevice() {
+	//make form and send data to php script to upload to server.
+	const formData = new FormData();
+	formData.append('focallength', FOCAL_LENGTH_IN_PIXELS);
+
+	fetch('php/addDevice.php', {
+	  method: 'POST',
+	  body: formData
+	})
+	.then(response => response.text())
+	.then(result => {
+	  console.log('Success:', result);
+	})
+	.catch(error => {
+	  console.log('Error:', error);
+	});
 }
 
 function uploadFiles() {
@@ -469,7 +491,7 @@ function calibrate_device(err, results) {
 			text("width: " + nf(obj.width,0,2), obj.x + 10, obj.y + obj.height - 10);
 			if(FOCAL_LENGTH_IN_PIXELS) {
 				let distance = (FOCAL_LENGTH_IN_PIXELS * averagewidth)/obj.width;
-				text("distance: " + nf(distance,0,2), obj.x + 10, obj.y + obj.height - 30);
+				text("distance: " + nf(distance,0,2), obj.x + 10, obj.y + 30);
 			}
 			//console.log(capture.width)
 		}

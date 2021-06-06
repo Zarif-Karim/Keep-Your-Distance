@@ -25,6 +25,10 @@
                         setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
                 }
 	}
+	else {
+		setcookie('userName', '-1', time() + (86400 * -1), "/"); //set for a week
+		setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
+	}
 
 	// $startDate = date("Y-m-d h:m:s", strtotime("+2 days"));
 	// $endDate = date("Y-m-d h:m:s",strtotime("+1 month"));

@@ -24,7 +24,9 @@
  				//var_dump($row);
  				if($row['password']==$password){
 					$_SESSION['userId'] = $row['id'];
+					setcookie('userId', $_SESSION['userId'], time() + (86400 * 7), "/"); //set for a week
 		 			$_SESSION['userName'] = $row['name'];
+					setcookie('userName', $_SESSION['userName'], time() + (86400 * 7), "/"); //set for a week
 		 			header("Location: http://".$_SERVER['HTTP_HOST']."/Keep-Your-Distance/Report.php");
  				} else {
  					$passwordError="Incorrect Password!";
