@@ -38,11 +38,18 @@ let calibrationMode = false;
 let chartView;
 let calibrateBox;
 
+let userID;
+let demoMode = true;
 let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
+	//get userID
+	userID = parseInt(getCookie('userId')); //get from db
+	if(userID) {
+		demoMode = false;
+	}
 
 	//calibration
 	FOCAL_LENGTH_IN_PIXELS = parseFloat(getCookie('focallength')); //get from db
