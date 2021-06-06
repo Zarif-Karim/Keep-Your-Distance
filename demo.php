@@ -1,3 +1,39 @@
+<?php
+	session_start();
+	require_once("php/dbconn.php");
+
+	$uID;
+        $data;
+        $focallength;
+	if(isset($_SESSION['userId'])){
+		$uID = $_SESSION['userId'];
+                $deviceName = gethostname();
+                $data = $dbConn->query("SELECT id,focallength FROM device WHERE ofUser=$uID AND name='$deviceName';") OR die('Query Failed: '.$dbConn->error);
+
+                if($data->num_rows) {
+                        if($data->num_rows > 1) die("FATAL ERROR : MULTIPLE ENTRY FOR SAME DEVICE");
+                        $vf = $data->fetch_assoc(); // should only return 1 result
+                        $focallength = $vf['focallength'];
+                        if(!$focallength) {
+                                setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
+                                die("ERROR SETTING FOCALLENGTH");
+                        } else {
+				$_SESSION['deviceId'] = $vf['id'];
+                                setcookie('focallength', $focallength, time() + (86400 * 7), "/"); //set for a week
+                        }
+                } else {
+                        echo "no data";
+                        setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
+                }
+	}
+	else {
+		setcookie('userName', '-1', time() + (86400 * -1), "/"); //set for a week
+		setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
+	}
+
+	// $startDate = date("Y-m-d h:m:s", strtotime("+2 days"));
+	// $endDate = date("Y-m-d h:m:s",strtotime("+1 month"));
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -39,7 +75,7 @@
      <nav class="navigation-menu">
        <p><span class="Welcome">Welcome<strong id="show_uname"></strong></span></p>
       <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-      <a href="demo.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+      <a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
       <a href="Report.php"><i class="fas fa-headset report"></i>REPORT</a>
       	<a href="login_register.html"><i class="fa fa-sign-in"></i>LOGIN</a>
      </nav>

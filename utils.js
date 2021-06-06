@@ -7,7 +7,7 @@ function getVideo() {
         //...............
         //test name
         let videoName = "video.mp4";
-        
+
         fetch(videoName, {
                 method: 'GET',
         })
@@ -53,13 +53,13 @@ function getCookie(cname) {
 }
 
 function checkCookie() {
-  var user = getCookie("username");
+  var user = getCookie("userName");
   if (user != "") {
     alert("Welcome again " + user);
   } else {
     user = prompt("Please enter your name:", "");
     if (user != "" && user != null) {
-      setCookie("username", user, 365);
+      setCookie("userName", user, 365);
     }
   }
 }
@@ -67,13 +67,13 @@ function checkCookie() {
 function tempCookie() {
         var name = document.getElementById("uname");
         if(name){
-                setCookie("username", name.value, 365);
+                setCookie("userName", name.value, 365);
         }
 }
 
 function setUserName(){
         var show_uname = document.getElementById("show_uname");
-        var user = getCookie("username");
+        var user = getCookie("userName");
         if(user != "") {
                 show_uname.innerHTML = user;
         }
