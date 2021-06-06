@@ -177,12 +177,53 @@ function modeloaded() {
 		setProgressBar(25, "Start Video");
 		cameraBtn.show();
 	}, 1500);
-
-	checkCookie();
 }
 
 function sleep(ms) {
        return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function uploadFiles() {
+	//set progress bars
+	setProgressBar(85, "Files Being Uploaded....");
+
+	//data csv
+	let toWrite = [];
+	let td = data_table.getArray();
+	for(let i = 0; i< td.length; i++) { //rows
+		let rd = "";
+		for(let j = 0; j < td[i].length; j++) { //columns
+			rd += td[i][j] + ",";
+		}
+		rd += "\n";
+		toWrite.push(rd);
+	}
+	let data_file = new File(toWrite, "file.csv", {type: "text/csv"});
+
+	//video mp4
+	const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
+	let video_file =  new File([blob], "vid.mp4",{type: "video/mp4"});
+
+	if((toWrite.length > 0 && data_file) && video_file) {
+	      //make form and send data to php script to upload to server.
+	      const formData = new FormData();
+	      formData.append('data_file', data_file);
+	      formData.append('video_file', video_file);
+
+	      fetch('fileuploaded.php', {
+		method: 'POST',
+		body: formData
+	      })
+	      .then(response => response.text())
+	      .then(result => {
+		console.log('Success:', result);
+		setProgressBar(100, "Uploading Finished: Refresh Page");
+	      })
+	      .catch(error => {
+		console.log('Error:', error);
+		setProgressBar(100, "Uploading Failed: ",error);
+	      });
+	}
 }
 
 function download_reset(){
@@ -220,38 +261,7 @@ function download_reset(){
 
 function saveDataTable() {
 	//let test = ["0,1,2,3", "1,2,3,4", "2,3,4,5"];
-	let toWrite = [];
-	let td = data_table.getArray();
-	for(let i = 0; i< td.length; i++) { //rows
-		let rd = "";
-		for(let j = 0; j < td[i].length; j++) { //columns
-			rd += td[i][j] + ",";
-		}
-		rd += "\n";
-		toWrite.push(rd);
-	}
 
-	if(toWrite.length > 0) {
-		console.log(toWrite);
-		let file = new File(toWrite, "file.csv", {type: "text/csv"});
-		if(file){
-		      //make form and send data to php script to upload to server.
-		      const formData = new FormData();
-		      formData.append('file', file);
-
-		      fetch('fileuploaded.php', {
-			method: 'POST',
-			body: formData
-		      })
-		      .then(response => response.text())
-		      .then(result => {
-			console.log('Success:', result);
-		      })
-		      .catch(error => {
-			console.log('Error:', error);
-		      });
-		}
-	}
 }
 
 function getName(path) {

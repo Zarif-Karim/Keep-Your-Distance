@@ -14,15 +14,6 @@
 	$data = $dbConn->query("SELECT name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
 	// $startDate = date("Y-m-d h:m:s", strtotime("+2 days"));
 	// $endDate = date("Y-m-d h:m:s",strtotime("+1 month"));
-
-	// if(isset($_REQUEST['submit'])){
-	// 	$flight = $_POST['flightId'];
-	// 	$status = $dbConn->escape_string($_POST['status']);
-	//
-	// 	$update = "UPDATE flight SET status = '$status' WHERE id = $flight;";
-	// 	if(!($dbConn->query($update))) die('Update to flight table failed: '.$dbConn->error);
-	// }
-	//$sql = $dbConn->query("SELECT * FROM flight WHERE flight_datetime >= '$startDate' AND flight_datetime <= '$endDate';") OR die('Query Failed: '.$dbConn->error);
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +50,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		 <nav class="navigation-menu" style="height:10px;">
 			<p><span class="Welcome">Welcome <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span></p>
 			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-			<a href="demo.html"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+			<a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
 			<a href="Report.php"><i class="fas fa-headset report"></i>REPORT</a>
 			<a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>Sign out</a>
 		 </nav>
@@ -86,7 +77,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-bar-block">
     <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
     <a href="homePages.html" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>  Overview</a>
-    <a href="demo.html" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  System Demo</a>
+    <a href="demo.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  System Demo</a>
     <a href="Report.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a>
   </div>
 </nav>

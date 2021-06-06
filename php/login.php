@@ -25,7 +25,7 @@
  				if($row['password']==$password){
 					$_SESSION['userId'] = $row['id'];
 		 			$_SESSION['userName'] = $row['name'];
-		 			header("Location: http://localhost/Keep-Your-Distance/Report.php");
+		 			header("Location: http://".$_SERVER['HTTP_HOST']."/Keep-Your-Distance/Report.php");
  				} else {
  					$passwordError="Incorrect Password!";
 					echo $passwordError;

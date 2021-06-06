@@ -1,5 +1,10 @@
 <?php
+session_start();
+require_once("php/dbconn.php");
+
+
 date_default_timezone_set("Australia/Sydney");
+$device = gethostname();
 $target_dir = "uploads/";
 $target_file = $target_dir . basename($_FILES["file"]["name"]);
 $uploadOk = 1;
