@@ -256,44 +256,6 @@ function uploadFiles() {
 	}
 }
 
-function download_reset(){
-	setProgressBar(85, "Files Being Uploaded....");
-       let filename = getName("data/");
-       console.log(filename);
-       try {
-	       saveDataTable();
-	       setProgressBar(90, "Video Data Uploaded....");
-       } catch (error) {
-	       console.error(error);
-       }
-
-       try {
-	       downloadRecording();
-	       setProgressBar(95, "Video File Uploaded....");
-       } catch (error) {
-	       console.error(error);
-       }
-
-       //add mechanism to  refresh chart datasets
-
-	//Refreshing page for now....
-	setProgressBar(100, "Uploading Finished: Refresh Page");
-       // let timer = 5;
-       // let id = setInterval(()=>{
-	//        	setProgressBar(100, "Finished -> Refreshing Page in "+timer);
-	// 	timer--;
-	// 	if (timer == 0) {
-	// 		clearInterval(id);
-	// 		window.location.reload();
-	// 	}
-       // }, 1000);
-}
-
-function saveDataTable() {
-	//let test = ["0,1,2,3", "1,2,3,4", "2,3,4,5"];
-
-}
-
 function getName(path) {
        let name = path + day() + "." + month() + "." + year()
 		       + " "  + hour() + "-" + minute() + "-" + second();
@@ -311,17 +273,8 @@ function pythagaros(vd, hd)
 function calculate_distance(obj1, obj2) {
        //the camera centre is assumed to be directly alligned with the centre point of the frame
        const centre = [WIDTH/2,HEIGHT/2];
-
-       //obj1 = frameData[objIndex1];
        let obj1Centre = [obj1.x + obj1.width/2,obj1.y + obj1.height/2];
-       console.log("obj1Center:" + obj1Centre);
-       //cout << format("\nobj1Centre: (%d,%d,%.2f)\n", obj1Centre.x, obj1Centre.y, dfc[objIndex1].first);
-
-       //obj2 = frameData[objIndex2];
        let obj2Centre = [obj2.x + obj2.width / 2,obj2.y + obj2.height / 2];
-       console.log("obj2Center:" + obj2Centre);
-       //cout << format("obj2Centre: (%d,%d,%.2f)\n", obj2Centre.x, obj2Centre.y, dfc[objIndex2].first);
-
 
        let horizontal_dist = centre[0] - obj1Centre[0];
        let vertical_dist = centre[1] - obj1Centre[1];
@@ -371,7 +324,6 @@ function setProgressBar(percentage, label) {
        progressBar.style("width:"+percentage+"%; height: 100%");
        progressLable.html(label);
 }
-// ********/
 
 function handleDataAvailable(event) {
        console.log('handleDataAvailable', event);
@@ -403,30 +355,6 @@ function startRecording() {
 
 function stopRecording() {
        mediaRecorder.stop();
-}
-
-function downloadRecording() {
-       const blob = new Blob(recordedBlobs, { type: 'video/mp4' });
-
-	let file =  new File([blob], "vid.mp4",{type: "video/mp4"});
-       //const file = this.files[0];
-       if(file){
-	       //make form and send data to php script to upload to server.
-	       const formData = new FormData();
-	       formData.append('file', file);
-
-	       fetch('fileuploaded.php', {
-		 method: 'POST',
-		 body: formData
-	       })
-	       .then(response => response.text())
-	       .then(result => {
-		 console.log('Success:', result);
-	       })
-	       .catch(error => {
-		 console.log('Error:', error);
-	       });
-       }
 }
 
 function video_data(err, results) {
