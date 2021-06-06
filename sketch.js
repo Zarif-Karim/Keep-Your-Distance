@@ -110,7 +110,8 @@ function setup() {
 				setProgressBar(75, "Download Files");
 	      			stopRecording();
 				sleep(1000).then(() => {
-					download_reset();
+					//download_reset();
+					uploadFiles();
 					cST = 'Refresh';
 					cameraBtn.html(cST);
 				});

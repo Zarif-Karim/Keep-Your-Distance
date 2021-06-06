@@ -14,7 +14,8 @@
          			echo "Failed to insert new record in 'device' table";
          		} else {
                                 $ffd = $row->fetch_assoc();
-                                echo "deviceID=".$dbConn->insert_id;."; focallength=".$ffd['focallength'].";";
+				$_SESSION['deviceId'] = $dbConn->insert_id;
+                                echo "deviceID=".$dbConn->insert_id."; focallength=".$ffd['focallength'].";";
                         }
                 }
  	}

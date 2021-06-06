@@ -8,7 +8,7 @@
 	if(isset($_SESSION['userId'])){
 		$uID = $_SESSION['userId'];
                 $deviceName = gethostname();
-                $data = $dbConn->query("SELECT focallength FROM device WHERE ofUser=$uID AND name='$deviceName';") OR die('Query Failed: '.$dbConn->error);
+                $data = $dbConn->query("SELECT id,focallength FROM device WHERE ofUser=$uID AND name='$deviceName';") OR die('Query Failed: '.$dbConn->error);
 
                 if($data->num_rows) {
                         if($data->num_rows > 1) die("FATAL ERROR : MULTIPLE ENTRY FOR SAME DEVICE");
@@ -18,6 +18,7 @@
                                 setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
                                 die("ERROR SETTING FOCALLENGTH");
                         } else {
+				$_SESSION['deviceId'] = $vf['id'];
                                 setcookie('focallength', $focallength, time() + (86400 * 7), "/"); //set for a week
                         }
                 } else {
