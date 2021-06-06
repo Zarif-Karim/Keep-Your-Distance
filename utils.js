@@ -2,32 +2,30 @@ function getVideo() {
         const video = document.querySelector("#uploaded");
 
         //get video name from file addEventListener
-        //...............
-        //...............
-        //...............
-        //test name
-        let videoName = "video.mp4";
+        if(selection !== 'No Videos'){
+                let videoName = "uploads/" + selection + ".mp4";
 
-        fetch(videoName, {
-                method: 'GET',
-        })
-        .then(response => response.blob())
-        .then(result => {
-                        const reader = new FileReader();
+                fetch(videoName, {
+                        method: 'GET',
+                })
+                .then(response => response.blob())
+                .then(result => {
+                                const reader = new FileReader();
 
-                        reader.addEventListener("load", function () {
-                                        // convert image file to base64 string
-                                        video.src = reader.result;
-                                        video.load();
-                        });
-                        if (result) {
-                                reader.readAsDataURL(result);
-                        }
-                console.log('Success: video loaded');
-        })
-        .catch(error => {
-                console.log('Error:', error);
-        });
+                                reader.addEventListener("load", function () {
+                                                // convert image file to base64 string
+                                                video.src = reader.result;
+                                                video.load();
+                                });
+                                if (result) {
+                                        reader.readAsDataURL(result);
+                                }
+                        console.log('Success: video loaded');
+                })
+                .catch(error => {
+                        console.log('Error:', error);
+                });
+        }
 }
 
 function setCookie(cname, cvalue, exdays) {

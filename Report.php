@@ -15,8 +15,6 @@
 	}
 
 	$data = $dbConn->query("SELECT name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
-	// $startDate = date("Y-m-d h:m:s", strtotime("+2 days"));
-	// $endDate = date("Y-m-d h:m:s",strtotime("+1 month"));
 ?>
 
 <!DOCTYPE html>
@@ -157,8 +155,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
               <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
 		<?php
 			if($data->num_rows) {
+				$no = 0;
 				while($vf = $data->fetch_assoc()) {
-					echo '<li id="ss_elem_Np" role="option">'.$vf['name'].'</li>';
+					echo '<li id="ss_elem_'.$no.'" role="option">'.$vf['name'].'</li>';
+					$no = $no + 1;
 				}
 			} else {
 				echo '<li id="ss_elem_Np" role="option">No Videos</li>';
@@ -166,22 +166,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 			$dbConn->close();
 		?>
-                <li id="ss_elem_Pu" role="option">video.mp4</li>
-                <!-- <li id="ss_elem_Am" role="option">security.mp4</li>
-                <li id="ss_elem_Cm" role="option">video1.mp4</li>
-                <li id="ss_elem_Bk" role="option">video2.mp4</li>
-                <li id="ss_elem_Cf" role="option">video3.mp4</li>
-                <li id="ss_elem_Es" role="option">video4.mp4</li>
-                <li id="ss_elem_Fm" role="option">video5.mp4</li>
-                <li id="ss_elem_Md" role="option">video6.mp4</li>
-                <li id="ss_elem_No" role="option">video7.mp4</li> -->
+                <!-- <li id="ss_elem_Pu" role="option">video.mp4</li> -->
               </ul>
             </div>
 
           </div>
-					<div class="button">
-						<button id="start-btn" onClick="getVideo('video.mp4');">Play Video</button>
-					</div>
+		<div class="button">
+			<button id="start-btn" onClick="getVideo();"> Load Video </button>
+		</div>
         </div>
       </div>
         <hr>
@@ -418,32 +410,43 @@ function w3_close() {
 
 <script>
 // Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+// var myNodelist = document.getElementsByTagName("LI");
+// var i;
+// for (i = 0; i < myNodelist.length; i++) {
+//   var span = document.createElement("SPAN");
+//   var txt = document.createTextNode("\u00D7");
+//   span.className = "close";
+//   span.appendChild(txt);
+//   myNodelist[i].appendChild(span);
+// }
+//
+// // Click on a close button to hide the current list item
+// var close = document.getElementsByClassName("close");
+// var i;
+// for (i = 0; i < close.length; i++) {
+//   close[i].onclick = function() {
+//     var div = this.parentElement;
+//     div.style.display = "none";
+//   }
+// }
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
+var selection = 'No Videos';
 
 // Add a "checked" symbol when clicking on a list item
+var myNodelist = document.getElementsByTagName("LI");
 var list = document.querySelector('ul');
 list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
+	//unselect all
+	for (var i = 0; i < myNodelist.length; i++) {
+		myNodelist[i].classList.remove('checked');
+	}
+	//select clicked
+	if (ev.target.tagName === 'LI') {
+		if(ev.target.innerHTML !== 'No Videos') {
+			ev.target.classList.toggle('checked');
+			selection = ev.target.innerHTML;
+		}
+	}
 }, false);
 
 
