@@ -9,7 +9,8 @@
 	border: 1px solid #aaa;
 	font-size: 0;
 	margin-bottom: 10px;
-	width:600px;
+	width:500px;
+	height:325px;
 }
 
 .left-area,
@@ -97,6 +98,8 @@ button[aria-disabled="true"] {
 	max-height: 18em;
 	overflow-y: auto;
 	position: relative;
+	width: 450px;
+	height: 100px;
 }
 
 .hidden {
@@ -184,7 +187,7 @@ ul li.checked::before {
   position: absolute;
   right: 0;
   top: 0;
-  padding: 10px 12px 10px 12px;
+  padding: 0.5px 12px 0.5px 12px;
 }
 
 .close:hover {

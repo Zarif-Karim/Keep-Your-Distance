@@ -7,6 +7,9 @@
 		//page not accessable if not logged
 		die("User Information not available");
 		header("Location: http://localhost/Keep-Your-Distance/homePages.html");
+		// $_SESSION['userId']=1;
+		// $_SESSION['userName']="Kieu";
+		// $uID = $_SESSION['userId'];
 	} else {
 		$uID = $_SESSION['userId'];
 	}
@@ -158,7 +161,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </div>
         <div class="w3-half">
         <div id="ex" style="margin-left: 50px;">
-          <p>Choose your previous video.</p>
+          <h5>Choose your previous video.</h5>
           <div class="listbox-area">
             <div class="left-area">
               <span id="ss_elem">Video List:</span>
@@ -185,10 +188,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
                 <li id="ss_elem_No" role="option">video7.mp4</li> -->
               </ul>
             </div>
-            <div class="button">
-              <button id="start-btn" onClick="getVideo('video.mp4');">Play Video</button>
-            </div>
+
           </div>
+					<div class="button">
+						<button id="start-btn" onClick="getVideo('video.mp4');">Play Video</button>
+					</div>
         </div>
       </div>
         <hr>
