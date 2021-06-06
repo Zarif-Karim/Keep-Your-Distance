@@ -53,6 +53,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="sketch.js"></script>
     <script src="graph.js"></script>
+		<link rel="stylesheet" href="calibrateStyle.css">
     <style>
       h1{
         text-align: absolute;
@@ -74,10 +75,11 @@
       <i class="menu-toggle-btn fas fa-bars"></i>
      <nav class="navigation-menu">
        <p><span class="Welcome">Welcome<strong id="show_uname"></strong></span></p>
-      <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-      <a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
-      <a href="Report.php"><i class="fas fa-headset report"></i>REPORT</a>
-      	<a href="login_register.html"><i class="fa fa-sign-in"></i>LOGIN</a>
+			 <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+			 <a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+			 <a href="Report.php"><i class="fas fa-headset report"></i>DASHBOARD</a>
+			 <a href="login_register.html"><i class="fa fa-sign-in"></i>SIGN IN</a>
+			 <a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>SIGN OUT</a>
      </nav>
     </div>
   </header>
