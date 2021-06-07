@@ -73,7 +73,7 @@ async function getDataFromCSV(fileName){
                                 //create new dataSlot
                                 d.push([]);
                                 //push all previous elements as zero
-                                for(let j = 0; j < d[0].length-1; j++ ) d[d.length-1].push(0);
+                                for(let j = 0; j < d[0].length-1; j++ ) d[d.length-1].push("");
                                 //set current columns value
                                 d[d.length-1].push(columns[i]);
                         } else {

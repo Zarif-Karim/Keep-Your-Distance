@@ -19,7 +19,7 @@ let incident_tolerance;
 let incident_input;
 let incident_submit;
 
-let data_table;
+let data_table = [];
 
 //data containers
 let frameData = [];
@@ -30,7 +30,7 @@ let data_incidents = [];
 
 let data_distances = [];
 let f0t1 = [];
-
+let maxObjectsDetected = 0;
 let frameNo = 0;
 
 let calibrationBtn;
@@ -42,6 +42,9 @@ let userID;
 let demoMode = true;
 let FOCAL_LENGTH_IN_PIXELS;
 let averagewidth = 0.45;
+
+let startTime, endTime;
+let time = [];
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
@@ -92,8 +95,10 @@ function setup() {
 				if(!calibrationMode) {
 					setProgressBar(50, "Stop Video");
 	        			// var canvas = document.querySelector('canvas');
-					window.stream = canvas.captureStream(30);
-					startRecording();
+					if(userID) {
+						window.stream = canvas.captureStream(30);
+						startRecording();
+					}
 				} else {
 					setProgressBar(50, "Follow Calibration Steps");
 				}
@@ -107,11 +112,11 @@ function setup() {
 			redraw();
 
 			if(!calibrationMode) {
-				setProgressBar(75, "Download Files");
+				setProgressBar(75, "Starting File Uploading");
 	      			stopRecording();
 				sleep(1000).then(() => {
 					//download_reset();
-					uploadFiles();
+					if(userID) uploadFiles();
 					cST = 'Refresh';
 					cameraBtn.html(cST);
 				});
@@ -143,12 +148,6 @@ function setup() {
 	if(incident_input && incident_submit) incident_submit.mouseClicked(()=> {
 		incident_tolerance = incident_input.value();
 	});
-
-	data_table = new p5.Table();
-
-	data_table.addColumn('Frame_Number');
-	data_table.addColumn('Objects_Detected');
-	data_table.addColumn('Incidents_Occured');
 
 	calibrationBtn = select("#c_btn");
 	if (calibrationBtn) {
@@ -219,7 +218,7 @@ function uploadFiles() {
 
 	//data csv
 	let toWrite = [];
-	let td = data_table.getArray();
+	let td = data_table;
 	for(let i = 0; i< td.length; i++) { //rows
 		let rd = "";
 		for(let j = 0; j < td[i].length; j++) { //columns
@@ -381,26 +380,35 @@ function video_data(err, results) {
 			//console.log(capture.width)
 		}
 
+		let row_data = [];
 		data_frameNo.push(++frameNo);
+		row_data.push(frameNo);
 		data_numObjDetected.push(frameData.length);
+		row_data.push(frameData.length);
 		let dist = [];
 		let incidents = 0;
+		maxObjectsDetected = Math.max(frameData.length,maxObjectsDetected);
 		for(let i = 0; i < frameData.length; i++){
 			for(let j = i+1; j < frameData.length; j++){
 				dist.push(calculate_distance(frameData[i], frameData[j], [255,0,255]));
 				if(dist[i] <= incident_tolerance) incidents++;
+
+				//first two objects
 				if(i==0 && j==1) f0t1.push(dist[0]);
+
+				//all objects
+
+
 			}
 		}
 		/*if(dist.length > 0)*/
 		data_distances.push(dist);
 		data_incidents.push(incidents);
 
-		let newRow = data_table.addRow();
-		newRow.setNum('Frame_Number', frameNo);
-		newRow.setNum('Objects_Detected', frameData.length);
-		newRow.setNum('Incidents_Occured', incidents);
+		row_data.push(incidents);
+		row_data = row_data.concat(dist);
 
+		data_table.push(row_data);
 		//update graphs
 		update();
 	}
