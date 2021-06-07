@@ -135,12 +135,21 @@ function setUserName(){
         }
 }
 
-function setup() {
-        var login = getCookie('userId');
-        if(login) {
+function setupNavigation(){
+        setUserName();
 
-        } else {
-
+        var userName = getCookie('userName');
+        var login = document.getElementsByClassName('login');
+        var logout = document.getElementsByClassName('logout');
+        if (userName === "" ){
+                for(let i = 0; i < login.length; i++){
+                        login[i].style.display = "none";
+                }
+                logout[0].style.display = "block";
+        }else{
+                for(let i = 0; i < login.length; i++){
+                        login[i].style.display = "block";
+                }
+                logout[0].style.display = "none";
         }
-        ///....
 }
