@@ -5,7 +5,7 @@ let myChart_fd;
 //fi : frame against Incidents
 let myChart_fi;
 
-function generateCharts() {
+function generateChartsDemo() {
         //make frame against number of object chart
         myChart_fno = makeChart('chart0',
                                 'Objects Detected per Frame',
@@ -38,6 +38,29 @@ function generateCharts() {
                         );
 }
 
+
+function generateChartsReport() {
+        //make frame against number of object chart
+        makeChart('chart',
+                'Objects Detected per Frame',
+                dataFromCSV[0],
+                'Frame Number',
+                dataFromCSV[1],
+                'Number of object',
+                'Objects detected',
+                'rgba(120, 190, 132, 1)'
+        );
+
+        makeChart('chart1',
+                'Incidents per Frame',
+                dataFromCSV[0],
+                'Frame Number',
+                dataFromCSV[2],
+                'Incidents',
+                'Occurance',
+                'rgba(255, 99, 132, 1)'
+        );
+}
 //graph initializer
 function makeChart(container,
                         chart_title,
