@@ -14,7 +14,7 @@
 		$uID = $_SESSION['userId'];
 	}
 
-	$data = $dbConn->query("SELECT name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
+	$data = $dbConn->query("SELECT id,name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
 ?>
 
 <!DOCTYPE html>
@@ -156,10 +156,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
               <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
 		<?php
 			if($data->num_rows) {
-				$no = 0;
 				while($vf = $data->fetch_assoc()) {
-					echo '<li id="ss_elem_'.$no.'" role="option">'.$vf['name'].'</li>';
-					$no = $no + 1;
+					//echo '<li id="ss_elem_'.$no.'" role="option">'.$vf['name'].'</li>';
+					echo '<li id="videofile_'.$vf['id'].'" role="option">'.$vf['name'].'</li>';
 				}
 			} else {
 				echo '<li id="ss_elem_Np" role="option">No Videos</li>';
@@ -283,7 +282,7 @@ const myChart = new Chart(ctx, {
       xlabels.push(Cultime);
       const distance = columns[4];
        yDist.push(parseFloat(distance));
-      console.log(Cultime, distance);
+      //console.log(Cultime, distance);
     });
 
 }
@@ -376,7 +375,7 @@ const myChart = new Chart(ctx, {
         xAxis.push(Cultime);
         const distance = columns[4];
          yAxis.push(parseFloat(distance));
-        console.log(Cultime, distance);
+        //console.log(Cultime, distance);
       });
 
   }
@@ -431,7 +430,8 @@ function w3_close() {
 //   }
 // }
 
-var selection = 'No Videos';
+var selection = -1;
+
 
 // Add a "checked" symbol when clicking on a list item
 var myNodelist = document.getElementsByTagName("LI");
@@ -445,7 +445,7 @@ list.addEventListener('click', function(ev) {
 	if (ev.target.tagName === 'LI') {
 		if(ev.target.innerHTML !== 'No Videos') {
 			ev.target.classList.toggle('checked');
-			selection = ev.target.innerHTML;
+			selection = ev.target.id;
 		}
 	}
 }, false);
