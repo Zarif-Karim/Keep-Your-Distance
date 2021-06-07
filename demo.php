@@ -66,7 +66,7 @@
       }
       </style>
   </head>
-  <body onload="generateCharts(); setupNavigation();">
+  <body onload="generateChartsDemo(); setupNavigation();">
    <header>
       <div class="twp-video-layer"></div>
     </div>

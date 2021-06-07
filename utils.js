@@ -51,6 +51,7 @@ function setData(videoId){
                 getDataFromCSV(result)
                 .then(response => {
                         dataFromCSV = response;
+                        generateChartsReport();
                 });
         })
         .catch(error => {
