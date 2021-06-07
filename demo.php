@@ -52,7 +52,6 @@
     <script src="https://unpkg.com/ml5@0.6.1/dist/ml5.min.js" type="text/javascript"></script>
     <script src = "https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="sketch.js"></script>
     <script src="graph.js"></script>
     <style>
       h1{
@@ -150,5 +149,6 @@
     <div>
       <span id="errorMsg"></span>
     </div>
+    <script src="sketch.js"></script>
       </body>
 </html>

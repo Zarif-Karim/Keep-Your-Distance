@@ -68,13 +68,14 @@ function generateChartsReport() {
                         color = line_color[i-1];
                 }
                 else {
-                        label = "Distance between Obj-"+0+" and Obj-"+i-2;
+                        label = "Distance between Obj";//-"+0+" and Obj-"+i-2;
                         axis = "Distance (m)";
-                        legend = 0+" - "+i-2;
+                        legend = "dpf";//0+" - "+i-2;
                         let r = Math.floor(Math.random() * 256);
                         let g = Math.floor(Math.random() * 256);
                         let b = Math.floor(Math.random() * 256);
-                        color = 'rbga('+r+','+g+','+b+',1)';
+                        //color = 'rbga('+r+','+g+','+b+',1)';
+                        color = 'rbga('+200+','+120+','+170+',1)';
                 }
 
                 makeChart(c.id,
