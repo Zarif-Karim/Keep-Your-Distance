@@ -1,9 +1,14 @@
+let dataFromCSV;
+
 function getVideo() {
         const video = document.querySelector("#uploaded");
 
         //get video name from file addEventListener
-        if(selection !== 'No Videos'){
-                let videoName = "uploads/" + selection + ".mp4";
+        if(selection != -1){
+
+                var vid = document.getElementById(selection);
+
+                let videoName = "uploads/" + vid.innerHTML + ".mp4";
 
                 fetch(videoName, {
                         method: 'GET',
@@ -16,6 +21,7 @@ function getVideo() {
                                                 // convert image file to base64 string
                                                 video.src = reader.result;
                                                 video.load();
+                                                setData(selection.substring(10));
                                 });
                                 if (result) {
                                         reader.readAsDataURL(result);
@@ -26,6 +32,57 @@ function getVideo() {
                         console.log('Error:', error);
                 });
         }
+}
+
+function setData(videoId){
+
+        let data;
+
+        const formData = new FormData();
+        formData.append('ofVideo', videoId);
+
+        fetch("php/getData.php", {
+                method: 'POST',
+                body : formData
+        })
+        .then(response => response.text())
+        .then(result => {
+                console.log('Success:', result);
+                getDataFromCSV(result)
+                .then(response => {
+                        dataFromCSV = response;
+                });
+        })
+        .catch(error => {
+                console.log('Error:', error);
+        });
+
+}
+
+async function getDataFromCSV(fileName){
+        const response = await fetch("uploads/"+fileName+".csv");
+        const file = await response.text();
+        const table = file.split('\n');
+        let d = [];
+        table.forEach(row => {
+                const columns = row.split(',');
+
+                for(let i = 0; i < columns.length; i++) {
+                        if(d.length <= i) {
+                                //create new dataSlot
+                                d.push([]);
+                                //push all previous elements as zero
+                                for(let j = 0; j < d[0].length-1; j++ ) d[d.length-1].push(0);
+                                //set current columns value
+                                d[d.length-1].push(columns[i]);
+                        } else {
+                                //add data to column
+                                d[i].push(columns[i]);
+                        }
+                }
+        });
+
+        return d;
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -75,4 +132,14 @@ function setUserName(){
         if(user != "") {
                 show_uname.innerHTML = user;
         }
+}
+
+function setup() {
+        var login = getCookie('userId');
+        if(login) {
+
+        } else {
+
+        }
+        ///....
 }

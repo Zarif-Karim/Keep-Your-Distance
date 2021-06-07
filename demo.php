@@ -22,7 +22,7 @@
                                 setcookie('focallength', $focallength, time() + (86400 * 7), "/"); //set for a week
                         }
                 } else {
-                        echo "no data";
+                        //echo "no data";
                         setcookie('focallength', '-1', time() + (86400 * -1), "/"); //set for a week
                 }
 	}
