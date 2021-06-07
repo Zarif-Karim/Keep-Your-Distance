@@ -42,6 +42,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content = "ie=edge"/>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="calibrateStyle.css">
     <script src="utils.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
@@ -101,7 +102,6 @@
                         <div id="canvas-container" style="width=640; height=480; margin-top: 10px; margin-left: 15px;"></div>
                         <div class="button">
                           <button id="start-btn">Start</button>
-                          <!-- <button id="dwn-btn">Download & Reset</button> -->
                         </div>
                         <div class="input-text">
                         </div>
