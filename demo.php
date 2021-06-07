@@ -42,6 +42,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content = "ie=edge"/>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="calibrateStyle.css">
     <script src="utils.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
@@ -53,7 +54,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="sketch.js"></script>
     <script src="graph.js"></script>
-		<link rel="stylesheet" href="calibrateStyle.css">
     <style>
       h1{
         text-align: absolute;
@@ -66,21 +66,21 @@
       }
       </style>
   </head>
-  <body onload="generateCharts();">
+  <body onload="generateCharts(); setupNavigation();">
    <header>
       <div class="twp-video-layer"></div>
     </div>
     <div class="inner-width">
       <a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
       <i class="menu-toggle-btn fas fa-bars"></i>
-     <nav class="navigation-menu">
-       <p><span class="Welcome">Welcome<strong id="show_uname"></strong></span></p>
-			 <a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
-			 <a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
-			 <a href="Report.php"><i class="fas fa-headset report"></i>DASHBOARD</a>
-			 <a href="login_register.html"><i class="fa fa-sign-in"></i>SIGN IN</a>
-			 <a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>SIGN OUT</a>
-     </nav>
+      	<nav class="navigation-menu" style="height:10px;">
+ 			<p><span class="Welcome login">Welcome <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span></p>
+ 			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+ 			<a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+ 			<a href="Report.php" class="login"><i class="fas fa-headset report"></i>DASHBOARD</a>
+ 			<a href="login_register.html" class="logout"><i class="fa fa-sign-in"></i>SIGN IN</a>
+ 			<a href="php/logoff.php" class="login"><i class="fa fa-sign-out" style="color:lightblue;"></i>SIGN OUT</a>
+ 	</nav>
     </div>
   </header>
 
@@ -102,7 +102,6 @@
                         <div id="canvas-container" style="width=640; height=480; margin-top: 10px; margin-left: 15px;"></div>
                         <div class="button">
                           <button id="start-btn">Start</button>
-                          <!-- <button id="dwn-btn">Download & Reset</button> -->
                         </div>
                         <div class="input-text">
                         </div>
