@@ -46,38 +46,82 @@ function generateChartsReport() {
                 cC.children[0].remove();
         }
 
-        var chart = document.createElement('canvas');
-        chart.id = 'chart';
-        chart.style.backgroundColor = "white";
-        chart.style.marginTop = "20px";
+        let title = ['Objects Detected per Frame','Incidents per Frame'];
+        let axis_label = ['Objects Detected', 'Incidents Occured'];
+        let line_legend = ['Objects', 'Occurance'];
+        let line_color = ['rgba(120, 190, 132, 1)','rgba(255, 99, 132, 1)'];
+        //let charts = [];
+        for(let i = 1; i < dataFromCSV.length -1; i++){
+                let c = document.createElement('canvas');
+                c.id = 'chart_' + i;
+                c.style.backgroundColor = "white";
+                c.style.marginTop = "20px";
+                c.style.maxHeight = "325px";
 
-        var chart1 = document.createElement('canvas');
-        chart1.id = 'chart1';
-        chart1.style.backgroundColor = "white";
-        chart1.style.marginTop = "20px";
+                cC.appendChild(c);
 
-        cC.appendChild(chart);
-        cC.appendChild(chart1);
-        //make frame against number of object chart
-        makeChart('chart',
-                'Objects Detected per Frame',
-                dataFromCSV[0],
-                'Frame Number',
-                dataFromCSV[1],
-                'Number of object',
-                'Objects detected',
-                'rgba(120, 190, 132, 1)'
-        );
+                let label, axis, legend, color;
+                if(i<3) {
+                        label = title[i-1];
+                        axis = axis_label[i-1];
+                        legend = line_legend[i-1];
+                        color = line_color[i-1];
+                }
+                else {
+                        label = "Distance between Obj-"+0+" and Obj-"+i-2;
+                        axis = "Distance (m)";
+                        legend = 0+" - "+i-2;
+                        let r = Math.floor(Math.random() * 256);
+                        let g = Math.floor(Math.random() * 256);
+                        let b = Math.floor(Math.random() * 256);
+                        color = 'rbga('+r+','+g+','+b+',1)';
+                }
 
-        makeChart('chart1',
-                'Incidents per Frame',
-                dataFromCSV[0],
-                'Frame Number',
-                dataFromCSV[2],
-                'Incidents',
-                'Occurance',
-                'rgba(255, 99, 132, 1)'
-        );
+                makeChart(c.id,
+                        label,
+                        dataFromCSV[0],
+                        'Frame Number',
+                        dataFromCSV[i],
+                        axis,
+                        legend,
+                        color
+                );
+
+        }
+        // var chart = document.createElement('canvas');
+        // chart.id = 'chart';
+        // chart.style.backgroundColor = "white";
+        // chart.style.marginTop = "20px";
+        // chart.style.maxHeight = "325px";
+        //
+        // var chart1 = document.createElement('canvas');
+        // chart1.id = 'chart1';
+        // chart1.style.backgroundColor = "white";
+        // chart1.style.marginTop = "20px";
+        // chart.style.maxHeight = "325px";
+        //
+        // cC.appendChild(chart);
+        // cC.appendChild(chart1);
+        // //make frame against number of object chart
+        // makeChart('chart',
+        //         'Objects Detected per Frame',
+        //         dataFromCSV[0],
+        //         'Frame Number',
+        //         dataFromCSV[1],
+        //         'Number of object',
+        //         'Objects detected',
+        //         'rgba(120, 190, 132, 1)'
+        // );
+        //
+        // makeChart('chart1',
+        //         'Incidents per Frame',
+        //         dataFromCSV[0],
+        //         'Frame Number',
+        //         dataFromCSV[2],
+        //         'Incidents',
+        //         'Occurance',
+        //         'rgba(255, 99, 132, 1)'
+        // );
 }
 //graph initializer
 function makeChart(container,
