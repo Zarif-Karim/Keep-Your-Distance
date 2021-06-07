@@ -5,7 +5,7 @@ function getVideo() {
 
         //get video name from file addEventListener
         if(selection != -1){
-
+                setVideoStatusDashBoard(': Loading Video...');
                 var vid = document.getElementById(selection);
 
                 let videoName = "uploads/" + vid.innerHTML + ".mp4";
@@ -22,6 +22,7 @@ function getVideo() {
                                                 video.src = reader.result;
                                                 video.load();
                                                 setData(selection.substring(10));
+                                                setVideoStatusDashBoard(': Video Loaded');
                                 });
                                 if (result) {
                                         reader.readAsDataURL(result);
@@ -84,6 +85,11 @@ async function getDataFromCSV(fileName){
         });
 
         return d;
+}
+
+function setVideoStatusDashBoard(status) {
+        const vid = document.getElementById('status');
+        vid.innerHTML = status;
 }
 
 function setCookie(cname, cvalue, exdays) {

@@ -7,14 +7,28 @@
 		//page not accessable if not logged
 		die("User Information not available");
 		header("Location: http://localhost/Keep-Your-Distance/homePages.html");
-		// $_SESSION['userId']=1;
-		// $_SESSION['userName']="Kieu";
-		// $uID = $_SESSION['userId'];
+
 	} else {
 		$uID = $_SESSION['userId'];
 	}
 
-	$data = $dbConn->query("SELECT id,name FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
+	$data = $dbConn->query("SELECT id,name,size FROM videofile WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
+	$device = $dbConn->query("SELECT id FROM device WHERE ofUser=".$uID.";") OR die('Query Failed: '.$dbConn->error);
+	$sumVf = $dbConn->query("SELECT SUM(vf.size) as vSum FROM videofile as vf WHERE vf.ofUser=$uID") OR die('Query Failed: '.$dbConn->error);
+	$sumDf = $dbConn->query("SELECT SUM(df.size) as dSum FROM datafile as df WHERE df.ofUser=$uID") OR die('Query Failed: '.$dbConn->error);
+
+	$sum;
+	if($sumVf->num_rows && $sumDf->num_rows){
+		$sumVf = $sumVf->fetch_assoc();
+		$sumDf = $sumDf->fetch_assoc();
+		$sum = intval($sumVf['vSum']) + intval($sumDf['dSum']);
+		//convert to MB
+		$sum = intval($sum/(1024*1024));
+	} else $sum = -1;
+
+	$videoCount = $data->num_rows;
+	$deviceCount = $device->num_rows;
+
 ?>
 
 <!DOCTYPE html>
@@ -81,10 +95,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="demo.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  System Demo</a>
     <a href="Report.php" class="w3-bar-item w3-button w3-padding"><i class="fa fa-history fa-fw"></i>  History</a> -->
     <div class="w3-one">
-      <div class="w3-container w3-red w3-padding-16">
-        <div class="w3-left"><i class="fa fa-camera w3-xxxlarge"></i></div>
+      <div class="w3-container w3-blue w3-padding-16">
+        <div class="w3-left"><i class="fa fa-film w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>52</h3>
+          <h3><?php echo $videoCount; ?></h3>
         </div>
         <div class="w3-clear"></div>
         <h4>Videos</h4>
@@ -92,10 +106,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
 
     <div class="w3-one">
-      <div class="w3-container w3-blue w3-padding-16">
-        <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+      <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="fa fa-camera w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>99</h3>
+          <h3><?php echo $deviceCount; ?></h3>
         </div>
         <div class="w3-clear"></div>
         <h4>Devices</h4>
@@ -104,9 +118,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
     <div class="w3-one">
       <div class="w3-container w3-teal w3-padding-16">
-        <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+        <div class="w3-left"><i class="fa fa-database w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>23</h3>
+          <h3><?php echo $sum; ?> MB</h3>
         </div>
         <div class="w3-clear"></div>
         <h4>Space Used</h4>
@@ -117,10 +131,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
       <div class="w3-container w3-orange w3-text-white w3-padding-16">
         <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
         <div class="w3-right">
-          <h3>50</h3>
+          <h3>FREE</h3>
         </div>
         <div class="w3-clear"></div>
-        <h4>Users</h4>
+        <h4>User Subscription</h4>
       </div>
     </div>
 
@@ -147,7 +161,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-half">
-        <h5>Video</h5>
+        <h2>Video<span id="status">: load video from list</span></h2>
         <!-- <div id="canvas-container"></div> -->
         <div class="video">
                 <video id="uploaded" controls height="480" width="650">
@@ -184,8 +198,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         </div>
       </div>
         <hr>
+	<div>
 	<div id="chartContainer">
   	</div>
+	</div>
         </div>
 
      <footer class="w3-container w3-padding-10 w3-light-grey" style="margin-top:10px;">
