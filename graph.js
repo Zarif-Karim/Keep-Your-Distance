@@ -40,6 +40,24 @@ function generateChartsDemo() {
 
 
 function generateChartsReport() {
+
+        var cC = document.getElementById('chartContainer');
+        for(let i = cC.childElementCount; i > 0; i--){
+                cC.children[0].remove();
+        }
+
+        var chart = document.createElement('canvas');
+        chart.id = 'chart';
+        chart.style.backgroundColor = "white";
+        chart.style.marginTop = "20px";
+
+        var chart1 = document.createElement('canvas');
+        chart1.id = 'chart1';
+        chart1.style.backgroundColor = "white";
+        chart1.style.marginTop = "20px";
+
+        cC.appendChild(chart);
+        cC.appendChild(chart1);
         //make frame against number of object chart
         makeChart('chart',
                 'Objects Detected per Frame',
