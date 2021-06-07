@@ -50,8 +50,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 			<p><span class="Welcome">Welcome <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span></p>
 			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
 			<a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
-			<a href="Report.php"><i class="fas fa-headset report"></i>REPORT</a>
-			<a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>Sign out</a>
+			<a href="Report.php"><i class="fas fa-headset report"></i>DASHBOARD</a>
+			<a href="login_register.html"><i class="fa fa-sign-in"></i>SIGN IN</a>
+			<a href="php/logoff.php"><i class="fa fa-sign-out" style="color:lightblue;"></i>SIGN OUT</a>
 		 </nav>
 		</div>
 </div>
