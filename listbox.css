@@ -9,17 +9,15 @@
 	border: 1px solid #aaa;
 	font-size: 0;
 	margin-bottom: 10px;
-	width:500px;
-	height:325px;
+	max-width: 620px;
 }
 
-.left-area,
-.right-area {
+.listItems {
 	box-sizing: border-box;
 	display: inline-block;
 	font-size: 14px;
 	vertical-align: top;
-	width: 50%;
+	width: 100%;
 }
 
 .left-area {
@@ -98,8 +96,8 @@ button[aria-disabled="true"] {
 	max-height: 18em;
 	overflow-y: auto;
 	position: relative;
-	width: 450px;
-	height: 100px;
+	/* width: 450px;
+	height: 100px; */
 }
 
 .hidden {
@@ -144,7 +142,7 @@ ul li {
   background: #eee;
   font-size: 18px;
   transition: 0.2s;
-
+  text-align: center;
   /* make the list items unselectable */
   -webkit-user-select: none;
   -moz-user-select: none;
