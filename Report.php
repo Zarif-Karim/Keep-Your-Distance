@@ -172,13 +172,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
         <div id="ex" style="margin-left: 50px;">
           <h5>Choose your previous video.</h5>
           <div class="listbox-area">
-            <div class="left-area">
+            <div class="listItems">
               <span id="ss_elem">Video List:</span>
               <ul id="ss_elem_list" tabindex="0" role="listbox" aria-labelledby="ss_elem">
 		<?php
 			if($data->num_rows) {
 				while($vf = $data->fetch_assoc()) {
-					//echo '<li id="ss_elem_'.$no.'" role="option">'.$vf['name'].'</li>';
 					echo '<li id="videofile_'.$vf['id'].'" role="option">'.$vf['name'].'</li>';
 				}
 			} else {
@@ -187,22 +186,21 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 			$dbConn->close();
 		?>
-                <!-- <li id="ss_elem_Pu" role="option">video.mp4</li> -->
               </ul>
             </div>
 
+	    <div class="button">
+		    <button id="start-btn" onClick="getVideo();"> Load Video </button>
+	    </div>
           </div>
-		<div class="button">
-			<button id="start-btn" onClick="getVideo();"> Load Video </button>
-		</div>
         </div>
       </div>
         <hr>
-	<div>
-	<div id="chartContainer">
-  	</div>
-	</div>
         </div>
+	<div class="w3-row-padding" style="margin:0 -16px">
+	<div id="chartContainer" class="w3-panel">
+	</div>
+	</div>
 
      <footer class="w3-container w3-padding-10 w3-light-grey" style="margin-top:10px;">
       <p style="background-color: white; text-align: center;">Thank you to visit our system</p>

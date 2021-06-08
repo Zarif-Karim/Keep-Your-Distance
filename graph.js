@@ -49,8 +49,18 @@ function generateChartsReport() {
         let title = ['Objects Detected per Frame','Incidents per Frame'];
         let axis_label = ['Objects Detected', 'Incidents Occured'];
         let line_legend = ['Objects', 'Occurance'];
-        let line_color = ['rgba(120, 190, 132, 1)','rgba(255, 99, 132, 1)'];
+        let line_color = ["rgba(120, 190, 132, 1)","rgba(255, 99, 132, 1)"];
         //let charts = [];
+
+        let dCount = dataFromCSV.length-1 - 3;
+        let n;
+        for(let i = 1; i < dCount; i++) {
+                n = i;
+                if((n*(n+1))/2 == dCount) break;
+        }
+        let obj1 = 0;
+        let obj2 = 1;
+
         for(let i = 1; i < dataFromCSV.length -1; i++){
                 let c = document.createElement('canvas');
                 c.id = 'chart_' + i;
@@ -68,14 +78,20 @@ function generateChartsReport() {
                         color = line_color[i-1];
                 }
                 else {
-                        label = "Distance between Obj";//-"+0+" and Obj-"+i-2;
+                        label = "Distance between Objs";//-"+0+" and Obj-"+i-2;
                         axis = "Distance (m)";
-                        legend = "dpf";//0+" - "+i-2;
+                        legend = obj1.toString() + " - " + obj2.toString();
+                        if(obj2 < n) obj2++;
+                        else {
+                                obj1++;
+                                obj2 = obj1 + 1;
+                        }
+
                         let r = Math.floor(Math.random() * 256);
                         let g = Math.floor(Math.random() * 256);
                         let b = Math.floor(Math.random() * 256);
                         //color = 'rbga('+r+','+g+','+b+',1)';
-                        color = 'rbga('+200+','+120+','+170+',1)';
+                        color = 'rbga('+r.toString()+','+g.toString()+','+b.toString()+',1)';
                 }
 
                 makeChart(c.id,
@@ -87,42 +103,7 @@ function generateChartsReport() {
                         legend,
                         color
                 );
-
         }
-        // var chart = document.createElement('canvas');
-        // chart.id = 'chart';
-        // chart.style.backgroundColor = "white";
-        // chart.style.marginTop = "20px";
-        // chart.style.maxHeight = "325px";
-        //
-        // var chart1 = document.createElement('canvas');
-        // chart1.id = 'chart1';
-        // chart1.style.backgroundColor = "white";
-        // chart1.style.marginTop = "20px";
-        // chart.style.maxHeight = "325px";
-        //
-        // cC.appendChild(chart);
-        // cC.appendChild(chart1);
-        // //make frame against number of object chart
-        // makeChart('chart',
-        //         'Objects Detected per Frame',
-        //         dataFromCSV[0],
-        //         'Frame Number',
-        //         dataFromCSV[1],
-        //         'Number of object',
-        //         'Objects detected',
-        //         'rgba(120, 190, 132, 1)'
-        // );
-        //
-        // makeChart('chart1',
-        //         'Incidents per Frame',
-        //         dataFromCSV[0],
-        //         'Frame Number',
-        //         dataFromCSV[2],
-        //         'Incidents',
-        //         'Occurance',
-        //         'rgba(255, 99, 132, 1)'
-        // );
 }
 //graph initializer
 function makeChart(container,
@@ -134,7 +115,6 @@ function makeChart(container,
                         data_label,
                         color
                 ) {
-        //getDataLocal();
         let ctx = document.getElementById(container).getContext('2d');
         return new Chart(ctx, {
           type: 'line',
