@@ -48,6 +48,7 @@ let time = [];
 
 function preload() {
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
+
 	//get userID
 	userID = parseInt(getCookie('userId')); //get from db
 	//userID = '<%=Session["usedId"]%>'
