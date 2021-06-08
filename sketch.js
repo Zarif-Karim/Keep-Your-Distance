@@ -6,6 +6,7 @@ let HEIGHT = 480;
 let cameraBtn;
 let progressBar;
 let progressLable;
+let cnvContainer;
 
 //Media Recorder
 let mediaRecorder; //reference to media recorder constructor
@@ -47,6 +48,9 @@ let startTime, endTime;
 let time = [];
 
 function preload() {
+	cnvContainer = select("#canvas-container");
+	if(!cnvContainer) console.log("error get canvas-Container");
+	else windowResized();
 	detector = ml5.objectDetector('cocossd',{},modeloaded);
 
 	//get userID
@@ -124,7 +128,7 @@ function setup() {
 			} else {
 				cST = 'Calibration Done';
 				cameraBtn.html(cST);
-				setProgressBar(75, "Press Calibration Done or Recalibrate if required");
+				setProgressBar(75, "Press Calibration Done or Refresh to Recalibrate");
 
 			}
 		}
@@ -140,6 +144,10 @@ function setup() {
 			calibrateBox.hide();
 			calibrationMode = false;
 			setProgressBar(25, "Start Video");
+			if(userID) { //userID valid means user logged IN
+				setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 7);
+				addUserDevice();
+			}
 		}
         });
 
@@ -159,10 +167,6 @@ function setup() {
 					(parseFloat(distInput.elt.value) *
 					parseFloat(widthInput.elt.value)) /
 					averagewidth;
-			if(userID) { //userID valid means user logged IN
-				setCookie("focallength", FOCAL_LENGTH_IN_PIXELS, 7);
-				updateUserDevice();
-			}
 		});
 	}
 }
@@ -179,6 +183,10 @@ function draw() {
 }
 
 function windowResized() {
+	let w = cnvContainer.elt.offsetWidth;
+	let h = cnvContainer.elt.offsetHeight;
+	if(w == 0 || (WIDTH = w) > 640) WIDTH = 640;
+	if(h == 0 || (HEIGHT = h) > 480) HEIGHT = 480;
 	resizeCanvas(WIDTH, HEIGHT);
 }
 
@@ -195,7 +203,7 @@ function sleep(ms) {
        return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function updateUserDevice() {
+function addUserDevice() {
 	//make form and send data to php script to upload to server.
 	const formData = new FormData();
 	formData.append('focallength', FOCAL_LENGTH_IN_PIXELS);
