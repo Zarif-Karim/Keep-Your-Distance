@@ -4,9 +4,9 @@
 
 	if(isset($_POST['focallength'])){
 		$fl = $dbConn->escape_string($_POST['focallength']);
-                $deviceName = gethostname();
-                $user = $_SESSION['userId'];
- 		if(!$fl){
+        $deviceName = gethostname();
+        $user = $_SESSION['userId'];
+ 		if(!$fl ){
                         echo "ERROR setting focallength";
  		} else {
                         $sql = "INSERT INTO device (name, focallength, ofUser) VALUES ('$deviceName', $fl, $user)";
@@ -14,7 +14,7 @@
          			echo "Failed to insert new record in 'device' table";
          		} else {
                                 $ffd = $row->fetch_assoc();
-				$_SESSION['deviceId'] = $dbConn->insert_id;
+								$_SESSION['deviceId'] = $dbConn->insert_id;
                                 echo "deviceID=".$dbConn->insert_id."; focallength=".$ffd['focallength'].";";
                         }
                 }
