@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login/Register</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="login_style.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Custom links -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+</head>
+<body>
+        <header>
+		<div class="inner-width">
+			<a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+			<i class="menu-toggle-btn fas fa-bars"></i>
+		 <nav class="navigation-menu">
+			<p><span>Welcome <strong id="show_uname"></strong></span></p>
+			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+			<a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+		 </nav>
+		</div>
+	</header>
+
+    <div class="main">
+
+        <!-- Sing in  Form -->
+        <section class="sign-in" id="loginForm">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="#" onclick="changeDisplay('register');" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign In</h2>
+                        <form method="POST" action="php/login.php" class="register-form" id="login-form">
+                            <div class="form-group">
+                                <label for="your_email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="your_email" id="your_email" placeholder="Email" required/>
+                                <span class="postLogin" id="emailErrorLogin" style="color:red"><?php echo $emailError; ?></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="your_pass" id="your_pass" placeholder="Password" required/>
+                                <span class="postLogin" id="passwordErrorLogin" style="color:red"><?php echo $passwordError; ?></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sign up form -->
+        <section class="signup" id="registerForm" hidden>
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" action="php/register.php" class="register-form" id="register-form" onsubmit="return passCon();">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="pass" placeholder="Password" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" required/>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" onclick="passCon();"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                        <a href="#" onclick="changeDisplay('login');" class="signup-image-link">I am already a member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script>
+            function changeDisplay(to){
+                    var loginForm = document.getElementById("loginForm");
+                    var registerForm = document.getElementById("registerForm");
+                    if(to == 'register') {
+                            loginForm.hidden = true;
+                            registerForm.hidden = false;
+                    } else {
+                            loginForm.hidden = false;
+                            registerForm.hidden = true;
+                    }
+            }
+
+        function passCon(){
+        	var key = document.getElementById("pass").value;
+        	var match = document.getElementById("re_pass").value;
+
+        	if(key == match){
+        	//document.getElementById("passwordConfirmMissMatch").style.display = "none";
+        	 return true;
+        	} else {
+        	//document.getElementById("passwordConfirmMissMatch").style.display = "inline-block";
+                alert("Password MissMatch");
+        	 return false;
+	}
+}
+    </script>
+</body>
+</html>

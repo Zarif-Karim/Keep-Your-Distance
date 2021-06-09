@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>KEEP YOUR DISTANCE</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<script src="utils.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body onload="setupNavigation();">
+
+<!-- Navbar -->
+
+	<header>
+		<div class="inner-width">
+			<a href="homePages.html" class="logo"><img src="logo.png" alt=""></a>
+			<i class="menu-toggle-btn fas fa-bars"></i>
+		<nav class="navigation-menu" style="height:10px;">
+       			<p><span class="Welcome login">Welcome <strong id="show_uname"><?php echo $_SESSION['userName'];?></strong></span></p>
+       			<a href="homePages.html"><i class="fas fa-home home"></i>HOME</a>
+       			<a href="demo.php"><i class="fas fa-users live"></i>SYSTEM DEMO</a>
+       			<a href="Report.php" class="login"><i class="fas fa-headset report"></i>DASHBOARD</a>
+       			<a href="login_register.html" class="logout"><i class="fa fa-sign-in"></i>SIGN IN</a>
+       			<a href="php/logoff.php" class="login"><i class="fa fa-sign-out" style="color:lightblue;"></i>SIGN OUT</a>
+		</nav>
+		</div>
+	</header>
+
+	<!-- login code -->
+
+	<!-- end login code -->
+
+<!-- Header -->
+<div class="w3-container w3-dark-gray w3-center" style="padding:128px 16px">
+	<h1 class="w3-margin w3-jumbo">HOME PAGE</h1>
+	<p class="w3-xlarge">KEEP YOUR DISTANCE</p>
+
+	<button onclick="location.href='demo.php'" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>
+
+</div>
+
+<!-- First Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container">
+	<div class="w3-content">
+		<div class="w3-twothird">
+			<h1>Welcome to our system</h1>
+			<h5 class="w3-padding-32">The explosion of the new system contributes to the technology industry. The system operates on object detection and measurement distance.</h5>
+
+			<p class="w3-text-grey">We create a new system to adapt the requirements for our system. Creating a convenient life and productivity is our aim for this system. Technology has vastly increased productivity since the ability of computers to solve complex mathematical equations has allowed them to speed up practically every task. Computer modelling permits engineers to simulate structures, vehicles, and materials to provide information on performance before prototyping</p>
+		</div>
+
+		<div class="w3-third w3-center">
+			<img style="width: 100%; height: 100%;"src="detection.png" alt="">
+
+		</div>
+	</div>
+</div>
+
+<!-- Second Grid -->
+<div class="w3-row-padding w3-white w3-padding-64 w3-container">
+	<div class="w3-content">
+		<div class="w3-third w3-center">
+			<img style="width: 100%; height: 100%;"src="distances.png" alt="">
+			</div>
+		<div class="w3-twothird">
+			<h1>The New AI Technology</h1>
+			<h5 class="w3-padding-32">The innovation of new technology provides a better and high of quality life. Technology is necessary for human and the workplace environment</h5>
+			<p class="w3-text-grey">The team has created the whole system to demonstrate object detection and measure distances between individuals over a period. Our user can use the camera to conduct and provide all the necessary information to the client through the system. Furthermore, the user can recheck the data under the authorization of the system. It will be a step to support future technology.</p>
+		</div>
+	</div>
+</div>
+
+<div class="w3-container w3-light-gray ">
+		<h1 class="w3-margin w3-xlarge">Thank you for visit our system</h1>
+</div>
+
+<!-- Footer -->
+	<div class="w3-xsmall w3-padding-15 w3-white">
+		<i class="fa fa-phone">Contact number:04-XX-XXX-XXX</i>
+ </div>
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+	var x = document.getElementById("navDemo");
+	if (x.className.indexOf("w3-show") == -1) {
+		x.className += " w3-show";
+	} else {
+		x.className = x.className.replace(" w3-show", "");
+	}
+}
+</script>
+
+<script type="text/javascript">
+	$(".menu-toggle-btn").click(function(){
+		$(this).toggleClass("fa-times");
+		$(".navigation-menu").toggleClass("active");
+	});
+</script>
+</body>
+</html>
