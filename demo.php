@@ -172,7 +172,7 @@
 								   <label>Click: </label>
 							    </div>
 								<div class="w3-half">
-								   <button class="w3-btn w3-blue w3-block w3-round-xxlarge">Calibrate</button>
+								   <button class="w3-btn w3-blue w3-block w3-round-xxlarge" id="c_btn">Calibrate</button>
 								</div>
 							</li>
 							<li>Observe distance on screen for resonable accuracy<br>
